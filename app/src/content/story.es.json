@@ -1,250 +1,1109 @@
 {
   "locale": "es",
   "languageName": "Español",
-  "title": {
-    "line1": "Confianza Cero:",
-    "line2": "El Infiltrado"
+  "meta": {
+    "brand": "Clip",
+    "title": "Shield Defense",
+    "tagline": "False Security — First Line of Defense",
+    "duration": "10–12 minutos"
   },
-  "characters": {
-    "leo": {
-      "name": "Leo",
-      "role": "Ejecutivo de cuenta"
+  "loading": {
+    "loadingLabel": "Cargando sistema de defensa…",
+    "start": "Iniciar",
+    "resumeTitle": "Tienes una partida guardada",
+    "resumeBody": "Puedes continuar donde te quedaste o empezar de nuevo desde el principio.",
+    "resume": "Continuar donde me quedé",
+    "restart": "Empezar de nuevo"
+  },
+  "intro": {
+    "label": "Transmisión entrante",
+    "lines": [
+      "Clip maneja los ingresos de millones de familias.",
+      "Como empleado, eres la primera línea de defensa.",
+      "Hoy vivirás 4 situaciones reales donde alguien te pide romper el protocolo.",
+      "¿Cuál es el riesgo real de cada decisión?"
+    ],
+    "scenes": {
+      "atencion": "Centro de Atención: un cliente furioso",
+      "desarrollo": "Desarrollo: una herramienta sin revisar",
+      "finanzas": "Finanzas: trabajo remoto sin MDM",
+      "operaciones": "Operaciones: una alerta ignorada"
     },
-    "sara": {
-      "name": "Sara",
-      "role": "Diseñadora"
+    "continue": "Continuar",
+    "skip": "Saltar intro",
+    "videoErrorTitle": "Error al cargar el video",
+    "videoErrorBody": "El video no cargó. Intenta nuevamente.",
+    "videoRetry": "Reintentar",
+    "videoSkip": "Saltar video",
+    "videoExit": "Volver al menú"
+  },
+  "rules": {
+    "label": "Protocolo",
+    "title": "5 principios Zero Trust",
+    "subtitle": "Nunca confíes por defecto. Verifica siempre. Esto es lo que vas a poner a prueba.",
+    "items": [
+      {
+        "title": "Verifica la identidad",
+        "question": "¿Quién eres?",
+        "text": "Siempre confirma la identidad antes de escalar o dar acceso."
+      },
+      {
+        "title": "Verifica el dispositivo",
+        "question": "¿Desde dónde accedes?",
+        "text": "Asegúrate de que el dispositivo sea seguro y esté administrado."
+      },
+      {
+        "title": "Verifica la aplicación",
+        "question": "¿Qué usas?",
+        "text": "Valida que la aplicación o herramienta esté autorizada."
+      },
+      {
+        "title": "Verifica la red",
+        "question": "¿Cómo te conectas?",
+        "text": "Requiere VPN o una conexión segura."
+      },
+      {
+        "title": "Reporta anomalías",
+        "question": "¿Qué ves extraño?",
+        "text": "Escala a InfoSec sin dudar. Escalar es lo correcto."
+      }
+    ],
+    "howTitle": "Cómo se juega",
+    "how": [
+      "Hay 4 áreas. En cada una decides qué hacer ante una situación de presión.",
+      "Cada decisión te entrega un fragmento del escudo. Pero no todos los fragmentos son genuinos.",
+      "Al terminar la ronda, la Consola Central los verifica. Si alguno es falso, vuelves a esas áreas, y cada ronda es más difícil.",
+      "Tienes 3 intentos. Si en la tercera ronda sigue habiendo fragmentos falsos, el ataque entra."
+    ],
+    "continue": "Entendido",
+    "skip": "Saltar"
+  },
+  "levels": {
+    "easy": {
+      "name": "Fácil",
+      "description": "Contexto claro, presión moderada"
     },
-    "omar": {
-      "name": "Omar",
-      "role": "Marketing"
+    "medium": {
+      "name": "Intermedio",
+      "description": "Contexto oculto, múltiples perspectivas"
     },
-    "mia": {
-      "name": "Mía",
-      "role": "Analista de sistemas"
+    "hard": {
+      "name": "Difícil",
+      "description": "La interfaz falla, presión extrema"
     }
   },
-  "ui": {
-    "start": "Comenzar",
-    "openMessage": "Abrir el mensaje",
-    "gatherTeam": "Reunir al equipo",
-    "investigate": "Investigar",
-    "alreadyAsked": "Ya revisado hoy",
-    "backToMeeting": "Volver con el equipo",
-    "hearThem": "Escucharlo",
-    "accuse": "Acusar",
-    "back": "Volver",
-    "question": "Interrogar a {name}",
-    "confirmTitle": "¿Estás seguro?",
-    "confirmBody": "La situación es crítica y justifica un despido inmediato. ¿Seguro que quieres despedir a {name}?",
-    "confirmCancel": "No, espera",
-    "confirmAccept": "Sí, despedir",
-    "chooseTitle": "¿Ya sabes quién es?",
-    "chooseBody": "Elige a un sospechoso.",
-    "chooseOption": "Creo que el infiltrado es {name}",
-    "firedNotice": "No se tolerará la negligencia. La persona ha sido despedida con efecto inmediato.",
-    "playAgain": "Jugar de nuevo",
-    "dayLabel": "Día {day} de 3",
-    "dayShort": "Día {day}",
-    "decisionsTitle": "Tus decisiones",
-    "evidenceTitle": "Bitácora de evidencias",
-    "evidenceEmpty": "Todavía no hay nada registrado. Abre un puesto de trabajo para empezar a reunir evidencia.",
-    "evidenceLooked": "Observado",
-    "evidenceQuestioned": "Interrogado",
-    "threatLabel": "Avance de la extracción",
-    "investigatedLabel": "{done} de {total} puestos revisados",
-    "languageLabel": "Idioma",
-    "muteOn": "Activar sonido",
-    "muteOff": "Silenciar",
+  "hud": {
+    "fragments": "Fragmentos",
+    "failures": "Fallos",
+    "round": "Ronda {round}",
+    "mute": "Silenciar sonido",
+    "unmute": "Activar sonido"
+  },
+  "areaSelect": {
+    "label": "Selector de áreas",
+    "title": "Elige un área",
+    "hint": "Puedes hacerlas en cualquier orden. Tu progreso se guarda automáticamente.",
+    "roundHint": "Ronda {round}: repite las áreas cuyo fragmento resultó falso.",
+    "time": "~2 min",
+    "pending": "Pendiente",
+    "held": "Fragmento obtenido",
+    "secured": "Asegurada",
+    "fragmentLabel": "Fragmento"
+  },
+  "area": {
+    "explore": "Explorar",
+    "exploreTitle": "Explora la escena",
+    "exploreHint": "Toca los puntos para ver qué está pasando. Cuando estés listo, decide.",
+    "exploredCount": "{done} de {total} explorados",
+    "decide": "Decidir",
+    "question": "¿Qué haces?",
+    "submit": "Enviar decisión",
+    "backToScene": "Volver a la escena",
+    "confirmTitle": "¿Confirmas tu decisión?",
+    "confirmBody": "Una vez enviada no se puede cambiar.",
+    "confirmOk": "Sí, enviar",
+    "confirmCancel": "Revisar de nuevo",
+    "fragmentTitle": "Fragmento obtenido",
+    "fragmentBody": "Guardaste el fragmento {fragment}. La Consola Central lo verificará al final de la ronda.",
+    "continue": "Continuar",
+    "close": "Cerrar",
+    "pressure": "Presión",
+    "twist": "Giro"
+  },
+  "console": {
+    "system": "SISTEMA OPERACIONAL: CLIP ZERO-TRUST v4.2",
+    "verifying": "> VERIFICANDO FRAGMENTOS…",
+    "genuine": "SECURED",
+    "false": "CORRUPTO",
+    "successTitle": "PROTOCOLO ZERO-TRUST ACTIVADO",
+    "successBody": "> SISTEMA PROTEGIDO",
+    "failTitle": "ACCESO NO AUTORIZADO",
+    "failBody": "> {count} fragmento(s) falso(s) detectado(s)",
+    "continue": "Continuar"
+  },
+  "roundEnd": {
+    "label": "Verificación fallida",
+    "title": "No lograste asegurar el sistema",
+    "body": "Algunos fragmentos eran falsos. Así se veían tus decisiones desde afuera:",
+    "youChose": "Elegiste",
+    "consequences": "Lo que pasó",
+    "why": "Por qué",
+    "failures": "Fallos: {failures} de {max}",
+    "next": "En la ronda {round} ({level}) vuelves a estas áreas, con más presión.",
+    "cta": "Regresar"
+  },
+  "debrief": {
+    "label": "Debriefing",
+    "next": "Siguiente",
+    "finish": "Continuar a la evaluación",
+    "cards": [
+      {
+        "title": "Factor humano",
+        "lines": [
+          "68% de las brechas de seguridad involucran el elemento humano.",
+          "Tú eres la primera línea."
+        ],
+        "source": "Verizon DBIR 2024"
+      },
+      {
+        "title": "Costo financiero",
+        "lines": [
+          "Una brecha cuesta en promedio:",
+          "Global: $4.88 millones",
+          "Clip (estimado): $4.92 millones",
+          "Con Shadow AI: +$670 mil",
+          "¿Cuál es el costo real de un error?"
+        ]
+      },
+      {
+        "title": "Valor del dato",
+        "lines": [
+          "Clip procesa los ingresos de familias.",
+          "Cada transacción es crítica. Cada dato debe estar protegido.",
+          "Tú proteges esos datos. El valor de la confianza es inmensurable."
+        ]
+      },
+      {
+        "title": "Rol del DLP",
+        "lines": [
+          "DLP ≠ vigilancia.",
+          "El DLP (Data Loss Prevention) es una herramienta que te ayuda a detectar riesgos antes, tomar mejores decisiones y proteger a tus clientes.",
+          "No es un vigilante que te espía."
+        ]
+      },
+      {
+        "title": "Tu rol",
+        "lines": [
+          "Eres la primera línea de defensa.",
+          "Tú decides cuándo escalar un problema, a quién contactar y cómo proteger el dato.",
+          "Esa responsabilidad es tu poder."
+        ]
+      },
+      {
+        "title": "Contacto InfoSec",
+        "lines": [
+          "📧 securitygovernance@payclip.com",
+          "Si tienes dudas, contacta a InfoSec: sin castigo, sin vergüenza, con respuesta en menos de 1 hora.",
+          "Escalar es lo correcto."
+        ]
+      }
+    ]
+  },
+  "evaluation": {
+    "label": "Evaluación de reflexión",
+    "q1": "De las 4 situaciones que viviste, ¿cuál fue la más difícil de decidir? ¿Por qué?",
+    "q1Note": "Esta pregunta es para que reflexiones. No afecta tu puntuación.",
+    "q1Placeholder": "Escribe tu reflexión (mínimo 50 caracteres)…",
+    "q1Counter": "{count} / {max} caracteres",
+    "q1TooShort": "Faltan {missing} caracteres.",
+    "submit": "Enviar",
     "skip": "Saltar",
-    "close": "Cerrar"
+    "q2": "«El DLP es una herramienta que me espía.»",
+    "q2Note": "Respuesta requerida para continuar.",
+    "trueLabel": "Verdadero",
+    "falseLabel": "Falso",
+    "wrong": "No exactamente. El DLP no está para espiarte: te ayuda a detectar riesgos antes de que se conviertan en brechas y a proteger a los clientes. Vuelve a intentarlo.",
+    "right": "Correcto. El DLP es una herramienta que te ayuda a detectar riesgos, no a espiar."
   },
-  "days": {
-    "1": {
-      "banner": null,
-      "alert": {
-        "label": "Urgente",
-        "body": "TI acaba de detectar una fuga masiva de datos que sale de las IP de tu equipo. Alguien está extrayendo la base de datos de clientes. Encuentra a la persona responsable de inmediato, antes de que la transferencia se complete.",
-        "reasons": null,
-        "cta": "Reunir al equipo"
-      },
-      "meeting": {
-        "introTitle": "El equipo está reunido.",
-        "introBody": "Ayuda a Marcus a encontrar al infiltrado. Informa al equipo sobre la brecha y escucha sus primeros argumentos.",
-        "hint": "Selecciona a cada integrante del equipo para escuchar sus primeros argumentos.",
-        "quotes": {
-          "mia": "Revisé los registros del servidor y noté tráfico inusual hacia una IP externa. Alguien debió conectarse a una red vulnerable.",
-          "omar": "He estado concentrado armando presentaciones. Solo entré a unas plataformas para generar imágenes con IA...",
-          "leo": "Chicos, yo no entiendo mucho de redes. Apenas logro acordarme de mi contraseña... mi computadora está limpísima.",
-          "sara": "He estado trabajando toda la mañana desde la cafetería de enfrente... yo estoy limpia."
-        }
-      },
-      "office": {
-        "hint": "Selecciona a cada integrante del equipo para investigarlo.",
-        "blockedTitle": "¡Un momento!",
-        "blockedBody": "Todavía no puedes tomar una decisión. Necesitas más información para estar completamente seguro. Investiga primero sus puestos de trabajo."
-      },
-      "investigations": {
-        "leo": {
-          "observation": "Mira su monitor. ¿Esa es su contraseña real en una nota adhesiva? Es una violación de seguridad enorme. ¿Interrogamos a Leo por esto?",
-          "question": "¿Por qué tienes la contraseña pegada al monitor, a la vista de todos?",
-          "answer": "¡Porque me piden cambiarla cada mes! Además, aquí no entra nadie de fuera de la oficina."
-        },
-        "omar": {
-          "observation": "Su bandeja de entrada está inundada de spam y tiene la sesión abierta en una plataforma de IA sin verificar. ¿Será ese el punto de entrada? ¿Interrogamos a Omar?",
-          "question": "¿Usaste tu correo corporativo para registrarte en esas páginas gratuitas?",
-          "answer": "¡Sí! Estaban regalando créditos gratis. De todos modos es solo para cosas de la oficina, no creo que roben datos."
-        },
-        "sara": {
-          "observation": "Su laptop está conectada al wifi abierto de la cafetería y no veo ninguna VPN activa. Eso expone todas sus credenciales. ¿Quieres interrogar a Sara?",
-          "question": "¿Estuviste trabajando con la base de datos desde el wifi abierto de la cafetería?",
-          "answer": "Sí, pero solo un ratito. La página de la empresa tiene un candadito (HTTPS), ¿no basta con eso?"
-        },
-        "mia": {
-          "observation": "Espera, mira bien detrás de su CPU. Hay una memoria USB sin registrar conectada y una consola negra ejecutando un script. ¿Quieres interrogar a Mía?",
-          "question": "¿Por qué tienes una USB sin registrar conectada y una consola corriendo?",
-          "answer": "Esa USB tiene mi música para concentrarme. Y la consola es solo una actualización del sistema."
-        }
-      }
-    },
-    "2": {
-      "banner": "El segundo día",
-      "alert": {
-        "label": "Urgente",
-        "body": "¡El ataque no se ha detenido! Sabemos que despediste a {name}, pero TI acaba de confirmar que nos equivocamos: La empresa sigue en riesgo enorme y el reloj corre. ¡Encuentra al verdadero infiltrado antes de que se complete la transferencia!",
-        "reasons": {
-          "leo": "Aunque anotar las contraseñas es un riesgo de seguridad enorme, esto es una extracción remota de datos. Nadie entró físicamente a la oficina a robar esa nota adhesiva.",
-          "sara": "Saltarse la VPN en una red pública expone credenciales, pero la extracción masiva de la base de datos está ocurriendo directamente desde nuestros servidores internos, no a través de su conexión local.",
-          "omar": "Hacer clic en enlaces de phishing y usar herramientas de IA sin verificar es peligroso, pero su equipo era solo un señuelo. El nodo principal de extracción está en otro lado.",
-          "mia": ""
-        },
-        "cta": "Reunir al equipo"
-      },
-      "meeting": {
-        "introTitle": "El equipo está reunido.",
-        "introBody": "Ayuda a Marcus a encontrar al infiltrado. Informa al equipo sobre la brecha y escucha sus primeros argumentos.",
-        "hint": "Selecciona a cada integrante del equipo para escuchar sus primeros argumentos.",
-        "quotes": {
-          "mia": "El ataque se está acelerando. El servidor central va al 80 % de su capacidad. ¡Tenemos que encontrar la fuga ahora mismo!",
-          "omar": "¡Ya cerré las páginas de IA! Pero me siguen llegando correos raros. Yo no estoy enviando nada.",
-          "leo": "¡Les dije que no era yo! Ya quité mi post-it, pero el sistema sigue lento. Alguien más está haciendo algo raro.",
-          "sara": "Ya me conecté al cable de la red de la oficina, como me pidieron. Pero mis archivos tardan muchísimo en cargar, la red está saturada."
-        }
-      },
-      "office": {
-        "hint": "Selecciona a cada integrante del equipo para investigarlo.",
-        "blockedTitle": "¡Un momento!",
-        "blockedBody": "Todavía no puedes tomar una decisión. Necesitas más información para estar completamente seguro. Investiga primero sus puestos de trabajo."
-      },
-      "investigations": {
-        "leo": {
-          "observation": "Esto es un desastre. No solo guardó sus contraseñas en un archivo de texto: ¡lo guardó sin querer en la unidad compartida pública! Cualquiera en el edificio pudo tomar sus credenciales. ¿Es el infiltrado o solo la víctima? Pregúntale a Leo.",
-          "question": "Leo, ¿por qué hay un archivo llamado 'Mis_Contraseñas.txt' en la unidad compartida pública?",
-          "answer": "¡Solo le di a 'Guardar como'! Pensé que 'Público' era mi escritorio público. ¡No sabía que toda la empresa podía verlo!"
-        },
-        "omar": {
-          "observation": "¡Mira la pantalla de Omar! Hay una sesión de 'Acceso remoto' activa y su mouse se mueve solo. ¡Alguien de fuera está controlando su máquina en este momento! ¿Estará colaborando con ellos? Pregúntale a Omar.",
-          "question": "Omar, hay una sesión remota activa en tu PC. ¿Quién está controlando tu máquina ahora mismo?",
-          "answer": "¡Me asusté! Abrí esa factura y mi PC se congeló. Un aviso decía que llamara a soporte de TI y me pidieron acceso remoto... ¿No era nuestro equipo real de TI?"
-        },
-        "sara": {
-          "observation": "Tiene el firewall desactivado y está corriendo un escáner de red que mapea todas nuestras direcciones IP internas. ¡Eso es exactamente lo que hace un atacante para encontrar bases de datos! ¿Por qué una diseñadora escanea nuestra red? Hay que preguntarle a Sara.",
-          "question": "Sara, tienes el firewall apagado y estás corriendo un escáner de red. ¿Estás buscando la base de datos principal?",
-          "answer": "¡La red va lentísima! Un tutorial decía que un escáner de red podía encontrar un canal DNS más rápido para mis renders de diseño. ¡Solo intento trabajar!"
-        },
-        "mia": {
-          "observation": "Mía parece estar trabajando con normalidad. Pero... mira esa USB negra. La luz de datos parpadea frenéticamente. ¿Por qué lee tantos datos si solo está escribiendo? Pregúntale a Mía.",
-          "question": "Mía, ¿por qué tu USB parpadea así de frenética si solo estás escribiendo un documento?",
-          "answer": "Es solo mi USB de música. La luz siempre parpadea cuando Windows indexa los archivos en segundo plano. Todo está bien, Marcus."
-        }
-      }
-    },
-    "3": {
-      "banner": "El tercer día",
-      "alert": {
-        "label": "Urgente",
-        "body": "¡El ataque no se ha detenido! Sabemos que despediste a {name}, pero TI acaba de confirmar que nos equivocamos: La empresa sigue en riesgo enorme y el reloj corre. ¡Encuentra al verdadero infiltrado antes de que se complete la transferencia!",
-        "reasons": {
-          "leo": "Aunque dejar contraseñas en una unidad pública es una violación crítica, su cuenta simplemente fue secuestrada por el verdadero infiltrado. Leo solo es peligrosamente descuidado, no el atacante.",
-          "sara": "Ejecutar herramientas de red no autorizadas es motivo de despido, pero fue solo un intento equivocado de arreglar su internet lento. La extracción masiva de datos no sale de su IP.",
-          "omar": "Cayó en una estafa de soporte técnico y le dio acceso remoto a un atacante. Sin embargo, solo usaron su PC como distracción. La fuga principal de la base de datos está ocurriendo físicamente.",
-          "mia": ""
-        },
-        "cta": "Reunir al equipo"
-      },
-      "meeting": {
-        "introTitle": "El equipo está reunido.",
-        "introBody": "Ayuda a Marcus a encontrar al infiltrado. Informa al equipo sobre la brecha y escucha sus primeros argumentos.",
-        "hint": "Selecciona a cada integrante del equipo para escuchar sus primeros argumentos.",
-        "quotes": {
-          "mia": "Parece que somos los últimos. La evidencia apunta a tu equipo. Te sugiero que confieses.",
-          "omar": "Ya hablé con TI, mandé mi equipo a cuarentena por el correo que abrí. Ya no tengo acceso a la red.",
-          "leo": "¡Solo quedamos nosotros! ¡Les juro que ni siquiera sé cómo abrir la consola de comandos! ¡Revisen mi máquina!",
-          "sara": "¡Hoy seguí todos los protocolos! No hay manera de que sea yo, ¡tiene que ser Mía!"
-        }
-      },
-      "office": {
-        "hint": "Selecciona a cada integrante del equipo para investigarlo.",
-        "blockedTitle": "¡Un momento!",
-        "blockedBody": "Todavía no puedes tomar una decisión. Necesitas más información para estar completamente seguro. Investiga primero sus puestos de trabajo."
-      },
-      "investigations": {
-        "leo": {
-          "observation": "¡Los atacantes finalmente cambiaron su contraseña y lo dejaron fuera de su propia máquina! Ni siquiera puede iniciar sesión. ¿Está borrando sus huellas o es solo daño colateral? Pregúntale a Leo.",
-          "question": "Leo, tu cuenta está bloqueada por múltiples intentos fallidos. ¿Estás tratando de borrar tus huellas?",
-          "answer": "¡No puedo entrar! Probé 'Admin123', 'Admin1234', ¡y me bloqueó! ¡Les juro que no soy yo!"
-        },
-        "omar": {
-          "observation": "TI aisló por completo la computadora de Omar de la red principal hace una hora por el acceso remoto. Si la fuga sigue activa ahora mismo, ¡físicamente no puede venir de su estación! Pregúntale a Omar.",
-          "question": "Omar, TI puso tu máquina en cuarentena. ¿Fuiste tú quien autorizó el acceso remoto a nuestra base de datos?",
-          "answer": "Mi pantalla se puso negra y dice 'En cuarentena'. ¡No he podido tocar nada en toda la mañana! Por favor créanme, estoy bloqueado."
-        },
-        "sara": {
-          "observation": "¡Sara entró en pánico! Desconectó físicamente su cable de red para detener el ataque, pero su sistema se cayó por completo. Si está desconectada, ¿cómo sigue ocurriendo la fuga? Pregúntale a Sara.",
-          "question": "Sara, tu cable de red está desconectado y tu sistema se cayó. ¿Estás tratando de ocultar la fuga de datos?",
-          "answer": "¡La red estaba enloquecida! Desconecté el cable para detener lo que fuera que pasaba, ¡pero mi PC se murió! No soy yo, estoy desconectada."
-        },
-        "mia": {
-          "observation": "La pantalla de Mía... nunca la había visto usar código hexadecimal en crudo. Se mueve demasiado rápido. Y mira esa USB: la luz de datos ya no parpadea, está fija en rojo. ¡Su máquina está procesando cantidades enormes de datos localmente! Hay que preguntarle a Mía de inmediato.",
-          "question": "Mía, tu máquina está ejecutando código hexadecimal en crudo y tu USB brilla en rojo fijo. ¿Estás copiando nuestros datos localmente?",
-          "answer": "¡Ay, Marcus! Me asustaste. Solo estoy aprendiendo algo de programación básica para un curso que estoy tomando. Pensé en correr un script de prueba rápido en mi USB personal para ver si funciona. Es solo un ejercicio de práctica, de verdad, nada de qué preocuparse."
-        }
-      },
-      "defeatReasons": {
-        "leo": "Los atacantes dejaron a Leo fuera de su propia máquina con las credenciales que le robaron el primer día. Aunque quisiera, ahora mismo no podría estar extrayendo nada.",
-        "sara": "La máquina de Sara se cayó y está desconectada. Un equipo sin red no puede subir una base de datos. La fuga real ni siquiera pasa por la red.",
-        "omar": "TI aisló la PC de Omar. Es víctima de un ataque de phishing, pero la fuga que sigue activa está esquivando por completo nuestros firewalls.",
-        "mia": ""
-      }
-    }
+  "certificate": {
+    "label": "Certificado de completación",
+    "namePrompt": "¿A nombre de quién emitimos el certificado?",
+    "namePlaceholder": "Tu nombre completo",
+    "nameConfirm": "Generar certificado",
+    "fallbackName": "Participante",
+    "completed": "Ha completado exitosamente:",
+    "date": "Fecha",
+    "time": "Hora",
+    "duration": "Duración",
+    "status": "Estado",
+    "statusValue": "✅ COMPLETADO",
+    "score": "Puntuación",
+    "scoreValue": "PASS ({score})",
+    "fragments": "Fragmentos recolectados: 4/4",
+    "badge": "Zero Trust Defender",
+    "badgeLabel": "Badge",
+    "credit": "Crédito: 0.5 CEU",
+    "download": "Descargar PDF",
+    "close": "Cerrar",
+    "closed": "Curso completado. Ya puedes cerrar esta ventana."
   },
-  "endings": {
-    "architect": {
-      "headline": "¡Amenaza neutralizada!",
-      "body": "¡Trabajo increíble! Detectaste la extracción de datos en sus primeras etapas y detuviste a Mía antes de que la base de datos de clientes saliera de nuestra red. Tu equipo, intacto, te lo agradece.",
-      "lesson": "Identificaste correctamente que, aunque las contraseñas en post-its o el uso de wifi público son prácticas pésimas, los dispositivos USB no autorizados y los scripts en segundo plano son el método número uno de extracción activa de datos.",
-      "rank": "¡Eres un Arquitecto de Confianza Cero!",
-      "badge": "🏆 Platino"
+  "gameOver": {
+    "label": "Ataque iniciado",
+    "title": "❌ Ataque iniciado",
+    "body": "Después de 3 verificaciones seguía habiendo fragmentos falsos. El atacante entró por donde confiaste.",
+    "failures": "Fallos registrados: {failures} de {max}",
+    "fragments": "Fragmentos genuinos: {count} de 4",
+    "wrong": "Decisiones incorrectas: {count}",
+    "retry": "Reintentar",
+    "exit": "Salir",
+    "exited": "Sesión terminada. Puedes volver a intentarlo cuando quieras, sin penalidad."
+  },
+  "session": {
+    "idleTitle": "Sesión en pausa",
+    "idleBody": "Tu sesión se pausó por inactividad. Tu progreso se guardó.",
+    "resume": "Continuar",
+    "exit": "Salir",
+    "exited": "Tu progreso se guardó. Puedes cerrar esta ventana y continuar después."
+  },
+  "areas": {
+    "atencion": {
+      "name": "Centro de Atención",
+      "title": "El cliente VIP furioso",
+      "setting": "Centro de atención, 14:30 horas",
+      "fragment": {
+        "icon": "⚔️",
+        "name": "Autoridad"
+      },
+      "cycles": {
+        "1": {
+          "intro": "Un cliente VIP llama furioso. Su dinero desapareció de su cuenta y necesita respuesta YA. Su hijo está enfermo, no tiene tiempo.",
+          "pressure": [
+            "$5,000 desaparecidos",
+            "Transacción a una cuenta externa",
+            "Tu manager está en junta y no está disponible"
+          ],
+          "hotspots": [
+            {
+              "id": "chat",
+              "label": "Monitor de chat",
+              "icon": "💬",
+              "text": "Cliente: «¿¡DÓNDE ESTÁ MI DINERO!? Necesito que alguien me responda ahora.»"
+            },
+            {
+              "id": "notes",
+              "label": "Libreta",
+              "icon": "📒",
+              "text": "Cliente VIP desde 2022, alto volumen. Jefe de familia. Sin incidentes previos registrados."
+            },
+            {
+              "id": "phone",
+              "label": "Teléfono",
+              "icon": "📞",
+              "text": "El cliente insiste: «Pásame con sistemas o dame acceso para ver qué pasó. No me voy a quedar esperando.»"
+            }
+          ],
+          "question": "¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Escalo a InfoSec como incidente crítico.",
+              "correct": true,
+              "consequences": [
+                "El cliente entiende el proceso",
+                "InfoSec actúa en minutos"
+              ],
+              "why": "Escalar activa al equipo correcto."
+            },
+            "B": {
+              "text": "Le paso el contacto directo de Sistemas.",
+              "correct": false,
+              "consequences": [
+                "Violaste el protocolo de escalada",
+                "El cliente se comunica fuera de la cadena"
+              ],
+              "why": "Escalar no es eludir responsabilidad: es activar al equipo correcto. Saltarte la cadena deja el incidente sin dueño."
+            },
+            "C": {
+              "text": "Intento revisar la cuenta yo mismo.",
+              "correct": false,
+              "consequences": [
+                "Violaste los límites de tu rol",
+                "Podrías contaminar la evidencia"
+              ],
+              "why": "Investigar un posible fraude no es tu rol. Cada clic tuyo puede contaminar la evidencia que InfoSec necesita."
+            }
+          }
+        },
+        "2": {
+          "intro": "El mismo cliente vuelve a llamar, más angustiado. Esta vez los datos técnicos confirman que el fraude es real.",
+          "pressure": [
+            "El cliente está más angustiado",
+            "Otros agentes dicen «yo ya lo hice así»",
+            "Tu manager dice «resuélvelo discretamente»"
+          ],
+          "hotspots": [
+            {
+              "id": "history",
+              "label": "Historial del chat",
+              "icon": "💬",
+              "text": "Tercera transacción anómala en 2 días. IP diferente detectada. Dispositivo nuevo."
+            },
+            {
+              "id": "email",
+              "label": "Correo de InfoSec",
+              "icon": "📧",
+              "text": "Protocolo vigente: la escalada de un incidente tiene prioridad frente a otras tareas."
+            },
+            {
+              "id": "lookup",
+              "label": "Búsqueda de cliente",
+              "icon": "🔎",
+              "text": "IP: Argentina (el cliente está en México). Teléfono: +55 (Brasil). Dispositivo: Android (el cliente usa iPhone)."
+            },
+            {
+              "id": "manager",
+              "label": "Mensaje del manager",
+              "icon": "👔",
+              "text": "«No hagamos ruido con esto. Resuélvelo tú, discretamente.»"
+            }
+          ],
+          "question": "¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Escalo como INCIDENTE CRÍTICO a InfoSec.",
+              "correct": true,
+              "consequences": [
+                "InfoSec actúa en minutos",
+                "El dinero potencialmente se recupera"
+              ],
+              "why": "Las señales técnicas son de fraude real: es un incidente para InfoSec."
+            },
+            "B": {
+              "text": "Le digo al cliente a qué cuenta se fue el dinero.",
+              "correct": false,
+              "consequences": [
+                "El atacante detecta la investigación",
+                "Huye con el dinero",
+                "El dinero es irrecuperable"
+              ],
+              "why": "Compartir detalles de una investigación activa alerta al atacante. La información del caso es para InfoSec."
+            },
+            "C": {
+              "text": "Pido autorización a mi manager antes de hacer algo.",
+              "correct": false,
+              "consequences": [
+                "El manager no tiene autoridad sobre InfoSec",
+                "La cadena de mando se rompe",
+                "Retraso crítico"
+              ],
+              "why": "Un incidente de seguridad no necesita permiso de tu manager para escalarse. Cada minuto de espera beneficia al atacante."
+            }
+          }
+        },
+        "3": {
+          "intro": "Nuevo giro: InfoSec ya investigó. La cuenta destino es INTERNA y la investigación escaló a HR. En 10 minutos hay una reunión de escalada. ¿Qué documentas?",
+          "twist": "La cuenta destino pertenece a alguien de Clip.",
+          "pressure": [
+            "Reunión de escalada en 10 minutos",
+            "Reputaciones en juego",
+            "Nadie sabe si es error o fraude"
+          ],
+          "hotspots": [
+            {
+              "id": "chat",
+              "label": "Chat del cliente",
+              "icon": "💬",
+              "text": "Ahora el cliente pide «no investigar». Cree que su asistente pudo haber hecho la transacción."
+            },
+            {
+              "id": "slack",
+              "label": "Slack",
+              "icon": "🟪",
+              "text": "Una compañera: «Yo escalé igual que tú. ¿Por qué el manager me dijo que lo ocultara?»"
+            },
+            {
+              "id": "manager",
+              "label": "Manager",
+              "icon": "👔",
+              "text": "Tu manager pide una «revisión discreta», sin pasar por InfoSec."
+            },
+            {
+              "id": "hr",
+              "label": "HR",
+              "icon": "🗂️",
+              "text": "HR está investigando a un empleado interno."
+            },
+            {
+              "id": "inspector",
+              "label": "Inspector",
+              "icon": "🕵️",
+              "text": "¿Error administrativo o fraude? Todavía nadie lo sabe."
+            }
+          ],
+          "question": "En 10 minutos es la reunión. ¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Remito TODO a InfoSec, documentado y sin opinión.",
+              "correct": true,
+              "consequences": [
+                "Era un error administrativo, no fraude",
+                "El dinero se recupera",
+                "Las reputaciones quedan intactas"
+              ],
+              "why": "Hechos documentados, sin juicio propio, al equipo que investiga."
+            },
+            "B": {
+              "text": "Investigo por mi cuenta sin documentar nada.",
+              "correct": false,
+              "consequences": [
+                "La evidencia contamina la investigación",
+                "Demandas cruzadas (cliente y empleado)",
+                "Despido e investigación criminal"
+              ],
+              "why": "Investigar sin registro destruye la cadena de custodia. Tu trabajo es entregar hechos, no resolver el caso."
+            },
+            "C": {
+              "text": "Oculto que me salté el protocolo antes.",
+              "correct": false,
+              "consequences": [
+                "La auditoría detecta las infracciones",
+                "Despido y demandas",
+                "Investigación criminal"
+              ],
+              "why": "Ocultar un error lo convierte en encubrimiento. Reportarlo a tiempo siempre cuesta menos."
+            }
+          }
+        }
+      }
     },
-    "neutralized": {
-      "headline": "¡Amenaza neutralizada!",
-      "body": "Lograste detener a Mía y salvar la base de datos principal, pero perdimos tiempo valioso investigando a la persona equivocada ayer. Hubo una pequeña fuga de información no crítica, pero la empresa sobrevivirá.",
-      "lesson": "Lograste ver más allá del engaño. Recuerda: en un incidente de ciberseguridad, el tiempo es vital. Aprender a priorizar entre una 'mala práctica de oficina' (como descargar archivos dudosos) y un 'ataque de extracción activa' marca toda la diferencia.",
-      "rank": null,
-      "badge": "🥇 Oro"
+    "desarrollo": {
+      "name": "Desarrollo",
+      "title": "La herramienta riesgosa",
+      "setting": "Slack, canal #development",
+      "fragment": {
+        "icon": "🛡️",
+        "name": "Integridad"
+      },
+      "cycles": {
+        "1": {
+          "intro": "Un Dev Senior te escribe en Slack: «Necesito que apruebes esta query. Es urgente, sale en 1 hora. No escales, solo tú puedes validarla.»",
+          "pressure": [
+            "Deadline en 1 hora",
+            "«Confía en mí»",
+            "«No escales»"
+          ],
+          "hotspots": [
+            {
+              "id": "slack",
+              "label": "Slack",
+              "icon": "🟪",
+              "text": "«Es solo una review, de verdad. Si esto no sale hoy nos retrasamos toda la semana.»"
+            },
+            {
+              "id": "code",
+              "label": "Código",
+              "icon": "⌨️",
+              "text": "SELECT * FROM users WHERE id = {input} — el parámetro del usuario va directo al SQL, sin sanitizar."
+            },
+            {
+              "id": "sonar",
+              "label": "SonarQube",
+              "icon": "📊",
+              "text": "VULNERABILITY: SQL Injection (crítica)."
+            }
+          ],
+          "question": "¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Bloqueo el commit y pido el fix con parameterized queries.",
+              "correct": true,
+              "consequences": [
+                "El Dev agradece y aprende",
+                "El fix correcto sale en 5 minutos"
+              ],
+              "why": "Bloquear y explicar cómo corregir protege sin frenar al equipo."
+            },
+            "B": {
+              "text": "Lo apruebo sin revisar, es un Dev Senior.",
+              "correct": false,
+              "consequences": [
+                "47,000 registros expuestos",
+                "Brecha en producción"
+              ],
+              "why": "La antigüedad no reemplaza la revisión. SonarQube marcaba una inyección SQL crítica."
+            },
+            "C": {
+              "text": "Lo rechazo sin explicar cómo arreglarlo.",
+              "correct": false,
+              "consequences": [
+                "El Dev hace un fix incorrecto",
+                "Se genera un Cross-Site Scripting adicional"
+              ],
+              "why": "Rechazar sin guía deja el riesgo en manos de la prisa. Explicar el fix correcto es parte de la revisión."
+            }
+          }
+        },
+        "2": {
+          "intro": "Feature de reportes. SonarQube pasa limpio. Pero el código devuelve más datos de los especificados en los requerimientos.",
+          "pressure": [
+            "SonarQube está en verde",
+            "El Dev dice que es «para análisis futuro»",
+            "Nadie más lo notó"
+          ],
+          "hotspots": [
+            {
+              "id": "reqs",
+              "label": "Requerimientos",
+              "icon": "📄",
+              "text": "Campos requeridos: solo email y nombre."
+            },
+            {
+              "id": "code",
+              "label": "Código",
+              "icon": "⌨️",
+              "text": "La consulta devuelve email, nombre, teléfono y número de identificación fiscal."
+            },
+            {
+              "id": "sonar",
+              "label": "SonarQube",
+              "icon": "📊",
+              "text": "✅ CLEAN. Ninguna vulnerabilidad detectada."
+            },
+            {
+              "id": "call",
+              "label": "Llamada del Dev",
+              "icon": "📞",
+              "text": "«Los datos extra son para análisis futuro. No hacen daño a nadie.»"
+            }
+          ],
+          "question": "¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Identifico la exposición de datos y bloqueo el cambio.",
+              "correct": true,
+              "consequences": [
+                "Se respeta el mínimo privilegio",
+                "La auditoría de privacidad sale bien"
+              ],
+              "why": "Minimizar datos es obligatorio aunque el escáner esté en verde."
+            },
+            "B": {
+              "text": "Lo apruebo porque SonarQube pasó.",
+              "correct": false,
+              "consequences": [
+                "La auditoría detecta la exposición",
+                "Multa regulatoria de privacidad",
+                "Daño reputacional"
+              ],
+              "why": "Un escáner limpio no revisa si expones datos de más. El mínimo privilegio y la minimización de datos son tu responsabilidad."
+            },
+            "C": {
+              "text": "Le pido a InfoSec que lo revise por mí.",
+              "correct": false,
+              "consequences": [
+                "La responsabilidad era tuya, no de InfoSec",
+                "Retraso innecesario",
+                "Más presión del Dev"
+              ],
+              "why": "Revisar que el código cumpla los requerimientos es tu rol como revisor. Escalar aquí solo traslada tu trabajo."
+            }
+          }
+        },
+        "3": {
+          "intro": "Feature de reporte de fraude. El código es técnicamente seguro, pero expone detalles CLASIFICADOS de ataques históricos. Y el Dev ya anunció en público que tendrá acceso a todo.",
+          "twist": "El riesgo no está en el código, sino en quién tendrá acceso a la información.",
+          "pressure": [
+            "El Dev tiene buena intención",
+            "Si lo niegas parece que no confías",
+            "Si lo apruebas sin control el riesgo es extremo"
+          ],
+          "hotspots": [
+            {
+              "id": "code",
+              "label": "Código",
+              "icon": "⌨️",
+              "text": "Técnicamente correcto. Sin vulnerabilidades."
+            },
+            {
+              "id": "policy",
+              "label": "Política de seguridad",
+              "icon": "📕",
+              "text": "Datos clasificados: un atacante podría aprender los métodos de defensa de Clip."
+            },
+            {
+              "id": "motive",
+              "label": "Motivación del Dev",
+              "icon": "💡",
+              "text": "«Quiero aprender del fraude para prevenirlo.» Parece legítimo."
+            },
+            {
+              "id": "board",
+              "label": "Canal público",
+              "icon": "📢",
+              "text": "El Dev publicó: «Voy a tener acceso a todos los ataques históricos para análisis.»"
+            },
+            {
+              "id": "laptop",
+              "label": "Agenda del Dev",
+              "icon": "💻",
+              "text": "La próxima semana viaja con su laptop a una conferencia internacional."
+            }
+          ],
+          "question": "¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Apruebo el código, bloqueo el acceso a los datos clasificados y le ofrezco un curso.",
+              "correct": true,
+              "consequences": [
+                "El código llega a producción de forma segura",
+                "El Dev queda protegido",
+                "El Dev aprende con un curso especializado"
+              ],
+              "why": "Separar el código del acceso cuida la oportunidad y el riesgo a la vez."
+            },
+            "B": {
+              "text": "Le doy acceso completo al Dev.",
+              "correct": false,
+              "consequences": [
+                "Su laptop es hackeada en la conferencia",
+                "El atacante obtiene los métodos de Clip",
+                "100K registros comprometidos"
+              ],
+              "why": "La buena intención no reduce el riesgo del acceso. Los datos clasificados requieren necesidad real, no curiosidad."
+            },
+            "C": {
+              "text": "Rechazo el código por completo.",
+              "correct": false,
+              "consequences": [
+                "Una feature valiosa nunca llega a producción",
+                "Riesgo y oportunidad quedan desbalanceados"
+              ],
+              "why": "El código era seguro. El problema era el acceso, y se podía controlar sin perder la feature."
+            }
+          }
+        }
+      }
     },
-    "saved": {
-      "headline": "¡Sistema salvado en el último segundo!",
-      "body": "Detuviste la transferencia al 99 %. Despedimos a dos personas inocentes en el proceso y el equipo está agotado, pero evitaste la quiebra de la empresa. Fue un caso difícil, pero lo lograste.",
-      "lesson": "Te dejaste engañar por las malas prácticas comunes de tus compañeros, pero al final detectaste la brecha real. En el mundo real, los infiltrados verdaderos suelen esconderse detrás de los errores de los demás.",
-      "rank": null,
-      "badge": "🥈 Plata"
+    "finanzas": {
+      "name": "Finanzas",
+      "title": "El trabajo remoto necesario",
+      "setting": "Oficina de HR, 16:00 horas",
+      "fragment": {
+        "icon": "🔒",
+        "name": "Confidencialidad"
+      },
+      "cycles": {
+        "1": {
+          "intro": "Un empleado necesita trabajar remoto: su hijo tiene una enfermedad crónica. HR te pide que autorices acceso «solo por una semana».",
+          "pressure": [
+            "Situación emocional legítima",
+            "HR presiona",
+            "Tiene acceso a datos financieros"
+          ],
+          "hotspots": [
+            {
+              "id": "email",
+              "label": "Correo de HR",
+              "icon": "📧",
+              "text": "«¿Puedes permitirle acceso remoto? Es solo una semana.»"
+            },
+            {
+              "id": "device",
+              "label": "Info del dispositivo",
+              "icon": "💻",
+              "text": "Laptop personal: NO está en MDM · Sin VPN · Firewall APAGADO."
+            },
+            {
+              "id": "policy",
+              "label": "Política",
+              "icon": "📕",
+              "text": "Acceso remoto requiere: MDM + VPN + Firewall encendido."
+            }
+          ],
+          "question": "¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Niego el acceso directo, pero ofrezco alternativas seguras.",
+              "correct": true,
+              "consequences": [
+                "La laptop se enrola en MDM en 24 horas",
+                "VPN habilitada y firewall verificado",
+                "Empleado contento, datos protegidos"
+              ],
+              "why": "Decir «no así, pero sí de esta forma» cuida a la persona y al dato."
+            },
+            "B": {
+              "text": "Permito el acceso «solo esta semana».",
+              "correct": false,
+              "consequences": [
+                "La laptop es robada en un café el día 3",
+                "3 horas de acceso libre",
+                "Registros financieros expuestos"
+              ],
+              "why": "Una excepción temporal sigue siendo acceso real desde un equipo sin protección. El riesgo no dura una semana."
+            },
+            "C": {
+              "text": "Le digo que no, sin alternativas.",
+              "correct": false,
+              "consequences": [
+                "El empleado se molesta",
+                "HR interviene",
+                "Presión política"
+              ],
+              "why": "Un «no» sin salida empuja a la gente a buscar atajos. La seguridad también es ofrecer el camino seguro."
+            }
+          }
+        },
+        "2": {
+          "intro": "Un manager necesita autorizar una transacción de $500K. Pero solo hay 1 firma: el segundo autorizador está de vacaciones.",
+          "pressure": [
+            "Operaciones espera respuesta",
+            "El manager confía en el proveedor",
+            "La transacción parece legítima"
+          ],
+          "hotspots": [
+            {
+              "id": "policy",
+              "label": "Política",
+              "icon": "📕",
+              "text": "Siempre 2 firmas. Sin excepciones."
+            },
+            {
+              "id": "tx",
+              "label": "Transacción",
+              "icon": "💸",
+              "text": "$500K a un proveedor recurrente."
+            },
+            {
+              "id": "manager",
+              "label": "Manager",
+              "icon": "👔",
+              "text": "«Luego le avisamos al autorizador que está de vacaciones. Resolvemos.»"
+            },
+            {
+              "id": "ops",
+              "label": "Operaciones",
+              "icon": "⏱️",
+              "text": "«Si no sale hoy, el proveedor detiene los envíos.»"
+            }
+          ],
+          "question": "¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "No autorizo con una firma, y propongo llamar al autorizador de vacaciones.",
+              "correct": true,
+              "consequences": [
+                "El autorizador firma desde su teléfono",
+                "Se mantiene la segregación de funciones"
+              ],
+              "why": "La regla de 2 firmas se respeta y el negocio no se detiene."
+            },
+            "B": {
+              "text": "Autorizo «solo esta vez».",
+              "correct": false,
+              "consequences": [
+                "La auditoría detecta la violación de segregación de funciones",
+                "Investigación y sanción",
+                "Riesgo regulatorio"
+              ],
+              "why": "La segregación de funciones existe justamente para las prisas. «Solo esta vez» es como empiezan los fraudes."
+            },
+            "C": {
+              "text": "Pido que se espere a que regrese el autorizador.",
+              "correct": false,
+              "consequences": [
+                "La transacción se retrasa 2 semanas",
+                "El manager y el proveedor se molestan"
+              ],
+              "why": "Es defendible, pero había una vía segura que no frenaba al negocio: contactar al autorizador."
+            }
+          }
+        },
+        "3": {
+          "intro": "Un empleado bajo investigación confidencial pide acceso a sus propios registros. En 1 hora hay reunión con Legal, HR y Auditoría. ¿Qué recomiendas?",
+          "twist": "No hay una salida sin costo: cada opción afecta derechos o evidencia.",
+          "pressure": [
+            "Reunión con Legal, HR y Auditoría en 1 hora",
+            "Derechos del empleado en juego",
+            "La investigación puede colapsar"
+          ],
+          "hotspots": [
+            {
+              "id": "legal",
+              "label": "Solicitud legal",
+              "icon": "⚖️",
+              "text": "Derecho del empleado: acceso a su información personal."
+            },
+            {
+              "id": "investigator",
+              "label": "Investigador",
+              "icon": "🕵️",
+              "text": "«Darle acceso destruye pruebas. Sabrá que está siendo investigado.»"
+            },
+            {
+              "id": "hr",
+              "label": "HR",
+              "icon": "🗂️",
+              "text": "«Si lo negamos, violamos sus derechos. Si lo damos, contaminamos la evidencia.»"
+            },
+            {
+              "id": "audit",
+              "label": "Auditoría",
+              "icon": "📋",
+              "text": "La auditoría interna requiere transparencia en todo el proceso."
+            },
+            {
+              "id": "records",
+              "label": "Registros",
+              "icon": "🗄️",
+              "text": "Los registros solicitados incluyen movimientos que forman parte de la investigación."
+            }
+          ],
+          "question": "¿Qué recomiendas?",
+          "options": {
+            "A": {
+              "text": "Reconozco el conflicto de intereses y lo escalo al investigador y a Legal.",
+              "correct": true,
+              "consequences": [
+                "Investigador y Legal resuelven juntos",
+                "Se protegen los derechos del empleado",
+                "La investigación se mantiene"
+              ],
+              "why": "Un conflicto así se resuelve entre quienes tienen la autoridad, no con una decisión individual."
+            },
+            "B": {
+              "text": "Otorgo acceso completo a sus registros.",
+              "correct": false,
+              "consequences": [
+                "La evidencia queda contaminada",
+                "La investigación colapsa",
+                "El empleado demanda"
+              ],
+              "why": "Dar acceso sin coordinar con el investigador alerta al involucrado y destruye la evidencia."
+            },
+            "C": {
+              "text": "Niego el acceso indefinidamente.",
+              "correct": false,
+              "consequences": [
+                "Se violan los derechos del empleado",
+                "Demanda laboral exitosa",
+                "Clip paga indemnización"
+              ],
+              "why": "Negar un derecho sin proceso legal también es un riesgo. La decisión le toca a Legal junto con el investigador."
+            }
+          }
+        }
+      }
     },
-    "compromised": {
-      "headline": "¡Sistema comprometido!",
-      "body": "Tus datos ya están cifrados y han sido transferidos a servidores externos. Despediste a todas las personas inocentes y me dejaste el camino libre. Gracias por tu cooperación.",
-      "lesson": "Fallaste. Te concentraste demasiado en las distracciones (contraseñas mal guardadas, redes públicas, usar el correo para IA). Son malas prácticas que requieren capacitación, pero ignoraste las señales de un ataque activo: una USB desconocida y procesos ocultos en el monitor de Mía. Debes reiniciar el simulador y prestar más atención a los detalles técnicos.",
-      "rank": null,
-      "badge": "🚨 Sistema bloqueado"
+    "operaciones": {
+      "name": "Operaciones",
+      "title": "La alerta que estorba",
+      "setting": "Monitoring Center, 22:00 horas (turno nocturno)",
+      "fragment": {
+        "icon": "👁️",
+        "name": "Vigilancia"
+      },
+      "cycles": {
+        "1": {
+          "intro": "Alerta: anomalía en una query sobre cuentas de administrador. Tu manager dice: «Ignóralo hoy. El CEO está de visita. No queremos disrupciones.»",
+          "pressure": [
+            "Visita del CEO",
+            "El manager pide discreción",
+            "Otros equipos ya vieron la alerta"
+          ],
+          "hotspots": [
+            {
+              "id": "alert",
+              "label": "Alerta",
+              "icon": "🚨",
+              "text": "Query anómala: 5 cuentas de administrador a la vez, a las 3 AM, fuera de horario."
+            },
+            {
+              "id": "manager",
+              "label": "Manager",
+              "icon": "👔",
+              "text": "«Durante la visita solo reporta crisis. Esto puede esperar.»"
+            },
+            {
+              "id": "slack",
+              "label": "Slack de InfoSec",
+              "icon": "🟪",
+              "text": "«¿Alguien vio la alerta de las 3 AM?»"
+            }
+          ],
+          "question": "¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Reporto a InfoSec inmediatamente.",
+              "correct": true,
+              "consequences": [
+                "Era un script de backup mal configurado",
+                "Se arregla en 10 minutos",
+                "El CEO nunca se entera"
+              ],
+              "why": "Reportar rápido resuelve rápido, y sin ruido."
+            },
+            "B": {
+              "text": "La ignoro como pide el manager.",
+              "correct": false,
+              "consequences": [
+                "3 semanas de acceso no detectado",
+                "La brecha ocurre DURANTE la visita del CEO",
+                "El problema se ve en vivo"
+              ],
+              "why": "Una visita no cambia el riesgo. Callar una alerta por imagen termina en la peor imagen posible."
+            },
+            "C": {
+              "text": "Investigo yo solo.",
+              "correct": false,
+              "consequences": [
+                "La evidencia se contamina",
+                "La cadena de custodia se rompe"
+              ],
+              "why": "Una anomalía en cuentas de administrador es para InfoSec. Investigar por tu cuenta puede borrar el rastro."
+            }
+          }
+        },
+        "2": {
+          "intro": "Degradación de performance del 40%. Un Dev Senior subió una feature de reportes y pide dejar el problema para el fin de semana.",
+          "pressure": [
+            "47 quejas en 2 horas",
+            "El Dev tiene una solución «para el fin de semana»",
+            "¿A quién le toca esto?"
+          ],
+          "hotspots": [
+            {
+              "id": "metrics",
+              "label": "Métricas",
+              "icon": "📈",
+              "text": "CPU de 80% a 110% (limitado). La feature nueva consume mucho."
+            },
+            {
+              "id": "dev",
+              "label": "Dev",
+              "icon": "🧑‍💻",
+              "text": "«Lo optimizamos el fin de semana, sin presión.»"
+            },
+            {
+              "id": "monitoring",
+              "label": "Monitoring",
+              "icon": "🖥️",
+              "text": "Los usuarios finales están afectados ahora mismo."
+            },
+            {
+              "id": "tickets",
+              "label": "Tickets",
+              "icon": "🎫",
+              "text": "47 quejas en 2 horas."
+            }
+          ],
+          "question": "¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Reporto al Dev Lead y a DevOps (no a InfoSec).",
+              "correct": true,
+              "consequences": [
+                "Es un problema operacional, no de seguridad",
+                "El Dev Lead coordina rollback o fix",
+                "Se resuelve en 30 minutos"
+              ],
+              "why": "Escalar bien también es escalar al equipo correcto."
+            },
+            "B": {
+              "text": "Lo dejo para el fin de semana como pide el Dev.",
+              "correct": false,
+              "consequences": [
+                "Usuarios afectados todo el fin de semana",
+                "Fin de semana perdido",
+                "Reputación dañada"
+              ],
+              "why": "Un impacto activo en usuarios no espera. Tenías que escalarlo a quien puede resolverlo hoy."
+            },
+            "C": {
+              "text": "Lo escalo a InfoSec.",
+              "correct": false,
+              "consequences": [
+                "InfoSec pierde tiempo en algo que no es de seguridad",
+                "Retraso innecesario"
+              ],
+              "why": "No todo incidente es de seguridad. Este era operacional: le tocaba al Dev Lead y a DevOps."
+            }
+          }
+        },
+        "3": {
+          "intro": "El script system-update-v3.sh se ejecuta cada noche como administrador. Sin dueño, sin registro en git, sin code review. Tu manager dice: «Es la rutina de siempre.»",
+          "twist": "El script crea usuarios temporales, abre un puerto SSH no documentado, modifica /etc/passwd y borra logs.",
+          "pressure": [
+            "Cuenta regresiva: 5 minutos",
+            "«Lleva 5 años funcionando»",
+            "Las alertas se ignoraron 1,000 veces"
+          ],
+          "hotspots": [
+            {
+              "id": "script",
+              "label": "Script",
+              "icon": "📜",
+              "text": "Se ejecuta cada noche a las 2 AM con privilegios de root. Modifica más de 50 archivos del sistema."
+            },
+            {
+              "id": "git",
+              "label": "Repositorio git",
+              "icon": "🌿",
+              "text": "Sin commit, sin historia. No hay registro de cuándo se agregó."
+            },
+            {
+              "id": "bot",
+              "label": "AlertBot",
+              "icon": "🤖",
+              "text": "Ya alertó 1,000 veces. Todas las alertas fueron ignoradas o suprimidas."
+            },
+            {
+              "id": "manager",
+              "label": "Manager",
+              "icon": "👔",
+              "text": "«Lleva 5 años. Confía. ¿Para qué investigar algo que funciona?»"
+            },
+            {
+              "id": "logs",
+              "label": "Logs",
+              "icon": "🧾",
+              "text": "Faltan los logs de las últimas 14 noches. Hay un puerto SSH abierto que no aparece en ningún documento."
+            }
+          ],
+          "question": "Quedan 5 minutos. ¿Qué haces?",
+          "options": {
+            "A": {
+              "text": "Reporto a InfoSec INMEDIATAMENTE.",
+              "correct": true,
+              "consequences": [
+                "Se detecta un ROOTKIT",
+                "La remediación ocurre en 2 horas",
+                "Antes de que el atacante actúe y antes de que roben datos"
+              ],
+              "why": "Lo que «siempre ha estado ahí» también se verifica."
+            },
+            "B": {
+              "text": "Lo ignoro: confío en mi manager.",
+              "correct": false,
+              "consequences": [
+                "14 días de acceso no detectado",
+                "100K clientes comprometidos",
+                "Datos financieros robados"
+              ],
+              "why": "La costumbre no es una verificación. Un script sin dueño, con root y que borra logs es una anomalía que se reporta."
+            },
+            "C": {
+              "text": "Investigo yo solo.",
+              "correct": false,
+              "consequences": [
+                "El rootkit detecta el acceso",
+                "El atacante borra logs y destruye evidencia",
+                "Brecha irrecuperable"
+              ],
+              "why": "Frente a un posible rootkit, tocarlo tú solo avisa al atacante. InfoSec tiene las herramientas para contenerlo."
+            }
+          }
+        }
+      }
     }
   }
 }

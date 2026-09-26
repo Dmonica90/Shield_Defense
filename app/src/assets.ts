@@ -1,49 +1,9 @@
-import type { Day, SuspectId } from './game/types';
-
 /**
- * Paths into `public/assets`, produced by `npm run assets`. Kept in one place so
- * a re-export from the source artwork only has to be reconciled here.
+ * Paths into `public/assets`. The nine interface sounds carried over from the
+ * base project are generic (clicks, alerts, a success sting); there is no
+ * artwork yet — scenes are drawn in CSS until Clip's own art arrives.
  */
-const img = (name: string) => `${import.meta.env.BASE_URL}assets/img/${name}`;
 const audio = (name: string) => `${import.meta.env.BASE_URL}assets/audio/${name}`;
-
-export const BACKDROPS = {
-  alert: img('bg-alert.webp'),
-  // The chat bubble that sits on the boss's desk scene; clicking it opens the
-  // alert, which is the beat the published course opened every day with.
-  notificationIcon: img('icon-notification.webp'),
-  alertMarcus: img('bg-alert-marcus.webp'),
-  meeting: img('bg-meeting.webp'),
-  office: img('bg-office.webp'),
-  endingWin: img('bg-ending-win.webp'),
-  endingCircuit: img('bg-ending-circuit.webp'),
-};
-
-export const TITLE_ART = {
-  line1: img('title-zero-trust.webp'),
-  line2: img('title-the-infiltrator.webp'),
-};
-
-export const MARCUS = {
-  thinking: img('marcus-thinking.webp'),
-  explaining: img('marcus-explaining.webp'),
-};
-
-export const PORTRAITS: Record<SuspectId, string> = {
-  leo: img('portrait-leo.webp'),
-  sara: img('portrait-sara.webp'),
-  omar: img('portrait-omar.webp'),
-  mia: img('portrait-mia.webp'),
-};
-
-/**
- * Only Mia's desk changes across the three days — that escalation is the visual
- * tell the game is teaching players to notice.
- */
-export function deskImage(suspect: SuspectId, day: Day): string {
-  if (suspect === 'mia') return img(`desk-mia-day${day}.webp`);
-  return img(`desk-${suspect}.webp`);
-}
 
 export const SFX = {
   click: audio('ui-click.mp3'),
@@ -52,8 +12,9 @@ export const SFX = {
   confirm: audio('ui-confirm.mp3'),
   notification: audio('sfx-notification.mp3'),
   alert: audio('sfx-alert.mp3'),
+  /** A short, heavy sting: used when a fragment is revealed as false. */
   fired: audio('sfx-fired.mp3'),
-  /** The six-second day-change sting. */
+  /** The longer sting: the protocol activating. */
   day: audio('sfx-day.mp3'),
   lose: audio('sfx-lose.mp3'),
 } as const;
@@ -61,7 +22,8 @@ export const SFX = {
 export type SfxName = keyof typeof SFX;
 
 /**
- * The 7-second clip from the original course. It only backs the losing ending,
- * so it is never preloaded — a player who wins never pays for it.
+ * The 90-second intro video from the design. It is not produced yet; drop the
+ * file at `public/assets/video/intro.mp4` and the intro plays it, falling back
+ * to the animated narration when it is missing or fails to load.
  */
-export const INTRO_VIDEO = `${import.meta.env.BASE_URL}assets/video/intro-glitch.mp4`;
+export const INTRO_VIDEO = `${import.meta.env.BASE_URL}assets/video/intro.mp4`;

@@ -62,7 +62,7 @@ export function Scene({
   children: ReactNode;
   overlay?: string;
   className?: string;
-  /** Scales the backdrop in, for the "lean closer" beat when investigating. */
+  /** Scales the backdrop in, for a "lean closer" beat. */
   zoomBackdrop?: boolean;
 }) {
   return (
@@ -96,33 +96,57 @@ export function Scene({
   );
 }
 
-/** Staggered entrance for a list of dialogue lines or cards. */
-export function Stagger({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
+/**
+ * Staggered entrance for a list of cards. Renders an `<ol>`/`<ul>` when asked,
+ * so a list of items stays a real list for screen readers.
+ */
+export function Stagger({
+  children,
+  delay = 0,
+  as = 'div',
+  className = '',
+}: {
+  children: ReactNode;
+  delay?: number;
+  as?: 'div' | 'ol' | 'ul';
+  className?: string;
+}) {
+  const Tag = motion[as];
   return (
-    <motion.div
+    <Tag
       initial="hidden"
       animate="shown"
       variants={{ shown: { transition: { staggerChildren: 0.09, delayChildren: delay } } }}
+      className={className}
     >
       {children}
-    </motion.div>
+    </Tag>
   );
 }
 
-export function StaggerItem({ children, className = '' }: { children: ReactNode; className?: string }) {
+export function StaggerItem({
+  children,
+  className = '',
+  as = 'div',
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: 'div' | 'li';
+}) {
+  const Tag = motion[as];
   return (
-    <motion.div
+    <Tag
       variants={{ hidden: { opacity: 0, y: 18 }, shown: { opacity: 1, y: 0 } }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
       className={className}
     >
       {children}
-    </motion.div>
+    </Tag>
   );
 }
 
 /**
- * Reveals text one character at a time for the incident alerts. The full string
+ * Reveals text one character at a time, for the narrator and the console. The full string
  * is always in the DOM for assistive technology; only the visible slice grows.
  */
 export function Typewriter({

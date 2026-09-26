@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { SFX } from '../assets';
 import type { SfxName } from '../assets';
 
-const STORAGE_KEY = 'zero-trust:muted';
+const STORAGE_KEY = 'clip-shield-defense:muted';
 
 type SoundValue = {
   muted: boolean;
@@ -14,9 +14,9 @@ type SoundValue = {
 const SoundContext = createContext<SoundValue | null>(null);
 
 /**
- * Thin wrapper over a pool of preloaded <audio> elements. The published course
- * shipped nine short effects and no narration, so nothing here needs to be
- * localized — only muted.
+ * Thin wrapper over a pool of preloaded <audio> elements. The course uses nine
+ * short effects and no narration, so nothing here needs to be localized — only
+ * muted.
  */
 export function SoundProvider({ children }: { children: ReactNode }) {
   const [muted, setMuted] = useState(() => {

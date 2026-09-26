@@ -2,8 +2,8 @@
 
 /*
  * A security-operations look: near-black ground, cyan for the player's own
- * tools, violet for the story, amber/red for the escalating threat. The game is
- * deliberately dark-only — it is a night-shift incident, not a document.
+ * tools, Clip orange for the brand, violet for the story, amber/red for the
+ * threat. Dark-only on screen; the certificate has its own light print sheet.
  */
 @theme {
   --color-ground: #07090f;
@@ -18,6 +18,7 @@
   --color-alarm: #ff5470;
   --color-warn: #ffb547;
   --color-safe: #3ddc97;
+  --color-clip: #ff6a13;
 
   --font-display: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
   --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
@@ -68,4 +69,97 @@ body {
     transparent 0 3px,
     color-mix(in oklab, var(--color-accent) 6%, transparent) 3px 4px
   );
+}
+
+/*
+ * The interface failing under pressure. Cycle 2 flickers now and then; cycle 3
+ * breaks properly — shifted colours, flickering text, controls that jump. Long
+ * still stretches between bursts keep it playable, and reduced motion (or the
+ * test mode) turns the movement off.
+ */
+@keyframes glitch-hue {
+  0%, 86%, 100% { filter: none; }
+  88% { filter: hue-rotate(70deg) saturate(1.6); }
+  90% { filter: invert(0.85) hue-rotate(180deg); }
+  92% { filter: none; }
+  95% { filter: hue-rotate(-50deg) contrast(1.4); }
+}
+
+@keyframes glitch-flicker {
+  0%, 90%, 100% { opacity: 1; }
+  91% { opacity: 0.35; }
+  93% { opacity: 1; }
+  96% { opacity: 0.6; }
+}
+
+@keyframes glitch-shift {
+  0%, 92%, 100% { transform: none; }
+  93% { transform: translate(3px, -2px) skewX(-4deg); }
+  95% { transform: translate(-4px, 1px); }
+  97% { transform: translate(2px, 2px) skewX(3deg); }
+}
+
+@keyframes glitch-slice {
+  0%, 94%, 100% { clip-path: none; }
+  95% { clip-path: inset(20% 0 55% 0); transform: translateX(-6px); }
+  97% { clip-path: inset(60% 0 12% 0); transform: translateX(5px); }
+}
+
+.glitch-light {
+  animation: glitch-hue 7s steps(1) infinite;
+}
+
+.glitch-heavy {
+  animation: glitch-hue 3.1s steps(1) infinite;
+}
+.glitch-heavy p,
+.glitch-heavy h2,
+.glitch-heavy li {
+  animation: glitch-flicker 2.3s steps(1) infinite;
+}
+.glitch-heavy .glitch-jump {
+  animation: glitch-shift 2.9s steps(1) infinite;
+}
+.glitch-heavy .glitch-slice {
+  animation: glitch-slice 3.7s steps(1) infinite;
+}
+
+.glitch-still,
+.glitch-still * {
+  animation: none !important;
+}
+
+/*
+ * "Download PDF" prints the certificate: everything else is hidden and the
+ * certificate is redrawn dark-on-white so it survives a black-and-white printer.
+ */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 12mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible;
+    color: #111 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  .print-area {
+    position: absolute;
+    inset: 0;
+    border: 3px double #111 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
 }
