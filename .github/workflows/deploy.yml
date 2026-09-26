@@ -1,14 +1,16 @@
-name: Deploy to GitHub Pages
+name: Test and deploy
 
-# Publishes the game at https://dmonica90.github.io/Zero-Trust/ on every push to
-# main. The site is built here rather than committed, so the repository keeps
-# only sources.
+# Every pull request runs the tests and the build. A push to main also
+# publishes the course at https://dmonica90.github.io/Shield_Defense/. The site
+# is built here rather than committed, so the repository keeps only sources.
 #
 # One-time setup: Settings -> Pages -> Source must be set to "GitHub Actions".
+# GitHub Pages on a private repository needs a paid GitHub plan.
 
 on:
   push:
     branches: [main]
+  pull_request:
   # Lets you re-publish from the Actions tab without pushing anything.
   workflow_dispatch:
 
@@ -20,7 +22,7 @@ permissions:
 # Never let two deploys race; a queued one waits rather than being cancelled,
 # so the last push to main always wins.
 concurrency:
-  group: pages
+  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: false
 
 jobs:
@@ -42,7 +44,7 @@ jobs:
         run: npm ci
 
       # A broken build should never reach the live site. `npm run build` also
-      # typechecks, and the unit tests cover the game rules and both story files.
+      # typechecks, and the unit tests cover the rules, the script and tracking.
       - name: Test
         run: npm test
 
@@ -50,12 +52,15 @@ jobs:
         run: npm run build
 
       - uses: actions/configure-pages@v5
+        if: github.event_name != 'pull_request'
 
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
         with:
           path: app/dist
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:

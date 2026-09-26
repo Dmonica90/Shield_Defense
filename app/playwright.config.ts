@@ -10,8 +10,8 @@ const executablePath = process.env.PW_CHROMIUM ?? '/opt/pw-browsers/chromium';
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
-  // A full three-day run sits through the day card, the typewriter and the
-  // "fired" beat three times over, so the default 30s is not enough.
+  // A three-round run plays up to 6 areas through several screens each, so the
+  // default 30s is not enough even with `?fast=1`.
   timeout: 90_000,
   reporter: process.env.CI ? 'line' : 'list',
   use: {

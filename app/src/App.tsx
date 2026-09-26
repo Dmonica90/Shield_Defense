@@ -1,79 +1,140 @@
 import { AnimatePresence } from 'framer-motion';
-import { useReducer } from 'react';
-import { initialState, reducer } from './game/machine';
-import { AlertScreen } from './screens/AlertScreen';
-import { EndingScreen } from './screens/EndingScreen';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { SessionGuard } from './components/SessionGuard';
+import { initialState } from './game/machine';
+import { useLanguage } from './i18n/LanguageProvider';
+import { AreaScreen } from './screens/AreaScreen';
+import { AreaSelectScreen } from './screens/AreaSelectScreen';
+import { CertificateScreen } from './screens/CertificateScreen';
+import { ConsoleScreen } from './screens/ConsoleScreen';
+import { DebriefScreen } from './screens/DebriefScreen';
+import { EndedScreen } from './screens/EndedScreen';
+import { EvaluationScreen } from './screens/EvaluationScreen';
+import { GameOverScreen } from './screens/GameOverScreen';
 import { IntroScreen } from './screens/IntroScreen';
-import { InvestigateScreen } from './screens/InvestigateScreen';
-import { MeetingScreen } from './screens/MeetingScreen';
-import { OfficeScreen } from './screens/OfficeScreen';
-import { TitleScreen } from './screens/TitleScreen';
+import { LoadingScreen } from './screens/LoadingScreen';
+import { RoundEndScreen } from './screens/RoundEndScreen';
+import { RulesScreen } from './screens/RulesScreen';
+import { clearProgress, loadProgress } from './tracking/progress';
+import { createConsoleReporter, silentReporter } from './tracking/reporter';
+import { useTrackedReducer } from './tracking/useTrackedReducer';
+
+const newSeed = () => Math.floor(Math.random() * 2 ** 31);
 
 /**
- * The whole game is one reducer plus a switch over `phase`. Adding a screen
- * means adding a phase and a case, not rewiring navigation.
+ * The whole course is one reducer plus a switch over `phase`. Adding a screen
+ * means adding a phase and a case, not rewiring navigation. Tracking goes
+ * through the reporter, which is a console logger until SCORM is connected.
  */
 export function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { story } = useLanguage();
+  const reporter = useMemo(() => (import.meta.env.DEV ? createConsoleReporter() : silentReporter), []);
+  const saved = useMemo(loadProgress, []);
+  const [state, dispatch] = useTrackedReducer(initialState, reporter);
+  const [ended, setEnded] = useState<string | null>(null);
+
+  useEffect(() => {
+    reporter.start();
+  }, [reporter]);
+
+  const exit = useCallback(
+    (message: string) => {
+      reporter.finish();
+      setEnded(message);
+    },
+    [reporter],
+  );
+
+  const finish = useCallback(() => dispatch({ type: 'finish', now: Date.now() }), [dispatch]);
+
+  if (ended) return <EndedScreen message={ended} />;
 
   const screen = () => {
     switch (state.phase) {
-      case 'title':
-        return <TitleScreen key="title" onStart={() => dispatch({ type: 'start' })} />;
+      case 'loading':
+        return (
+          <LoadingScreen
+            key="loading"
+            hasSave={saved != null}
+            onStart={() => {
+              clearProgress();
+              dispatch({ type: 'loaded', now: Date.now(), seed: newSeed() });
+            }}
+            onResume={() => saved && dispatch({ type: 'resume', state: saved })}
+          />
+        );
 
       case 'intro':
-        return <IntroScreen key="intro" onDone={() => dispatch({ type: 'introDone' })} />;
-
-      case 'alert':
         return (
-          <AlertScreen
-            key={`alert-${state.day}`}
-            state={state}
-            onContinue={() => dispatch({ type: 'gatherTeam' })}
+          <IntroScreen
+            key="intro"
+            onDone={() => dispatch({ type: 'introDone' })}
+            onExit={() => exit(story.gameOver.exited)}
           />
         );
 
-      case 'meeting':
+      case 'rules':
+        return <RulesScreen key="rules" onDone={(skipped) => dispatch({ type: 'rulesDone', skipped })} />;
+
+      case 'areaSelect':
         return (
-          <MeetingScreen
-            key={`meeting-${state.day}`}
+          <AreaSelectScreen
+            key={`select-${state.round}`}
             state={state}
-            onInvestigate={() => dispatch({ type: 'goToOffice' })}
-            onAttemptAccuse={() => dispatch({ type: 'attemptAccuseFromMeeting' })}
-            onDismissHint={() => dispatch({ type: 'dismissBlockedHint' })}
+            onOpen={(area) => dispatch({ type: 'openArea', area, now: Date.now() })}
           />
         );
 
-      case 'office':
-        return (
-          <OfficeScreen
-            key={`office-${state.day}`}
-            state={state}
-            onOpenSuspect={(suspect) => dispatch({ type: 'openSuspect', suspect })}
-            onBackToMeeting={() => dispatch({ type: 'backToMeeting' })}
-            onPropose={(suspect) => dispatch({ type: 'proposeAccusation', suspect })}
-            onCancel={() => dispatch({ type: 'cancelAccusation' })}
-            onConfirm={() => dispatch({ type: 'confirmAccusation' })}
-          />
-        );
-
-      case 'investigating':
-        return state.investigating ? (
-          <InvestigateScreen
-            key={`investigate-${state.day}-${state.investigating}`}
-            state={state}
-            suspect={state.investigating}
-            onQuestion={() => dispatch({ type: 'questionSuspect' })}
-            onBack={() => dispatch({ type: 'closeSuspect' })}
-          />
+      case 'area':
+        return state.currentArea ? (
+          <AreaScreen key={`area-${state.currentArea}-${state.round}`} state={state} area={state.currentArea} dispatch={dispatch} />
         ) : null;
 
-      case 'ended':
+      case 'console':
+        return <ConsoleScreen key={`console-${state.round}`} state={state} onDone={() => dispatch({ type: 'consoleDone' })} />;
+
+      case 'roundEnd':
+        return <RoundEndScreen key={`round-end-${state.round}`} state={state} onNext={() => dispatch({ type: 'nextRound' })} />;
+
+      case 'debrief':
+        return <DebriefScreen key="debrief" onDone={() => dispatch({ type: 'debriefDone' })} />;
+
+      case 'evaluation':
+        return <EvaluationScreen key="evaluation" state={state} dispatch={dispatch} />;
+
+      case 'certificate':
         return (
-          <EndingScreen key="ending" state={state} onRestart={() => dispatch({ type: 'restart' })} />
+          <CertificateScreen
+            key="certificate"
+            state={state}
+            learnerName={reporter.learnerName()}
+            onFinish={finish}
+            onClose={() => {
+              clearProgress();
+              exit(story.certificate.closed);
+            }}
+          />
+        );
+
+      case 'gameOver':
+        return (
+          <GameOverScreen
+            key="game-over"
+            state={state}
+            onRetry={() => dispatch({ type: 'restart', now: Date.now(), seed: newSeed() })}
+            onExit={() => {
+              clearProgress();
+              exit(story.gameOver.exited);
+            }}
+          />
         );
     }
   };
 
-  return <AnimatePresence mode="wait">{screen()}</AnimatePresence>;
+  return (
+    <>
+      <AnimatePresence mode="wait">{screen()}</AnimatePresence>
+      <SessionGuard phase={state.phase} onExit={() => exit(story.session.exited)} />
+    </>
+  );
 }

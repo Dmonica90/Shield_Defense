@@ -1,125 +1,82 @@
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { LOCALES, STORIES } from '../content';
-import type { Locale } from '../content';
+import { heldCount, securedCount } from '../game/machine';
+import { AREA_IDS, LEVEL_BY_CYCLE, MAX_FAILURES } from '../game/types';
+import type { AreaId, GameState } from '../game/types';
 import { useLanguage } from '../i18n/LanguageProvider';
 import { useSound } from '../audio/SoundProvider';
-import { investigatedCount, remainingSuspects, threatLevel } from '../game/machine';
-import type { GameState } from '../game/types';
-import { Button, Dialog } from './ui';
+import { fill } from '../content/schema';
+import { Fragment } from './Fragment';
+import type { FragmentLook } from './Fragment';
 
 /**
- * The persistent status bar. It carries the two things the Storyline course
- * could never show at a glance — how far the extraction has got, and what the
- * player has actually found so far.
+ * After the console has run, false fragments are no longer a secret: the HUD
+ * shows them as such until the next round starts.
+ */
+const revealed = (state: GameState) => state.phase === 'roundEnd' || state.phase === 'gameOver';
+
+/** How a fragment looks in the HUD: secured ones are proven, the rest only held. */
+export function hudLook(state: GameState, area: AreaId): FragmentLook {
+  const a = state.areas[area];
+  if (a.secured) return 'genuine';
+  if (a.fragment === 'false' && revealed(state)) return 'false';
+  return a.fragment === 'none' ? 'empty' : 'held';
+}
+
+/**
+ * The persistent status bar: round and level, fragments in hand, failures, and
+ * sound. During a round it counts false fragments as held — the player finds
+ * out at the console, not here.
  */
 export function Hud({ state }: { state: GameState }) {
-  const { t, locale, setLocale, story } = useLanguage();
+  const { story } = useLanguage();
   const { muted, toggleMuted } = useSound();
-  const [logOpen, setLogOpen] = useState(false);
-
-  const total = remainingSuspects(state).length;
-  const done = investigatedCount(state);
-  const threat = threatLevel(state.day);
+  const level = story.levels[LEVEL_BY_CYCLE[state.round]];
+  const count = revealed(state) ? securedCount(state) : heldCount(state);
 
   return (
-    <header className="flex flex-wrap items-center gap-x-5 gap-y-3">
-      <p className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
-        {t('dayLabel', { day: String(state.day) })}
+    <header className="no-print flex flex-wrap items-center gap-x-6 gap-y-3 rounded-2xl panel px-4 py-3">
+      <p className="font-mono text-xs tracking-[0.18em] text-clip uppercase">
+        {story.meta.brand} · {story.meta.title}
       </p>
 
-      <div className="flex min-w-44 flex-1 items-center gap-3">
-        <span className="sr-only">{t('threatLabel')}</span>
-        <div
-          className="h-1.5 flex-1 overflow-hidden rounded-full bg-panel-2"
-          role="progressbar"
-          aria-label={t('threatLabel')}
-          aria-valuenow={threat}
-          aria-valuemin={0}
-          aria-valuemax={100}
-        >
-          <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-warn to-alarm"
-            initial={{ width: 0 }}
-            animate={{ width: `${threat}%` }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
+      <p className="font-mono text-xs text-accent tabular-nums">
+        {fill(story.hud.round, { round: state.round })} · {level.name}
+      </p>
+
+      <div className="flex items-center gap-2" aria-label={`${story.hud.fragments}: ${count}/4`} role="group">
+        <span className="font-mono text-xs text-ink-dim" aria-hidden="true">
+          {story.hud.fragments} {count}/4
+        </span>
+        {AREA_IDS.map((area) => (
+          <Fragment key={area} area={area} look={hudLook(state, area)} size="sm" label={false} />
+        ))}
+      </div>
+
+      <div
+        className="flex items-center gap-2"
+        role="group"
+        aria-label={`${story.hud.failures}: ${state.failures}/${MAX_FAILURES}`}
+      >
+        <span className="font-mono text-xs text-ink-dim" aria-hidden="true">
+          {story.hud.failures} {state.failures}/{MAX_FAILURES}
+        </span>
+        {Array.from({ length: MAX_FAILURES }, (_, i) => (
+          <span
+            key={i}
+            aria-hidden="true"
+            className={`h-2.5 w-2.5 rounded-full ${i < state.failures ? 'bg-alarm shadow-[0_0_10px_var(--color-alarm)]' : 'bg-panel-2 ring-1 ring-edge'}`}
           />
-        </div>
-        <span className="font-mono text-xs text-alarm tabular-nums">{threat}%</span>
+        ))}
       </div>
 
-      <p className="font-mono text-xs text-ink-dim tabular-nums">
-        {t('investigatedLabel', { done: String(done), total: String(total) })}
-      </p>
-
-      <div className="flex items-center gap-1">
-        <Button tone="quiet" sfx="click" onClick={() => setLogOpen(true)} className="px-3 text-sm">
-          {t('evidenceTitle')}
-          {state.evidence.length > 0 && (
-            <span className="rounded-full bg-accent px-2 py-0.5 font-mono text-[0.7rem] text-ground">
-              {state.evidence.length}
-            </span>
-          )}
-        </Button>
-
-        <Button
-          tone="quiet"
-          sfx={null}
-          onClick={toggleMuted}
-          aria-pressed={muted}
-          className="px-3 text-sm"
-        >
-          {muted ? t('muteOn') : t('muteOff')}
-        </Button>
-
-        <label className="flex items-center gap-2 text-sm text-ink-dim">
-          <span className="sr-only">{t('languageLabel')}</span>
-          <select
-            value={locale}
-            onChange={(event) => setLocale(event.target.value as Locale)}
-            className="min-h-11 rounded-xl border border-edge bg-panel-2 px-3 py-1 text-ink"
-          >
-            {LOCALES.map((code) => (
-              <option key={code} value={code}>
-                {STORIES[code].languageName}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      <Dialog open={logOpen} onClose={() => setLogOpen(false)} labelledBy="evidence-log-title">
-        <h2 id="evidence-log-title" className="text-xl font-semibold">
-          {t('evidenceTitle')}
-        </h2>
-
-        {state.evidence.length === 0 ? (
-          <p className="mt-3 text-ink-dim">{t('evidenceEmpty')}</p>
-        ) : (
-          <ul className="mt-4 flex flex-col gap-2">
-            {state.evidence.map((entry) => (
-              <li
-                key={`${entry.day}-${entry.suspect}`}
-                className="flex items-baseline gap-3 rounded-xl border border-edge bg-panel-2/60 px-4 py-3"
-              >
-                <span className="font-mono text-xs text-accent">
-                  {t('dayShort', { day: String(entry.day) })}
-                </span>
-                <span className="font-medium">{story.characters[entry.suspect].name}</span>
-                <span className="ml-auto font-mono text-xs text-ink-dim">
-                  {entry.questioned ? t('evidenceQuestioned') : t('evidenceLooked')}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <div className="mt-6 flex justify-end">
-          <Button tone="ghost" sfx="click" onClick={() => setLogOpen(false)}>
-            {t('close')}
-          </Button>
-        </div>
-      </Dialog>
+      <button
+        type="button"
+        onClick={toggleMuted}
+        aria-pressed={muted}
+        aria-label={muted ? story.hud.unmute : story.hud.mute}
+        className="ml-auto grid h-9 w-9 place-items-center rounded-lg text-ink-dim hover:text-ink"
+      >
+        <span aria-hidden="true">{muted ? '🔇' : '🔊'}</span>
+      </button>
     </header>
   );
 }

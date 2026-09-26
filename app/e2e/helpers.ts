@@ -1,83 +1,95 @@
 import { expect } from '@playwright/test';
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+import story from '../src/content/story.es.json' with { type: 'json' };
 
-export type Name = 'Leo' | 'Sara' | 'Omar' | 'Mía';
+export type Area = 'atencion' | 'desarrollo' | 'finanzas' | 'operaciones';
+type Cycle = 1 | 2 | 3;
+type Options = Record<'A' | 'B' | 'C', { text: string; correct: boolean }>;
 
-/**
- * Press start and get past the opening cinematic.
- *
- * Headless Chromium ships without the H.264 decoder, so the clip errors out and
- * the screen steps aside on its own — which is the fallback working. Either way
- * what matters is arriving at the alert, so this skips only if there is still
- * something to skip.
- */
-export async function beginRun(page: Page) {
-  await page.getByRole('button', { name: 'Comenzar' }).click();
+const areas = story.areas as unknown as Record<
+  Area,
+  { name: string; cycles: Record<string, { hotspots: { label: string }[]; options: Options }> }
+>;
 
-  // Skip if the button is still there when the click lands. Checking first and
-  // then clicking races the clip ending underneath us, so the click is allowed
-  // to miss: either way what has to be true is that the alert comes up.
-  await page
-    .getByRole('button', { name: 'Saltar' })
-    .click({ timeout: 3000 })
-    .catch(() => undefined);
+export const areaName = (area: Area) => areas[area].name;
 
-  await expect(page.getByRole('button', { name: /Abrir el mensaje/ })).toBeVisible({
-    timeout: 20_000,
-  });
+/** The text of the right answer, or of a wrong one, for an area and cycle. */
+export function optionText(area: Area, cycle: Cycle, right: boolean): string {
+  const options = Object.values(areas[area].cycles[String(cycle)].options);
+  return options.find((o) => o.correct === right)!.text;
 }
 
-/** Title screen through to the first office floor. */
-export async function reachOffice(page: Page) {
-  await beginRun(page);
-  await gatherAndInvestigate(page);
+/** Click, or focus and press Enter for the keyboard-only run. */
+export async function press(page: Page, target: Locator, keyboard = false) {
+  if (keyboard) {
+    await target.focus();
+    await page.keyboard.press('Enter');
+  } else {
+    await target.click();
+  }
 }
 
 /**
- * Open the day's alert by pressing the bubble on the desk. Safe to call twice: a
- * test that reads the alert first has already opened it.
+ * Loads the course in test mode (`?fast=1` shortens the fixed-length beats and
+ * holds the glitch still) and gets to the area selector. Leaving mid-run raises
+ * the beforeunload prompt, so reloads in the tests accept it.
  */
-export async function openAlert(page: Page) {
-  const bubble = page.getByRole('button', { name: /Abrir el mensaje/ });
-  const gather = page.getByRole('button', { name: 'Reunir al equipo' });
+const accepting = new WeakSet<Page>();
 
-  // On days 2 and 3 the day card holds the screen for four and a half seconds
-  // first, so wait for whichever of the two turns up, then press the bubble if
-  // it is the one that did.
-  await expect(bubble.or(gather).first()).toBeVisible({ timeout: 20_000 });
-  await bubble.click({ timeout: 3000 }).catch(() => undefined);
-  await expect(gather).toBeVisible();
+export async function begin(page: Page, keyboard = false) {
+  if (!accepting.has(page)) {
+    accepting.add(page);
+    page.on('dialog', (dialog) => void dialog.accept());
+  }
+  await page.goto('/?fast=1');
+  await press(page, page.getByRole('button', { name: 'Iniciar' }), keyboard);
+  await press(page, page.getByRole('button', { name: 'Saltar intro' }), keyboard);
+  await press(page, page.getByRole('button', { name: 'Entendido' }), keyboard);
+  await expect(page.getByRole('heading', { name: 'Elige un área' })).toBeVisible();
 }
 
-/** From the day's alert: open the message, close the briefing, head to the desks. */
-export async function gatherAndInvestigate(page: Page) {
-  await openAlert(page);
-  await page.getByRole('button', { name: 'Reunir al equipo' }).click();
-  await page.getByRole('dialog').getByRole('button', { name: 'Cerrar' }).click();
-  await page.getByRole('button', { name: 'Investigar', exact: true }).click();
-  await expect(page.getByText('para investigarlo')).toBeVisible();
+export function areaButton(page: Page, area: Area) {
+  return page.getByRole('button', { name: new RegExp(`^\\d\\. ${areaName(area)}:`) });
 }
 
-/** Open a workstation, ask the follow-up, come back to the floor. */
-export async function investigate(page: Page, name: Name) {
-  await page.getByRole('button', { name: new RegExp(`^${name}\\.`) }).click();
-  await page.getByRole('button', { name: `Interrogar a ${name}` }).click();
-  await page.getByRole('button', { name: 'Volver' }).click();
-  await expect(page.getByText('para investigarlo')).toBeVisible();
+/** Plays one area: explore a hotspot, choose, confirm, collect the fragment. */
+export async function playArea(page: Page, area: Area, cycle: Cycle, right: boolean, keyboard = false) {
+  await press(page, areaButton(page, area), keyboard);
+  await press(page, page.getByRole('button', { name: 'Explorar' }), keyboard);
+
+  const hotspot = areas[area].cycles[String(cycle)].hotspots[0].label;
+  await press(page, page.getByRole('button', { name: hotspot, exact: true }), keyboard);
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await press(page, page.getByRole('dialog').getByRole('button', { name: 'Cerrar' }), keyboard);
+
+  await press(page, page.getByRole('button', { name: 'Decidir' }), keyboard);
+  await press(page, page.getByRole('radio', { name: optionText(area, cycle, right) }), keyboard);
+  await press(page, page.getByRole('button', { name: 'Enviar decisión' }), keyboard);
+  await press(page, page.getByRole('button', { name: 'Sí, enviar' }), keyboard);
+
+  // The same screen whether the call was right or wrong.
+  await expect(page.getByRole('heading', { name: 'Fragmento obtenido' })).toBeVisible();
+  await press(page, page.getByRole('button', { name: 'Continuar' }), keyboard);
 }
 
-/** Accuse someone and confirm, waiting out the "fired" beat. */
-export async function fire(page: Page, name: Name) {
-  await page.getByRole('button', { name: 'Acusar', exact: true }).click();
-  await page.getByRole('button', { name: `Creo que el infiltrado es ${name}` }).click();
-  await page.getByRole('button', { name: 'Sí, despedir' }).click();
-  await expect(page.getByRole('status')).toBeVisible();
-  await expect(page.getByRole('status')).toBeHidden({ timeout: 6000 });
+export const ALL: Area[] = ['atencion', 'desarrollo', 'finanzas', 'operaciones'];
+
+/** Plays every listed area in a round; `wrong` lists the ones to miss. */
+export async function playRound(page: Page, cycle: Cycle, list: Area[], wrong: Area[] = [], keyboard = false) {
+  for (const area of list) await playArea(page, area, cycle, !wrong.includes(area), keyboard);
+  await expect(page.getByText('> VERIFICANDO FRAGMENTOS…')).toBeVisible();
 }
 
-/** One whole day: alert -> meeting -> office -> investigate -> accuse. */
-export async function playDay(page: Page, look: Name, accuse: Name = look) {
-  await gatherAndInvestigate(page);
-  await investigate(page, look);
-  await fire(page, accuse);
+/** Waits out the console and continues. */
+export async function passConsole(page: Page, keyboard = false) {
+  const next = page.getByRole('status').getByRole('button', { name: 'Continuar' });
+  await expect(next).toBeVisible({ timeout: 10_000 });
+  await press(page, next, keyboard);
+}
+
+/** Reads all six debrief cards and moves on. */
+export async function passDebrief(page: Page, keyboard = false) {
+  const finish = page.getByRole('button', { name: 'Continuar a la evaluación' });
+  await expect(finish).toBeVisible({ timeout: 10_000 });
+  await press(page, finish, keyboard);
 }

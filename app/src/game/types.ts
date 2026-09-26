@@ -1,79 +1,102 @@
-export const SUSPECT_IDS = ['leo', 'sara', 'omar', 'mia'] as const;
-export type SuspectId = (typeof SUSPECT_IDS)[number];
-
-/** The infiltrator. Accusing them is the only winning move. */
-export const CULPRIT: SuspectId = 'mia';
-
-export type Day = 1 | 2 | 3;
+export const AREA_IDS = ['atencion', 'desarrollo', 'finanzas', 'operaciones'] as const;
+export type AreaId = (typeof AREA_IDS)[number];
 
 /**
- * Which screen the player is on. `investigating` is the zoomed-in workstation
- * view; the suspect being looked at lives in `GameState.investigating`.
+ * A round is one pass over the areas still open. Round N is played at cycle N,
+ * and the cycle is also the difficulty: 1 = easy, 2 = medium, 3 = hard.
  */
+export type Cycle = 1 | 2 | 3;
+export const LEVEL_BY_CYCLE = { 1: 'easy', 2: 'medium', 3: 'hard' } as const;
+export type Level = (typeof LEVEL_BY_CYCLE)[Cycle];
+
+export const OPTION_IDS = ['A', 'B', 'C'] as const;
+export type OptionId = (typeof OPTION_IDS)[number];
+
+/** Three rounds that end with a false fragment and the attack gets through. */
+export const MAX_FAILURES = 3;
+
 export type Phase =
-  | 'title'
-  /** The opening cinematic: the lead finds out about the attack. */
+  | 'loading'
   | 'intro'
-  | 'alert'
-  | 'meeting'
-  | 'office'
-  | 'investigating'
-  | 'ended';
+  | 'rules'
+  | 'areaSelect'
+  | 'area'
+  | 'console'
+  | 'roundEnd'
+  | 'debrief'
+  | 'evaluation'
+  | 'certificate'
+  | 'gameOver';
+
+/** The beats inside one area. `fragment` looks the same whether the call was right or not. */
+export type AreaStep = 'intro' | 'explore' | 'decision' | 'fragment';
 
 /**
- * How the run finished. The three winning outcomes differ only by how many days
- * it took — the earlier the catch, the less data left the network.
+ * What the player holds for an area this round. Every decision hands over a
+ * fragment; only the console, at the end of the round, tells a genuine one from
+ * a false one. That is the "false security" the course is named after.
  */
-export type Outcome = 'architect' | 'neutralized' | 'saved' | 'compromised';
+export type FragmentState = 'none' | 'genuine' | 'false';
 
-export type SuspectFlags = Record<SuspectId, boolean>;
-
-/** One line in the player's evidence log, accumulated across the whole run. */
-export type EvidenceEntry = {
-  day: Day;
-  suspect: SuspectId;
-  /** True once the player asked the follow-up question, not just looked. */
-  questioned: boolean;
+export type AreaProgress = {
+  /** Verified by the console in an earlier round: closed for good. */
+  secured: boolean;
+  fragment: FragmentState;
 };
 
-export type Accusation = { day: Day; suspect: SuspectId };
+export type Decision = {
+  area: AreaId;
+  cycle: Cycle;
+  option: OptionId;
+  correct: boolean;
+  /** Time from opening the area to submitting, for the tracking payload. */
+  ms: number;
+};
 
 export type GameState = {
-  day: Day;
   phase: Phase;
-  investigating: SuspectId | null;
-  /**
-   * Workstations opened on the *current* day. One visit each is all you get —
-   * that scarcity is what makes choosing who to investigate a decision — so this
-   * also closes the desk. Resets when the day advances.
-   */
-  visited: SuspectFlags;
-  /** Suspects still employed. A wrong accusation clears one. */
-  active: SuspectFlags;
-  accusations: Accusation[];
-  evidence: EvidenceEntry[];
-  outcome: Outcome | null;
-  /**
-   * True while the "are you sure?" dialog is open; holds who is about to be
-   * fired so the confirmation can name them.
-   */
-  pendingAccusation: SuspectId | null;
-  /** Set when the player tries to accuse straight from the meeting. */
-  showBlockedHint: boolean;
+  round: Cycle;
+  failures: number;
+  areas: Record<AreaId, AreaProgress>;
+  currentArea: AreaId | null;
+  step: AreaStep;
+  /** Hotspots opened in the current area, in the order they were opened. */
+  explored: string[];
+  selected: OptionId | null;
+  /** When the current area was opened; decision latency is measured from here. */
+  areaOpenedAt: number | null;
+  decisions: Decision[];
+  evaluation: {
+    /** Null until answered; an empty string means the player skipped it. */
+    reflection: string | null;
+    /** The player's latest true/false answer to "the DLP spies on me". */
+    dlpAnswer: boolean | null;
+  };
+  /** Seeds the per-run option order so the right answer is not always "A". */
+  seed: number;
+  startedAt: number | null;
+  finishedAt: number | null;
 };
 
 export type GameAction =
-  | { type: 'start' }
+  | { type: 'loaded'; now: number; seed: number }
   | { type: 'introDone' }
-  | { type: 'gatherTeam' }
-  | { type: 'goToOffice' }
-  | { type: 'backToMeeting' }
-  | { type: 'openSuspect'; suspect: SuspectId }
-  | { type: 'questionSuspect' }
-  | { type: 'closeSuspect' }
-  | { type: 'attemptAccuseFromMeeting' }
-  | { type: 'dismissBlockedHint' }
-  | { type: 'proposeAccusation'; suspect: SuspectId }
-  | { type: 'cancelAccusation' }
-  | { type: 'confirmAccusation' }
-  | { type: 'restart' };
+  | { type: 'rulesDone'; skipped: boolean }
+  | { type: 'openArea'; area: AreaId; now: number }
+  | { type: 'beginExplore' }
+  | { type: 'exploreHotspot'; hotspot: string }
+  | { type: 'goToDecision' }
+  | { type: 'backToExplore' }
+  | { type: 'selectOption'; option: OptionId }
+  /** `isCorrect` comes from the script, which the reducer deliberately never reads. */
+  | { type: 'submitDecision'; now: number; isCorrect: boolean }
+  | { type: 'continueFromFragment' }
+  | { type: 'consoleDone' }
+  | { type: 'nextRound' }
+  | { type: 'debriefDone' }
+  | { type: 'submitReflection'; text: string }
+  | { type: 'skipReflection' }
+  | { type: 'answerDlp'; answer: boolean }
+  | { type: 'finish'; now: number }
+  | { type: 'restart'; now: number; seed: number }
+  | { type: 'resume'; state: GameState };

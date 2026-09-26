@@ -1,53 +1,43 @@
 import { describe, expect, it } from 'vitest';
-import { detectLocale, LOCALES, STORIES } from './index';
-import { fill, validateStory } from './schema';
-import { SUSPECT_IDS } from '../game/types';
+import { AREA_IDS, OPTION_IDS } from '../game/types';
+import { STORIES } from './index';
+import { cycleContent, validateStory } from './schema';
+import type { Story } from './schema';
 
 describe('story files', () => {
-  for (const locale of LOCALES) {
-    it(`${locale} is structurally complete`, () => {
-      expect(validateStory(STORIES[locale], locale)).toEqual([]);
+  for (const [locale, story] of Object.entries(STORIES)) {
+    it(`${locale} passes structural validation`, () => {
+      expect(validateStory(story, locale)).toEqual([]);
+    });
+
+    it(`${locale} has one right answer in every area and cycle`, () => {
+      for (const area of AREA_IDS) {
+        for (const cycle of [1, 2, 3] as const) {
+          const options = cycleContent(story, area, cycle).options;
+          expect(OPTION_IDS.filter((id) => options[id].correct)).toHaveLength(1);
+        }
+      }
     });
   }
 
-  it('every locale exposes the same keys', () => {
-    const shape = (value: unknown, prefix = ''): string[] =>
-      value !== null && typeof value === 'object'
-        ? Object.entries(value as Record<string, unknown>)
-            .flatMap(([k, v]) => shape(v, `${prefix}${k}.`))
-            .sort()
-        : [prefix];
-
-    expect(shape(STORIES.es)).toEqual(shape(STORIES.en));
+  it('catches a second correct answer and a blank line', () => {
+    const broken = structuredClone(STORIES.es) as Story;
+    broken.areas.atencion.cycles['1'].options.B.correct = true;
+    broken.areas.finanzas.cycles['2'].intro = '  ';
+    const problems = validateStory(broken, 'broken');
+    expect(problems.some((p) => p.includes('atencion.cycles.1 must have exactly one correct option'))).toBe(true);
+    expect(problems.some((p) => p.includes('finanzas.cycles.2.intro is empty'))).toBe(true);
   });
 
-  it('names the characters in both languages', () => {
-    for (const locale of LOCALES) {
-      for (const id of SUSPECT_IDS) {
-        expect(STORIES[locale].characters[id].name.length).toBeGreaterThan(0);
-      }
-    }
-  });
-});
-
-describe('placeholders', () => {
-  it('substitutes named values', () => {
-    expect(fill('fire {name}?', { name: 'Leo' })).toBe('fire Leo?');
+  it('catches a cycle with the wrong number of hotspots', () => {
+    const broken = structuredClone(STORIES.es) as Story;
+    broken.areas.operaciones.cycles['3'].hotspots.pop();
+    expect(validateStory(broken, 'broken').join()).toMatch(/operaciones\.cycles\.3 has 4 hotspots/);
   });
 
-  it('leaves unknown placeholders alone rather than printing undefined', () => {
-    expect(fill('day {day}', {})).toBe('day {day}');
-  });
-});
-
-describe('locale detection', () => {
-  it('matches on the base language tag', () => {
-    expect(detectLocale(['es-MX', 'en'])).toBe('es');
-    expect(detectLocale(['en-GB'])).toBe('en');
-  });
-
-  it('falls back to Spanish for unsupported languages', () => {
-    expect(detectLocale(['fr-FR', 'de'])).toBe('es');
-    expect(detectLocale([])).toBe('es');
+  it('catches a template that lost its placeholder', () => {
+    const broken = structuredClone(STORIES.es) as Story;
+    broken.hud.round = 'Ronda';
+    expect(validateStory(broken, 'broken').join()).toMatch(/hud\.round must contain \{round\}/);
   });
 });

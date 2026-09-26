@@ -1,100 +1,101 @@
-# Zero Trust: The Infiltrator
+# Clip Shield Defense — el curso
 
-A short cybersecurity decision game. Over three in-game days you investigate four
-colleagues and decide who is exfiltrating the customer database. Firing the wrong
-person costs you a day — and the attack keeps running.
-
-This is a ground-up rebuild of a course that was previously authored in
-Articulate Storyline 360. The original published output is kept under
-`../legacy/` as the source for the artwork and as a reference for the script;
-nothing in this app runs it.
-
-## Why it was rebuilt
-
-Storyline made three things impossible from inside the tool:
-
-- **One language per publish.** Shipping Spanish and English meant maintaining
-  two separate courses.
-- **Hover-only interaction.** 122 of the 183 JavaScript triggers in the published
-  course were bound to `onrollover`/`onrollout`, which never fire on a touch
-  screen.
-- **A fixed 1920×1080 canvas**, scaled to fit, patched with `!important` CSS —
-  patches that a republish silently overwrote.
-
-It also duplicated the same nine slides three times, so a change to the office
-screen meant editing it in three places.
-
-## Running it
+## Correrlo
 
 ```bash
 npm install
-npm run assets   # copies artwork and sound out of the legacy publish
 npm run dev
 ```
 
-| Command | What it does |
+| Comando | Qué hace |
 | --- | --- |
-| `npm run dev` | Vite dev server |
-| `npm run build` | Typecheck and build to `dist/` |
-| `npm run preview` | Serve the production build |
-| `npm test` | Game logic and content tests (Vitest) |
-| `npm run e2e` | Full playthroughs in a browser (Playwright) |
-| `npm run assets` | Re-copy assets from the legacy publish and re-encode them |
+| `npm run dev` | Servidor de desarrollo de Vite |
+| `npm run build` | Typecheck y build a `dist/` |
+| `npm run preview` | Sirve el build de producción |
+| `npm test` | Reglas del juego, guion y tracking (Vitest) |
+| `npm run e2e` | Partidas completas en navegador (Playwright) |
 
-The build is a plain static site: deploy the contents of `dist/` anywhere.
+Agrega `?fast=1` a la URL para acortar los tiempos fijos (carga, consola,
+debriefing) y congelar el glitch; los tests e2e lo usan.
 
-## How it is put together
+## Cómo se juega
+
+1. **Carga → intro → 5 principios.** La intro es una narración animada; si se
+   agrega `public/assets/video/intro.mp4` se reproduce ese video en su lugar.
+2. **4 áreas** (Centro de Atención, Desarrollo, Finanzas, Operaciones), en
+   cualquier orden. Cada una: situación → explorar la escena (hotspots) →
+   "¿Qué haces?" con 3 opciones → **fragmento obtenido**.
+3. **Cada decisión entrega un fragmento, sea correcta o no**, y no hay feedback:
+   la pantalla es idéntica. Esa es la "falsa seguridad".
+4. **Consola Central:** al terminar la ronda verifica los 4 fragmentos.
+   - Todos genuinos → protocolo activado → debriefing.
+   - Alguno falso → **+1 fallo** y pantalla "No lograste asegurar el sistema",
+     que muestra —solo aquí— lo que elegiste, sus consecuencias y por qué.
+     Regresas a jugar **solo las áreas con fragmento falso**.
+5. **La ronda es la dificultad:** ronda 1 = ciclo 1 = fácil, ronda 2 = ciclo 2 =
+   intermedio (glitch leve), ronda 3 = ciclo 3 = difícil (glitch fuerte, más
+   hotspots y un giro).
+6. **3 fallos = Game Over** (reintentar reinicia todo). Se gana con 0, 1 o 2.
+7. **Debriefing** (6 tarjetas) → **evaluación** (reflexión abierta de 50–500
+   caracteres o saltar; V/F sobre el DLP, donde "Falso" es requerido) →
+   **certificado** (descargable como PDF con el diálogo de impresión).
+
+El progreso se guarda en el navegador en cada paso: al recargar se ofrece
+"Continuar donde me quedé". Tras 15 minutos sin actividad la sesión se pausa, y
+cerrar la pestaña a media partida pide confirmación.
+
+## Cómo está hecho
 
 ```
 src/
-  game/machine.ts       Pure reducer: phases, days, accusations, evidence
-  content/story.*.json  The entire script, one file per language
-  content/schema.ts     Types + a structural validator run by the tests
-  i18n/                 Language detection, switching, persistence
-  screens/              One component per phase
-  components/           Scene, Dialog, Button, HUD, suspect card
-  audio/                Sound-effect pool with a mute toggle
-scripts/
-  dump-slides.mjs       Reads the legacy Storyline slide data (provenance)
-  migrate-assets.mjs    Copies and renames the artwork and audio
-  optimize-images.mjs   Re-encodes to WebP and caps oversized backdrops
+  game/machine.ts         Reducer puro: fases, rondas, fragmentos, fallos
+  content/story.es.json   Todo el guion (un archivo por idioma)
+  content/schema.ts       Tipos + validador estructural que corren los tests
+  tracking/events.ts      Transiciones del reducer → eventos de tracking
+  tracking/reporter.ts    Interfaz hacia el LMS (hoy: consola)
+  tracking/progress.ts    Checkpoint en localStorage
+  screens/                Una pantalla por fase
+  components/             HUD, escena del área, fragmentos, UI base
 ```
 
-**Content is data.** Every string a player reads lives in `story.en.json` /
-`story.es.json`. Adding a fourth day is a new entry under `days`; adding a
-language is a new file plus an entry in `src/content/index.ts`. The tests fail if
-the two language files ever drift apart in shape.
+**El contenido es data.** Todo lo que el jugador lee está en `story.es.json`:
+situaciones, hotspots, opciones, consecuencias, debriefing, certificado. Los
+tests fallan si un ciclo no tiene exactamente una opción correcta, si falta un
+texto, o si la cantidad de hotspots no sigue la escalada 3 → 4–5 → 5. En el
+guion la opción correcta puede ir en cualquier letra: el juego las **baraja** por
+partida, así "elegir siempre la A" no funciona.
 
-**English is the editorial source.** The original course was written in English,
-so `story.en.json` is where new or changed copy is authored and `story.es.json`
-is its translation. Spanish is still the default a player sees when their browser
-does not ask for English.
+**La lógica es pura.** `game/machine.ts` no importa React ni textos: si una
+opción es correcta llega en la acción. Las reglas se prueban con tests unitarios,
+no haciendo clic.
 
-**Logic is pure.** `src/game/machine.ts` imports nothing from React and holds no
-strings, so the rules are covered by fast unit tests rather than by clicking
-through the game.
+**El arte es provisional.** Las escenas de cada área están dibujadas en SVG
+(`components/AreaScene.tsx`) hasta tener ilustraciones de Clip; las posiciones
+de los hotspots están en `src/scene.ts`.
 
-### Assets
+## Siguiente paso: SCORM
 
-The artwork, the nine sound effects and the short video clip come from the
-original course. The published slide data refers to images as
-`story_content/*.png`, but those are Flash-era paths — the real bitmaps are in
-`legacy/mobile/`, which is what `migrate-assets.mjs` reads. There is no narration to
-re-record, which is why the bilingual version costs nothing beyond translation.
+El curso ya emite todos los eventos que Workday necesita, pero hoy van a la
+consola (en desarrollo) o a ningún lado (en producción). Conectarlo es escribir
+un segundo `Reporter` (`src/tracking/reporter.ts`), sin tocar el juego:
 
-`npm run assets` copies the originals and then re-encodes them: **24 MB of PNGs
-becomes 1.6 MB of WebP**, with backdrops capped at 1920px. The PNG intermediates
-are deleted afterwards rather than kept as a fallback — every browser that can
-run this game reads WebP. The 5.3 MB video only backs the losing ending and is
-never preloaded.
+| `Reporter` | SCORM 2004 |
+| --- | --- |
+| `start()` / `learnerName()` | `Initialize`, `cmi.learner_name`, `cmi.suspend_data` |
+| `event(e)` | `cmi.interactions.n.*` (decisiones, hotspots, evaluación), `cmi.objectives.n.*` (fragmentos) |
+| `saveProgress(state)` | `cmi.suspend_data`, `cmi.location`, `Commit` |
+| `complete({ score, passed })` | `cmi.score.*`, `cmi.completion_status`, `cmi.success_status` |
+| `finish()` | `cmi.session_time`, `cmi.exit`, `Terminate` |
 
-## Accessibility
+Faltaría además generar `imsmanifest.xml` y el `.zip` para subir a Workday. El
+build ya usa rutas relativas (`base: './'`), así que funciona dentro del iframe
+del LMS.
 
-- Every interaction is a real button: click, tap and Enter all work.
-- Suspect cards carry an explicit label, so a screen reader announces name, role,
-  state and quote in a stable order.
-- Alerts are in an `aria-live` region and the full text is in the DOM from the
-  first frame, ahead of the typewriter reveal.
-- Dialogs trap focus and close on Escape.
-- `prefers-reduced-motion` disables the animations, including the typewriter.
-- The Playwright suite includes a complete keyboard-only playthrough.
+## Accesibilidad
+
+- Toda interacción es un botón real: clic, toque y Enter funcionan. Hay una
+  partida completa solo con teclado en los tests e2e.
+- Las opciones son un `radiogroup`; los hotspots explorados se anuncian como tales.
+- Los diálogos atrapan el foco y cierran con Escape.
+- `prefers-reduced-motion` desactiva las animaciones y el glitch.
+- En pantallas angostas la escena se reemplaza por una lista de hotspots.
