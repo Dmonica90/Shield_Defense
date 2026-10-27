@@ -1,7 +1,7 @@
 /**
  * Paths into `public/assets`. The nine interface sounds carried over from the
- * base project are generic (clicks, alerts, a success sting); there is no
- * artwork yet — scenes are drawn in CSS until Clip's own art arrives.
+ * base project are generic (clicks, alerts, a success sting). The scenes need no
+ * files: they are drawn in SVG in `components/SceneArt.tsx`.
  */
 const audio = (name: string) => `${import.meta.env.BASE_URL}assets/audio/${name}`;
 

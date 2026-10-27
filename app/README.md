@@ -69,9 +69,10 @@ partida, así "elegir siempre la A" no funciona.
 opción es correcta llega en la acción. Las reglas se prueban con tests unitarios,
 no haciendo clic.
 
-**El arte es provisional.** Las escenas de cada área están dibujadas en SVG
-(`components/AreaScene.tsx`) hasta tener ilustraciones de Clip; las posiciones
-de los hotspots están en `src/scene.ts`.
+**Las escenas son ilustraciones SVG.** Cada área tiene su cuarto dibujado en
+`components/SceneArt.tsx` (línea plana, crema, naranja y azul marino); las
+posiciones de los hotspots están en `src/scene.ts` y caen sobre objetos del
+dibujo, así que si mueves un objeto mueve también su slot.
 
 ## Siguiente paso: SCORM
 
