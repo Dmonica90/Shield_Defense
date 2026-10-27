@@ -1,39 +1,40 @@
 import type { AreaId } from './game/types';
 
 /**
- * Where the hotspots sit on each area's drawn scene, as percentages of a 16:9
- * stage. Hotspot N in the script takes slot N, so a cycle with five hotspots
- * uses all five; one with three uses the first three.
+ * Where the hotspots sit on each area's illustrated scene (`components/SceneArt.tsx`),
+ * as percentages of a 16:9 stage. Hotspot N in the script takes slot N, so a
+ * cycle with five hotspots uses all five; one with three uses the first three.
+ * Each slot sits on a drawn object, noted alongside it.
  */
 export type Point = { left: string; top: string };
 
 export const HOTSPOT_SLOTS: Record<AreaId, Point[]> = {
   atencion: [
-    { left: '30%', top: '38%' },
-    { left: '62%', top: '66%' },
-    { left: '80%', top: '42%' },
-    { left: '14%', top: '70%' },
-    { left: '48%', top: '20%' },
+    { left: '36%', top: '32%' }, // chat on the monitor
+    { left: '66%', top: '74%' }, // notebook
+    { left: '16%', top: '70%' }, // desk phone
+    { left: '66%', top: '28%' }, // customer record
+    { left: '8%', top: '54%' }, // sticky notes
   ],
   desarrollo: [
-    { left: '22%', top: '34%' },
-    { left: '52%', top: '48%' },
-    { left: '80%', top: '32%' },
-    { left: '70%', top: '74%' },
-    { left: '26%', top: '74%' },
+    { left: '36%', top: '32%' }, // Slack
+    { left: '62%', top: '38%' }, // Gmail draft
+    { left: '85%', top: '74%' }, // policy notebook
+    { left: '16%', top: '66%' }, // personal laptop
+    { left: '70%', top: '74%' }, // phone
   ],
   finanzas: [
-    { left: '24%', top: '32%' },
-    { left: '56%', top: '56%' },
-    { left: '82%', top: '30%' },
-    { left: '38%', top: '76%' },
-    { left: '78%', top: '72%' },
+    { left: '31%', top: '30%' }, // dashboard
+    { left: '16%', top: '66%' }, // personal laptop
+    { left: '83%', top: '74%' }, // signatures folder
+    { left: '65%', top: '28%' }, // pending transfer
+    { left: '80%', top: '16%' }, // window
   ],
   operaciones: [
-    { left: '20%', top: '40%' },
-    { left: '50%', top: '28%' },
-    { left: '80%', top: '40%' },
-    { left: '34%', top: '74%' },
-    { left: '68%', top: '72%' },
+    { left: '52%', top: '20%' }, // alert screen
+    { left: '66%', top: '76%' }, // phone
+    { left: '75%', top: '24%' }, // logs screen
+    { left: '34%', top: '58%' }, // terminal
+    { left: '30%', top: '24%' }, // graph screen
   ],
 };

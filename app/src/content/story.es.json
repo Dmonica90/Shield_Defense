@@ -25,7 +25,7 @@
     ],
     "scenes": {
       "atencion": "Centro de Atención: un cliente furioso",
-      "desarrollo": "Desarrollo: una herramienta sin revisar",
+      "desarrollo": "Desarrollo: datos enviados a tu correo personal",
       "finanzas": "Finanzas: trabajo remoto sin MDM",
       "operaciones": "Operaciones: una alerta ignorada"
     },
@@ -477,207 +477,212 @@
     },
     "desarrollo": {
       "name": "Desarrollo",
-      "title": "La herramienta riesgosa",
-      "setting": "Slack, canal #development",
+      "title": "El atajo al correo personal",
+      "setting": "Tu laptop de trabajo, 19:40 horas",
       "fragment": {
         "icon": "🛡️",
         "name": "Integridad"
       },
       "cycles": {
         "1": {
-          "intro": "Un Dev Senior te escribe en Slack: «Necesito que apruebes esta query. Es urgente, sale en 1 hora. No escales, solo tú puedes validarla.»",
+          "intro": "Mañana a las 9:00 entregas un análisis de clientes. Tu laptop de trabajo va lenta y en casa tienes tu computadora con una IA que lo resuelve en minutos. Ya tienes el correo listo: clientes_q3.xlsx, para tu Gmail.",
           "pressure": [
-            "Deadline en 1 hora",
-            "«Confía en mí»",
-            "«No escales»"
+            "Entrega mañana a las 9:00",
+            "«Solo es para trabajar más rápido»",
+            "Nadie revisa tus correos de noche"
           ],
           "hotspots": [
             {
               "id": "slack",
               "label": "Slack",
               "icon": "🟪",
-              "text": "«Es solo una review, de verdad. Si esto no sale hoy nos retrasamos toda la semana.»"
+              "text": "Tu manager: «Necesito el análisis a primera hora. Haz lo que tengas que hacer.»"
             },
             {
-              "id": "code",
-              "label": "Código",
-              "icon": "⌨️",
-              "text": "SELECT * FROM users WHERE id = {input} — el parámetro del usuario va directo al SQL, sin sanitizar."
+              "id": "email",
+              "label": "Correo en borrador",
+              "icon": "📧",
+              "text": "Para: tu.nombre@gmail.com · Adjunto: clientes_q3.xlsx — 12,000 filas con nombre, email y RFC."
             },
             {
-              "id": "sonar",
-              "label": "SonarQube",
-              "icon": "📊",
-              "text": "VULNERABILITY: SQL Injection (crítica)."
+              "id": "policy",
+              "label": "Política",
+              "icon": "📕",
+              "text": "Prohibido enviar datos de clientes a cuentas personales. Clip tiene una IA corporativa aprobada y acceso por VPN."
             }
           ],
           "question": "¿Qué haces?",
           "options": {
             "A": {
-              "text": "Bloqueo el commit y pido el fix con parameterized queries.",
+              "text": "No lo envío: hago el análisis con la IA corporativa por VPN y aviso a mi manager si no llego a tiempo.",
               "correct": true,
               "consequences": [
-                "El Dev agradece y aprende",
-                "El fix correcto sale en 5 minutos"
+                "El análisis sale a tiempo",
+                "Los datos nunca salen de Clip",
+                "Tu manager sabe que existe la IA corporativa"
               ],
-              "why": "Bloquear y explicar cómo corregir protege sin frenar al equipo."
+              "why": "La prisa no cambia dónde pueden vivir los datos. Si existe un camino aprobado, ese es el camino."
             },
             "B": {
-              "text": "Lo apruebo sin revisar, es un Dev Senior.",
+              "text": "Me lo envío y lo borro de mi Gmail en cuanto termine.",
               "correct": false,
               "consequences": [
-                "47,000 registros expuestos",
-                "Brecha en producción"
+                "El archivo queda en los servidores de Gmail y en tu PC",
+                "La IA personal guarda una copia",
+                "12,000 clientes fuera del control de Clip"
               ],
-              "why": "La antigüedad no reemplaza la revisión. SonarQube marcaba una inyección SQL crítica."
+              "why": "Borrar después no deshace la copia. Desde que sale de Clip, ya no controlas cuántas copias existen ni quién las ve."
             },
             "C": {
-              "text": "Lo rechazo sin explicar cómo arreglarlo.",
+              "text": "Le quito la columna de nombres y entonces sí me lo envío.",
               "correct": false,
               "consequences": [
-                "El Dev hace un fix incorrecto",
-                "Se genera un Cross-Site Scripting adicional"
+                "El RFC y el email identifican a cada cliente",
+                "El DLP lo detecta como fuga",
+                "Investigación de InfoSec"
               ],
-              "why": "Rechazar sin guía deja el riesgo en manos de la prisa. Explicar el fix correcto es parte de la revisión."
+              "why": "Quitar una columna no anonimiza. Con el RFC o el email cada fila sigue siendo una persona."
             }
           }
         },
         "2": {
-          "intro": "Feature de reportes. SonarQube pasa limpio. Pero el código devuelve más datos de los especificados en los requerimientos.",
+          "intro": "Un bug en producción te tiene atorado. Quieres pegar los logs en una IA pública desde tu computadora personal: «así lo resuelvo en 10 minutos».",
           "pressure": [
-            "SonarQube está en verde",
-            "El Dev dice que es «para análisis futuro»",
-            "Nadie más lo notó"
+            "Producción está caída",
+            "«Todos lo hacen»",
+            "La IA corporativa es más lenta"
           ],
           "hotspots": [
             {
-              "id": "reqs",
-              "label": "Requerimientos",
+              "id": "logs",
+              "label": "Logs",
+              "icon": "📜",
+              "text": "Incluyen emails de clientes, los últimos 4 dígitos de tarjetas y una API key de producción."
+            },
+            {
+              "id": "terms",
+              "label": "Términos de la IA pública",
               "icon": "📄",
-              "text": "Campos requeridos: solo email y nombre."
+              "text": "«Podemos usar tus conversaciones para entrenar y mejorar nuestros modelos.»"
             },
             {
-              "id": "code",
-              "label": "Código",
-              "icon": "⌨️",
-              "text": "La consulta devuelve email, nombre, teléfono y número de identificación fiscal."
+              "id": "corpai",
+              "label": "IA corporativa",
+              "icon": "🤖",
+              "text": "Disponible y aprobada por InfoSec. Responde un poco más lento, pero los datos no salen de Clip."
             },
             {
-              "id": "sonar",
-              "label": "SonarQube",
-              "icon": "📊",
-              "text": "✅ CLEAN. Ninguna vulnerabilidad detectada."
-            },
-            {
-              "id": "call",
-              "label": "Llamada del Dev",
-              "icon": "📞",
-              "text": "«Los datos extra son para análisis futuro. No hacen daño a nadie.»"
+              "id": "slack",
+              "label": "Slack de un compañero",
+              "icon": "🟪",
+              "text": "«Yo pego todo en la IA de mi casa. Nadie se entera, relájate.»"
             }
           ],
           "question": "¿Qué haces?",
           "options": {
             "A": {
-              "text": "Identifico la exposición de datos y bloqueo el cambio.",
+              "text": "Quito los datos sensibles y la API key de los logs y los analizo con la IA corporativa.",
               "correct": true,
               "consequences": [
-                "Se respeta el mínimo privilegio",
-                "La auditoría de privacidad sale bien"
+                "El bug se resuelve en 25 minutos",
+                "Ningún dato de cliente sale de Clip",
+                "La API key sigue siendo secreta"
               ],
-              "why": "Minimizar datos es obligatorio aunque el escáner esté en verde."
+              "why": "Sanitizar y usar la herramienta aprobada cuesta unos minutos. Una API key filtrada cuesta un incidente."
             },
             "B": {
-              "text": "Lo apruebo porque SonarQube pasó.",
+              "text": "Pego los logs completos en la IA pública desde mi casa.",
               "correct": false,
               "consequences": [
-                "La auditoría detecta la exposición",
-                "Multa regulatoria de privacidad",
-                "Daño reputacional"
+                "La API key queda en el historial de un tercero",
+                "Un atacante la usa 3 días después",
+                "Datos de clientes en un modelo externo"
               ],
-              "why": "Un escáner limpio no revisa si expones datos de más. El mínimo privilegio y la minimización de datos son tu responsabilidad."
+              "why": "Lo que pegas en una IA pública ya no es tuyo ni de Clip. La rapidez no compensa perder el control del dato."
             },
             "C": {
-              "text": "Le pido a InfoSec que lo revise por mí.",
+              "text": "Me mando los logs al correo personal y los limpio en casa antes de usarlos.",
               "correct": false,
               "consequences": [
-                "La responsabilidad era tuya, no de InfoSec",
-                "Retraso innecesario",
-                "Más presión del Dev"
+                "Los logs sin limpiar ya viven en tu Gmail",
+                "El DLP genera una alerta",
+                "Llamada de InfoSec al día siguiente"
               ],
-              "why": "Revisar que el código cumpla los requerimientos es tu rol como revisor. Escalar aquí solo traslada tu trabajo."
+              "why": "Limpiar después de enviar llega tarde: el dato sensible ya salió. Se limpia antes y dentro de Clip."
             }
           }
         },
         "3": {
-          "intro": "Feature de reporte de fraude. El código es técnicamente seguro, pero expone detalles CLASIFICADOS de ataques históricos. Y el Dev ya anunció en público que tendrá acceso a todo.",
-          "twist": "El riesgo no está en el código, sino en quién tendrá acceso a la información.",
+          "intro": "Hace 6 días te enviaste un archivo de clientes a tu Gmail para avanzar el fin de semana. Hoy llegan dos avisos al mismo tiempo: uno del DLP y otro de Google.",
+          "twist": "El dato ya salió. Lo que decides ahora es si el daño se contiene.",
           "pressure": [
-            "El Dev tiene buena intención",
-            "Si lo niegas parece que no confías",
-            "Si lo apruebas sin control el riesgo es extremo"
+            "Admitirlo da vergüenza",
+            "«Quizá nadie lo note»",
+            "Podrías borrarlo todo en 2 minutos"
           ],
           "hotspots": [
             {
-              "id": "code",
-              "label": "Código",
-              "icon": "⌨️",
-              "text": "Técnicamente correcto. Sin vulnerabilidades."
+              "id": "dlp",
+              "label": "Aviso del DLP",
+              "icon": "🛡️",
+              "text": "Envío de datos sensibles a un dominio personal detectado. Pendiente de revisión."
             },
             {
-              "id": "policy",
-              "label": "Política de seguridad",
+              "id": "google",
+              "label": "Alerta de Google",
+              "icon": "⚠️",
+              "text": "Inicio de sesión en tu Gmail desde un dispositivo nuevo en otro país, hace 3 horas."
+            },
+            {
+              "id": "sent",
+              "label": "Enviados",
+              "icon": "📤",
+              "text": "clientes_finde.xlsx — 8,400 clientes con nombre, RFC y saldo."
+            },
+            {
+              "id": "ai",
+              "label": "Historial de tu IA",
+              "icon": "💬",
+              "text": "El sábado subiste el mismo archivo a la IA de tu computadora personal."
+            },
+            {
+              "id": "infosec",
+              "label": "Política InfoSec",
               "icon": "📕",
-              "text": "Datos clasificados: un atacante podría aprender los métodos de defensa de Clip."
-            },
-            {
-              "id": "motive",
-              "label": "Motivación del Dev",
-              "icon": "💡",
-              "text": "«Quiero aprender del fraude para prevenirlo.» Parece legítimo."
-            },
-            {
-              "id": "board",
-              "label": "Canal público",
-              "icon": "📢",
-              "text": "El Dev publicó: «Voy a tener acceso a todos los ataques históricos para análisis.»"
-            },
-            {
-              "id": "laptop",
-              "label": "Agenda del Dev",
-              "icon": "💻",
-              "text": "La próxima semana viaja con su laptop a una conferencia internacional."
+              "text": "Reporta cualquier incidente en menos de 1 hora. Sin castigo por reportar: el reporte temprano es lo que permite contener."
             }
           ],
           "question": "¿Qué haces?",
           "options": {
             "A": {
-              "text": "Apruebo el código, bloqueo el acceso a los datos clasificados y le ofrezco un curso.",
+              "text": "Reporto a InfoSec ahora: qué envié, a dónde, la alerta de Google y la IA; sigo sus pasos.",
               "correct": true,
               "consequences": [
-                "El código llega a producción de forma segura",
-                "El Dev queda protegido",
-                "El Dev aprende con un curso especializado"
+                "InfoSec bloquea la sesión y rota accesos en 40 minutos",
+                "Se avisa a los clientes a tiempo",
+                "Tu reporte se usa como ejemplo, no como castigo"
               ],
-              "why": "Separar el código del acceso cuida la oportunidad y el riesgo a la vez."
+              "why": "Una vez que el dato salió, el tiempo es lo único que queda. Reportar de inmediato es lo que convierte una fuga en un incidente contenido."
             },
             "B": {
-              "text": "Le doy acceso completo al Dev.",
+              "text": "Borro el correo, el archivo y el historial de la IA sin decir nada.",
               "correct": false,
               "consequences": [
-                "Su laptop es hackeada en la conferencia",
-                "El atacante obtiene los métodos de Clip",
-                "100K registros comprometidos"
+                "El atacante ya descargó el archivo",
+                "El DLP igual tiene el registro",
+                "Lo que era un error se vuelve encubrimiento"
               ],
-              "why": "La buena intención no reduce el riesgo del acceso. Los datos clasificados requieren necesidad real, no curiosidad."
+              "why": "Borrar tu copia no borra la del atacante, y ocultarlo convierte un error en encubrimiento."
             },
             "C": {
-              "text": "Rechazo el código por completo.",
+              "text": "Cambio mi contraseña de Gmail y espero a ver si pasa algo.",
               "correct": false,
               "consequences": [
-                "Una feature valiosa nunca llega a producción",
-                "Riesgo y oportunidad quedan desbalanceados"
+                "El archivo ya fue descargado",
+                "8,400 clientes expuestos sin aviso",
+                "InfoSec se entera 2 semanas tarde por el DLP"
               ],
-              "why": "El código era seguro. El problema era el acceso, y se podía controlar sin perder la feature."
+              "why": "Cambiar la contraseña protege tu cuenta, no a los clientes. Sin reporte, nadie puede contener lo que ya salió."
             }
           }
         }
