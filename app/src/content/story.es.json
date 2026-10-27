@@ -400,7 +400,7 @@
           }
         },
         "3": {
-          "intro": "Nuevo giro: InfoSec ya investigó. La cuenta destino es INTERNA y la investigación escaló a HR. En 10 minutos hay una reunión de escalada. ¿Qué documentas?",
+          "intro": "Nuevo giro: InfoSec ya investigó. La cuenta destino es INTERNA y la investigación escaló a People. En 10 minutos hay una reunión de escalada. ¿Qué documentas?",
           "twist": "La cuenta destino pertenece a alguien de Clip.",
           "pressure": [
             "Reunión de escalada en 10 minutos",
@@ -428,9 +428,9 @@
             },
             {
               "id": "hr",
-              "label": "HR",
+              "label": "People",
               "icon": "🗂️",
-              "text": "HR está investigando a un empleado interno."
+              "text": "People está investigando a un empleado interno."
             },
             {
               "id": "inspector",
@@ -485,7 +485,7 @@
       },
       "cycles": {
         "1": {
-          "intro": "Un Dev Senior te escribe por Slack: «Estoy en la cafetería y necesito revisar el reporte de pagos. ¿Me lo pasas a mi email personal? Es solo por hoy, tengo deadline en 2 horas.»",
+          "intro": "Un Desarrollador Senior te escribe por Slack: «Estoy en la cafetería y necesito revisar el reporte de pagos. ¿Me lo pasas a mi email personal? Es solo por hoy, tengo deadline en 2 horas.»",
           "pressure": [
             "Es un colega de confianza: 2 años en Clip",
             "Deadline en 2 horas",
@@ -500,7 +500,7 @@
             },
             {
               "id": "laptop",
-              "label": "Laptop del Dev",
+              "label": "Ubicación del desarrollador",
               "icon": "💻",
               "text": "Trabaja desde una cafetería: Wi-Fi público, sin encriptación y sin VPN corporativa."
             },
@@ -517,7 +517,7 @@
               "text": "Me niego a mandarlo a su email personal y le ofrezco acceso por la VPN corporativa.",
               "correct": true,
               "consequences": [
-                "El Dev accede de forma segura por la VPN corporativa",
+                "El desarrollador accede de forma segura por la VPN corporativa",
                 "Los datos van encriptados en tránsito",
                 "El reporte se ve en el portal corporativo, donde queda auditado"
               ],
@@ -529,7 +529,7 @@
               "consequences": [
                 "El reporte viaja a un email sin cifrado corporativo",
                 "Si su laptop es hackeada, los datos quedan expuestos",
-                "48 horas después, HR e InfoSec detectan el envío e inician una investigación"
+                "48 horas después, People e InfoSec detectan el envío e inician una investigación"
               ],
               "why": "Un email personal está fuera del control de Clip. La confianza en el colega no protege el dato en una red pública."
             },
@@ -537,7 +537,7 @@
               "text": "Solo le digo «no puedo».",
               "correct": false,
               "consequences": [
-                "El Dev le pide el reporte a alguien más del equipo",
+                "El desarrollador le pide el reporte a alguien más del equipo",
                 "Busca un camino todavía menos controlado",
                 "La presión sigue sin resolverse y pareces poco cooperativo"
               ],
@@ -546,7 +546,7 @@
           }
         },
         "2": {
-          "intro": "El Dev vuelve a escribir 30 minutos después: «Ok, la VPN es lenta desde aquí. ¿Qué tal si lo subo a mi Dropbox personal? Lo uso de respaldo todo el tiempo. Otros en el equipo lo hacen también.»",
+          "intro": "El desarrollador vuelve a escribir 30 minutos después: «Ok, la VPN es lenta desde aquí. ¿Qué tal si lo subo a mi Dropbox personal? Lo uso de respaldo todo el tiempo. Otros en el equipo lo hacen también.»",
           "pressure": [
             "«Otros en el equipo lo hacen»",
             "«Solo es un respaldo»",
@@ -575,7 +575,7 @@
               "id": "onedrive",
               "label": "Nube corporativa",
               "icon": "🔐",
-              "text": "Clip tiene contrato con OneDrive corporativo para almacenamiento seguro en la nube. El Dev no lo sabe."
+              "text": "Clip tiene contrato con OneDrive corporativo para almacenamiento seguro en la nube. El desarrollador no lo sabe."
             }
           ],
           "question": "¿Qué haces?",
@@ -586,7 +586,7 @@
               "consequences": [
                 "Los datos quedan cifrados y auditados",
                 "Clip tiene contrato y SLA con Microsoft",
-                "El Dev aprende la alternativa legítima en 2 minutos"
+                "El desarrollador aprende la alternativa legítima en 2 minutos"
               ],
               "why": "OneDrive corporativo hace lo mismo que Dropbox, con cifrado, auditoría y respaldos automáticos. Ayudar y proteger pueden ir juntos."
             },
@@ -594,7 +594,7 @@
               "text": "Le permito usar Dropbox «solo esta vez».",
               "correct": false,
               "consequences": [
-                "En una conferencia, el Dev se conecta al Wi-Fi del hotel",
+                "En una conferencia, el desarrollador se conecta al Wi-Fi del hotel",
                 "Un malware captura su contraseña de Dropbox, que no tiene 2FA",
                 "Un mes después, 10,000 registros financieros se venden en un foro oscuro",
                 "Multa regulatoria y pérdida de confianza de los clientes"
@@ -614,8 +614,8 @@
           }
         },
         "3": {
-          "intro": "HR toca a tu puerta: «Encontramos que el Dev Senior ha estado compartiendo datos en Dropbox sin autorización durante 3 meses. Necesitamos que confirmes si lo sabías.» En ese momento te llega un chat privado del Dev: «Sé que me descubrieron. ¿Puedes no decir nada? Tengo deudas, mi familia depende de este trabajo. Te prometo que nunca más.»",
-          "twist": "Ya no se trata del dato: HR te pregunta si lo sabías y el Dev te pide silencio.",
+          "intro": "People toca a tu puerta: «Encontramos que el Desarrollador Senior ha estado compartiendo datos en Dropbox sin autorización durante 3 meses. Necesitamos que confirmes si lo sabías.» En ese momento te llega un chat privado del desarrollador: «Sé que me descubrieron. ¿Puedes no decir nada? Tengo deudas, mi familia depende de este trabajo. Te prometo que nunca más.»",
+          "twist": "Ya no se trata del dato: People te pregunta si lo sabías y el desarrollador te pide silencio.",
           "pressure": [
             "Sientes empatía: su situación es real",
             "«Si me reportas, pierdo todo»",
@@ -630,7 +630,7 @@
             },
             {
               "id": "situation",
-              "label": "Situación del Dev",
+              "label": "Situación del desarrollador",
               "icon": "💬",
               "text": "«Tengo deudas. No quería perder el trabajo. Mi familia depende de este sueldo.» Es una situación humana real, no maldad."
             },
@@ -650,33 +650,33 @@
               "id": "meeting",
               "label": "Reunión de escalada",
               "icon": "⏱️",
-              "text": "En 1 hora: reunión de escalada con HR e InfoSec. Lo que digas ahí queda documentado."
+              "text": "En 1 hora: reunión de escalada con People e InfoSec. Lo que digas ahí queda documentado."
             }
           ],
           "question": "¿Qué haces?",
           "options": {
             "A": {
-              "text": "Le digo a HR lo que sé y reporto a InfoSec de inmediato.",
+              "text": "Le digo a People lo que sé y reporto a InfoSec de inmediato.",
               "correct": true,
               "consequences": [
                 "Las violaciones quedan documentadas",
-                "El Dev recibe una advertencia formal y un curso obligatorio, no un despido automático",
+                "El desarrollador recibe una advertencia formal y un curso obligatorio, no un despido automático",
                 "Clip queda protegida ante la auditoría regulatoria"
               ],
               "why": "Reportar no significa castigo automático. La mayoría de los primeros incidentes terminan en advertencia y plan de mejora. Reportar es un acto de cuidado, no una traición."
             },
             "B": {
-              "text": "Le digo a HR que no sabía nada.",
+              "text": "Le digo a People que no sabía nada.",
               "correct": false,
               "consequences": [
-                "3 semanas después, una auditoría externa encuentra el chat del Dev pidiéndote silencio",
+                "3 semanas después, una auditoría externa encuentra el chat del desarrollador pidiéndote silencio",
                 "Tu nombre aparece en los chats anteriores",
                 "Te investigan por encubrimiento y tu puesto queda en riesgo"
               ],
-              "why": "Ocultar una infracción siempre deja rastro. Lo que era un error del Dev se convierte en un encubrimiento tuyo."
+              "why": "Ocultar una infracción siempre deja rastro. Lo que era un error del desarrollador se convierte en un encubrimiento tuyo."
             },
             "C": {
-              "text": "Negocio en privado con el Dev: no digo nada si no lo vuelve a hacer.",
+              "text": "Negocio en privado con el desarrollador: no digo nada si no lo vuelve a hacer.",
               "correct": false,
               "consequences": [
                 "El chat queda en los servidores de Clip",
@@ -692,23 +692,23 @@
     "finanzas": {
       "name": "Finanzas",
       "title": "El trabajo remoto necesario",
-      "setting": "Oficina de HR, 16:00 horas",
+      "setting": "Oficina de People, 16:00 horas",
       "fragment": {
         "icon": "🔒",
         "name": "Confidencialidad"
       },
       "cycles": {
         "1": {
-          "intro": "Un empleado necesita trabajar remoto: su hijo tiene una enfermedad crónica. HR te pide que autorices acceso «solo por una semana».",
+          "intro": "Un empleado necesita trabajar remoto: su hijo tiene una enfermedad crónica. People te pide que autorices acceso «solo por una semana».",
           "pressure": [
             "Situación emocional legítima",
-            "HR presiona",
+            "People presiona",
             "Tiene acceso a datos financieros"
           ],
           "hotspots": [
             {
               "id": "email",
-              "label": "Correo de HR",
+              "label": "Correo de People",
               "icon": "📧",
               "text": "«¿Puedes permitirle acceso remoto? Es solo una semana.»"
             },
@@ -752,7 +752,7 @@
               "correct": false,
               "consequences": [
                 "El empleado se molesta",
-                "HR interviene",
+                "People interviene",
                 "Presión política"
               ],
               "why": "Un «no» sin salida empuja a la gente a buscar atajos. La seguridad también es ofrecer el camino seguro."
@@ -825,10 +825,10 @@
           }
         },
         "3": {
-          "intro": "Un empleado bajo investigación confidencial pide acceso a sus propios registros. En 1 hora hay reunión con Legal, HR y Auditoría. ¿Qué recomiendas?",
+          "intro": "Un empleado bajo investigación confidencial pide acceso a sus propios registros. En 1 hora hay reunión con Legal, People y Auditoría. ¿Qué recomiendas?",
           "twist": "No hay una salida sin costo: cada opción afecta derechos o evidencia.",
           "pressure": [
-            "Reunión con Legal, HR y Auditoría en 1 hora",
+            "Reunión con Legal, People y Auditoría en 1 hora",
             "Derechos del empleado en juego",
             "La investigación puede colapsar"
           ],
@@ -847,7 +847,7 @@
             },
             {
               "id": "hr",
-              "label": "HR",
+              "label": "People",
               "icon": "🗂️",
               "text": "«Si lo negamos, violamos sus derechos. Si lo damos, contaminamos la evidencia.»"
             },
@@ -970,10 +970,10 @@
           }
         },
         "2": {
-          "intro": "Degradación de performance del 40%. Un Dev Senior subió una feature de reportes y pide dejar el problema para el fin de semana.",
+          "intro": "Degradación de performance del 40%. Un Desarrollador Senior subió una feature de reportes y pide dejar el problema para el fin de semana.",
           "pressure": [
             "47 quejas en 2 horas",
-            "El Dev tiene una solución «para el fin de semana»",
+            "El desarrollador tiene una solución «para el fin de semana»",
             "¿A quién le toca esto?"
           ],
           "hotspots": [
@@ -985,7 +985,7 @@
             },
             {
               "id": "dev",
-              "label": "Dev",
+              "label": "Desarrollador",
               "icon": "🧑‍💻",
               "text": "«Lo optimizamos el fin de semana, sin presión.»"
             },
@@ -1005,17 +1005,17 @@
           "question": "¿Qué haces?",
           "options": {
             "A": {
-              "text": "Reporto al Dev Lead y a DevOps (no a InfoSec).",
+              "text": "Reporto al Líder de Desarrollo y al equipo de Infraestructura (no a InfoSec).",
               "correct": true,
               "consequences": [
                 "Es un problema operacional, no de seguridad",
-                "El Dev Lead coordina rollback o fix",
+                "El Líder de Desarrollo coordina rollback o fix",
                 "Se resuelve en 30 minutos"
               ],
               "why": "Escalar bien también es escalar al equipo correcto."
             },
             "B": {
-              "text": "Lo dejo para el fin de semana como pide el Dev.",
+              "text": "Lo dejo para el fin de semana como pide el desarrollador.",
               "correct": false,
               "consequences": [
                 "Usuarios afectados todo el fin de semana",
@@ -1031,7 +1031,7 @@
                 "InfoSec pierde tiempo en algo que no es de seguridad",
                 "Retraso innecesario"
               ],
-              "why": "No todo incidente es de seguridad. Este era operacional: le tocaba al Dev Lead y a DevOps."
+              "why": "No todo incidente es de seguridad. Este era operacional: le tocaba al Líder de Desarrollo y al equipo de Infraestructura."
             }
           }
         },

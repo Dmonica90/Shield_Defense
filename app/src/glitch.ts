@@ -3,9 +3,10 @@ import type { Cycle } from './game/types';
 import { IS_FAST } from './timing';
 
 /**
- * The interface degrades as the rounds get harder: clean on the easy round, a
- * flicker on the medium one, properly broken on the hard one. Reduced motion
- * and the test mode keep the colours but stop anything from moving.
+ * The interface degrades as the rounds get harder: faint static on the easy
+ * round, rolling interference on the medium one, properly broken on the hard
+ * one (see `index.css` and `MatrixRain`). Reduced motion and the test mode keep
+ * the look but stop anything from moving.
  */
 export function useGlitch(round: Cycle): string {
   const reduce = useReducedMotion();
