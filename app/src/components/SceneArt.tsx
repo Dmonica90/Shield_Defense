@@ -180,7 +180,7 @@ function SlackPane({ w, h, alert = false }: { w: number; h: number; alert?: bool
 }
 
 /** Gmail with a "new message" window open and a spreadsheet attached. */
-function GmailPane({ w, h, attachment }: { w: number; h: number; attachment: string }) {
+function GmailPane({ w, h, to, attachment }: { w: number; h: number; to: string; attachment: string }) {
   return (
     <g>
       <rect width={w} height={h} fill="#fff" />
@@ -216,7 +216,7 @@ function GmailPane({ w, h, attachment }: { w: number; h: number; attachment: str
         </text>
         <rect x="46" y="37" width={w * 0.42} height="13" rx="6.5" fill="#fbe1df" />
         <text x="52" y="47" fontSize="9" fill={INK.red} fontFamily={FONT}>
-          tu.nombre@gmail.com
+          {to}
         </text>
         <path d={`M8 58H${w * 0.76 - 8}`} stroke={INK.bar} strokeWidth={1.5} />
         <rect x="12" y="70" width={w * 0.5} height="6" rx="3" fill={INK.bar} />
@@ -594,21 +594,24 @@ export const ART: Record<AreaId, ReactNode> = {
         <g transform={`translate(${MAIN_SCREEN.w * 0.48} 30)`}>
           <rect width="4" height={MAIN_SCREEN.h} fill={INK.bar} />
           <g transform="translate(4 0)">
-            <GmailPane w={MAIN_SCREEN.w * 0.52 - 4} h={MAIN_SCREEN.h - 30} attachment="clientes_q3.xlsx" />
+            <GmailPane w={MAIN_SCREEN.w * 0.52 - 4} h={MAIN_SCREEN.h - 30} to="dev.senior@gmail.com" attachment="reporte_pagos.xlsx" />
           </g>
         </g>
       </Monitor>
-      <Laptop x={250} y={700} sticker>
+      <Laptop x={250} y={700}>
         <rect width="212" height="22" fill="#eef1f6" />
-        <circle cx="106" cy="62" r="20" fill="none" stroke={INK.navy} strokeWidth={4} />
-        <path d="M96 62h20M106 52v20" stroke={INK.navy} strokeWidth={4} strokeLinecap="round" />
-        <text x="62" y="104" fontSize="12" fill={INK.line} fontFamily={FONT}>
-          Pregúntale a la IA…
+        <g fill="none" stroke={INK.orange} strokeWidth={5} strokeLinecap="round">
+          <path d="M40 62a40 40 0 0 1 56 0" />
+          <path d="M50 74a24 24 0 0 1 36 0" />
+        </g>
+        <circle cx="68" cy="86" r="5" fill={INK.orange} />
+        <path d="M140 52l18 12-18 12-18-12Z M140 78l18 12-18 12-18-12Z" fill={INK.blue} />
+        <text x="18" y="124" fontSize="12" fontWeight="700" fill={INK.red} fontFamily={FONT}>
+          Wi-Fi público · Sin VPN
         </text>
-        <rect x="20" y="112" width="172" height="16" rx="8" fill="#fff" stroke={INK.gray} strokeWidth={1.5} />
       </Laptop>
       <Phone x={1130} y={680} glow />
-      <Notebook x={1350} y={712} r={-10} title="Política" />
+      <Notebook x={1350} y={712} r={-10} title="Protocolo" />
       <Mug x={1470} y={700} />
     </>
   ),
