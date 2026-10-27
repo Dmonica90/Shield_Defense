@@ -25,7 +25,7 @@
     ],
     "scenes": {
       "atencion": "Centro de Atención: un cliente furioso",
-      "desarrollo": "Desarrollo: el email personal «temporal»",
+      "desarrollo": "Desarrollo: el atajo por WhatsApp",
       "finanzas": "Finanzas: trabajo remoto sin MDM",
       "operaciones": "Operaciones: una alerta ignorada"
     },
@@ -477,61 +477,61 @@
     },
     "desarrollo": {
       "name": "Desarrollo",
-      "title": "El email personal «temporal»",
-      "setting": "Slack, chat privado",
+      "title": "El atajo «temporal»",
+      "setting": "WhatsApp, chat con un compañero",
       "fragment": {
         "icon": "🛡️",
         "name": "Integridad"
       },
       "cycles": {
         "1": {
-          "intro": "Un Desarrollador Senior te escribe por Slack: «Estoy en la cafetería y necesito revisar el reporte de pagos. ¿Me lo pasas a mi email personal? Es solo por hoy, tengo deadline en 2 horas.»",
+          "intro": "Un Desarrollador Senior, compañero tuyo, te escribe por WhatsApp: «Pásame el reporte de pagos. Mándamelo por WhatsApp, ya lo abro yo aquí en mi computadora. Tengo deadline en 2 horas.»",
           "pressure": [
             "Es un colega de confianza: 2 años en Clip",
             "Deadline en 2 horas",
-            "«Solo por hoy»"
+            "«Ya lo abro yo»"
           ],
           "hotspots": [
             {
-              "id": "slack",
-              "label": "Slack",
-              "icon": "🟪",
-              "text": "«Es seguro, solo es información financiera.» Te lo pide un colega confiable, con 2 años en Clip."
-            },
-            {
-              "id": "laptop",
-              "label": "Ubicación del desarrollador",
-              "icon": "💻",
-              "text": "Trabaja desde una cafetería: Wi-Fi público, sin encriptación y sin VPN corporativa."
+              "id": "whatsapp",
+              "label": "WhatsApp",
+              "icon": "💬",
+              "text": "«Mándamelo por WhatsApp, ya lo abro yo aquí en mi computadora. Es solo por hoy.»"
             },
             {
               "id": "report",
               "label": "Reporte de pagos",
               "icon": "📊",
-              "text": "Más de 10,000 transacciones con montos, cuentas y fechas. Es información regulada. Su email personal no tiene cifrado corporativo."
+              "text": "Más de 10,000 transacciones con montos, cuentas y fechas. Es información regulada."
+            },
+            {
+              "id": "security",
+              "label": "Canal #seguridad",
+              "icon": "📌",
+              "text": "Mensaje fijado: «Los datos de clientes solo se comparten por herramientas corporativas.» Una computadora personal no tiene el cifrado ni el antivirus de Clip."
             }
           ],
           "question": "¿Qué haces?",
           "options": {
             "A": {
-              "text": "Me niego a mandarlo a su email personal y le ofrezco acceso por la VPN corporativa.",
+              "text": "No se lo mando por WhatsApp: le pido que lo abra en el portal corporativo con la VPN y su equipo de Clip.",
               "correct": true,
               "consequences": [
-                "El desarrollador accede de forma segura por la VPN corporativa",
-                "Los datos van encriptados en tránsito",
-                "El reporte se ve en el portal corporativo, donde queda auditado"
+                "El desarrollador abre el reporte de forma segura por la VPN corporativa",
+                "Los datos nunca salen de los sistemas de Clip",
+                "El acceso queda auditado en el portal corporativo"
               ],
-              "why": "«No puedo pasarlo a tu email personal, pero te ayudo de forma segura»: con la VPN o una llamada a TI tiene los datos en 5 minutos y sin riesgo."
+              "why": "«No te lo puedo mandar por WhatsApp, pero te ayudo»: con la VPN y su equipo de Clip tiene el reporte en 5 minutos y sin riesgo."
             },
             "B": {
-              "text": "Le paso el reporte a su email personal.",
+              "text": "Se lo mando por WhatsApp.",
               "correct": false,
               "consequences": [
-                "El reporte viaja a un email sin cifrado corporativo",
-                "Si su laptop es hackeada, los datos quedan expuestos",
-                "48 horas después, People e InfoSec detectan el envío e inician una investigación"
+                "El reporte queda en su celular, en WhatsApp Web y en su computadora personal",
+                "Semanas después su computadora se infecta con malware",
+                "10,000 transacciones de clientes se filtran sin que Clip pueda rastrearlas"
               ],
-              "why": "Un email personal está fuera del control de Clip. La confianza en el colega no protege el dato en una red pública."
+              "why": "Un archivo enviado por WhatsApp sale del control de Clip: ya no sabes cuántas copias hay ni dónde. La confianza en el colega no protege el dato."
             },
             "C": {
               "text": "Solo le digo «no puedo».",
@@ -546,7 +546,7 @@
           }
         },
         "2": {
-          "intro": "El desarrollador vuelve a escribir 30 minutos después: «Ok, la VPN es lenta desde aquí. ¿Qué tal si lo subo a mi Dropbox personal? Lo uso de respaldo todo el tiempo. Otros en el equipo lo hacen también.»",
+          "intro": "Tu compañero vuelve a escribirte por WhatsApp 30 minutos después: «Ok, la VPN es lenta desde aquí. ¿Qué tal si lo subo a mi Dropbox personal? Lo uso de respaldo todo el tiempo. Otros en el equipo lo hacen también.»",
           "pressure": [
             "«Otros en el equipo lo hacen»",
             "«Solo es un respaldo»",
@@ -554,9 +554,9 @@
           ],
           "hotspots": [
             {
-              "id": "slack",
-              "label": "Slack",
-              "icon": "🟪",
+              "id": "whatsapp",
+              "label": "WhatsApp",
+              "icon": "💬",
               "text": "«Confía en mí, no pasa nada. Lo he hecho 100 veces.» La familiaridad genera una falsa confianza."
             },
             {
@@ -614,7 +614,7 @@
           }
         },
         "3": {
-          "intro": "People toca a tu puerta: «Encontramos que el Desarrollador Senior ha estado compartiendo datos en Dropbox sin autorización durante 3 meses. Necesitamos que confirmes si lo sabías.» En ese momento te llega un chat privado del desarrollador: «Sé que me descubrieron. ¿Puedes no decir nada? Tengo deudas, mi familia depende de este trabajo. Te prometo que nunca más.»",
+          "intro": "People toca a tu puerta: «Encontramos que el Desarrollador Senior ha estado compartiendo datos en Dropbox sin autorización durante 3 meses. Necesitamos que confirmes si lo sabías.» En ese momento te llega un WhatsApp del desarrollador: «Sé que me descubrieron. ¿Puedes no decir nada? Tengo deudas, mi familia depende de este trabajo. Te prometo que nunca más.»",
           "twist": "Ya no se trata del dato: People te pregunta si lo sabías y el desarrollador te pide silencio.",
           "pressure": [
             "Sientes empatía: su situación es real",
@@ -624,8 +624,8 @@
           "hotspots": [
             {
               "id": "chat",
-              "label": "Chat privado",
-              "icon": "🟪",
+              "label": "Chat de WhatsApp",
+              "icon": "💬",
               "text": "«¿Puedes no decir nada? Te prometo que nunca más. Ayúdame.» Es presión emocional directa."
             },
             {

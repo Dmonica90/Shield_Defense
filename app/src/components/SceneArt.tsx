@@ -133,10 +133,10 @@ function TitleBar({ w, label }: { w: number; label: string }) {
   );
 }
 
-/** Slack: dark sidebar, a channel, a few messages and the composer. */
-function SlackPane({ w, h, alert = false }: { w: number; h: number; alert?: boolean }) {
+/** Slack: dark sidebar, a channel (optionally with a pinned message), a few messages and the composer. */
+function SlackPane({ w, h, alert = false, channel, pinned }: { w: number; h: number; alert?: boolean; channel?: string; pinned?: [string, string] }) {
   const side = Math.min(150, w * 0.36);
-  const msgs = [60, 130, 205, 275];
+  const msgs = pinned ? [112, 182, 252] : [60, 130, 205, 275];
   return (
     <g>
       <rect width={w} height={h} fill={INK.paper} />
@@ -163,7 +163,24 @@ function SlackPane({ w, h, alert = false }: { w: number; h: number; alert?: bool
       <text x={side + 14} y="24" fontSize="13" fontWeight="700" fill={INK.line} fontFamily={FONT}>
         #
       </text>
-      <rect x={side + 28} y="15" width="80" height="8" rx="4" fill={INK.line} />
+      {channel ? (
+        <text x={side + 26} y="24" fontSize="12" fontWeight="700" fill={INK.line} fontFamily={FONT}>
+          {channel}
+        </text>
+      ) : (
+        <rect x={side + 28} y="15" width="80" height="8" rx="4" fill={INK.line} />
+      )}
+      {pinned && (
+        <g>
+          <rect x={side + 8} y="44" width={w - side - 16} height="54" rx="6" fill="#fdf1c7" stroke="#e9b949" strokeWidth={2} />
+          <text x={side + 16} y="66" fontSize="10.5" fontWeight="700" fill={INK.line} fontFamily={FONT}>
+            📌 {pinned[0]}
+          </text>
+          <text x={side + 16} y="86" fontSize="10.5" fill={INK.line} fontFamily={FONT}>
+            {pinned[1]}
+          </text>
+        </g>
+      )}
       {msgs.map((y, i) => (
         <g key={y}>
           <rect x={side + 14} y={y} width="26" height="26" rx="5" fill={INK.grayLight} {...S} strokeWidth={2} />
@@ -172,64 +189,57 @@ function SlackPane({ w, h, alert = false }: { w: number; h: number; alert?: bool
           <rect x={side + 50} y={y + 30} width={(w - side) * 0.4} height="7" rx="3.5" fill={i === 1 ? INK.blue : INK.bar} />
         </g>
       ))}
-      <rect x={side + 50} y={msgs[3] + 46} width="34" height="18" rx="9" fill="#dbe8f5" stroke={INK.blue} strokeWidth={1.5} />
+      <rect x={side + 50} y={msgs[msgs.length - 1] + 46} width="34" height="18" rx="9" fill="#dbe8f5" stroke={INK.blue} strokeWidth={1.5} />
       <rect x={side + 12} y={h - 56} width={w - side - 24} height="44" rx="6" fill="#fff" stroke={INK.gray} strokeWidth={2} />
       <path d={`M${w - 30} ${h - 40}l12 6-12 6Z`} fill={INK.gray} />
     </g>
   );
 }
 
-/** Gmail with a "new message" window open and a spreadsheet attached. */
-function GmailPane({ w, h, to, attachment }: { w: number; h: number; to: string; attachment: string }) {
+/** A spreadsheet open with its "Share" menu out: the personal apps sit right next to the corporate one. */
+function SheetPane({ w, h, file }: { w: number; h: number; file: string }) {
+  const cols = [0, 70, 150, 220];
   return (
     <g>
       <rect width={w} height={h} fill="#fff" />
-      <path d="M14 18l9 7 9-7v14H14Z" fill="none" stroke={INK.red} strokeWidth={3} />
-      <text x="40" y="31" fontSize="14" fill={INK.line} fontFamily={FONT}>
-        Gmail
+      <rect width={w} height="34" fill={INK.green} />
+      <rect x="10" y="8" width="18" height="18" rx="3" fill="#fff" />
+      <path d="M14 12l10 10M24 12l-10 10" stroke={INK.green} strokeWidth={2.5} />
+      <text x="36" y="22" fontSize="12" fontWeight="700" fill="#fff" fontFamily={FONT}>
+        {file}
       </text>
-      <rect x="96" y="12" width={w - 120} height="24" rx="12" fill="#eef1f6" />
-      <rect x="12" y="52" width="80" height="24" rx="10" fill="#dbe8f5" />
-      {['Inbox', 'Starred', 'Sent', 'Drafts'].map((t, i) => (
-        <g key={t}>
-          {i === 0 && <rect x="6" y="88" width="90" height="20" rx="10" fill="#fbe1df" />}
-          <text x="18" y={102 + i * 24} fontSize="10" fill={i === 0 ? INK.red : INK.line} fontFamily={FONT}>
-            {t}
-          </text>
+      <rect x={w - 82} y="7" width="72" height="20" rx="10" fill="#fff" />
+      <text x={w - 70} y="21" fontSize="10.5" fontWeight="700" fill={INK.green} fontFamily={FONT}>
+        Compartir
+      </text>
+      {['Fecha', 'Cuenta', 'Monto', 'Estado'].map((c, i) => (
+        <text key={c} x={8 + cols[i]} y="54" fontSize="10" fontWeight="700" fill={INK.gray} fontFamily={FONT}>
+          {c}
+        </text>
+      ))}
+      {Array.from({ length: 11 }, (_, r) => (
+        <g key={r}>
+          <path d={`M0 ${62 + r * 26}H${w}`} stroke="#e6e2db" strokeWidth={1} />
+          {cols.map((x, c) => (
+            <rect key={c} x={8 + x} y={70 + r * 26} width={c === 2 ? 46 : 54 - ((r * 7 + c * 11) % 18)} height="7" rx="3.5" fill={c === 2 ? INK.navy : INK.bar} opacity={c === 2 ? 0.6 : 1} />
+          ))}
         </g>
       ))}
-      {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
-        <g key={i}>
-          <rect x="108" y={56 + i * 26} width="10" height="10" fill="none" stroke={INK.gray} strokeWidth={1.5} />
-          <rect x="126" y={58 + i * 26} width={w - 200 - ((i * 23) % 50)} height="7" rx="3.5" fill={i === 0 ? INK.line : INK.bar} />
-          <path d={`M108 ${74 + i * 26}H${w - 8}`} stroke="#eceae6" strokeWidth={1} />
-        </g>
-      ))}
-      <g transform={`translate(${w * 0.22} ${h * 0.3})`}>
-        <rect width={w * 0.76} height={h * 0.66} rx="8" fill="#fff" {...S} strokeWidth={3} />
-        <rect width={w * 0.76} height="26" rx="8" fill={INK.navy} />
-        <text x="12" y="18" fontSize="10" fill="#fff" fontFamily={FONT}>
-          Mensaje nuevo
-        </text>
-        <text x="12" y="46" fontSize="10" fill={INK.gray} fontFamily={FONT}>
-          Para:
-        </text>
-        <rect x="46" y="37" width={w * 0.42} height="13" rx="6.5" fill="#fbe1df" />
-        <text x="52" y="47" fontSize="9" fill={INK.red} fontFamily={FONT}>
-          {to}
-        </text>
-        <path d={`M8 58H${w * 0.76 - 8}`} stroke={INK.bar} strokeWidth={1.5} />
-        <rect x="12" y="70" width={w * 0.5} height="6" rx="3" fill={INK.bar} />
-        <rect x="12" y="84" width={w * 0.36} height="6" rx="3" fill={INK.bar} />
-        <rect x="12" y={h * 0.66 - 70} width={w * 0.5} height="26" rx="6" fill={INK.cream} stroke={INK.orange} strokeWidth={2} />
-        <rect x="18" y={h * 0.66 - 65} width="16" height="16" rx="2" fill={INK.green} />
-        <text x="40" y={h * 0.66 - 53} fontSize="9" fill={INK.line} fontFamily={FONT}>
-          {attachment}
-        </text>
-        <rect x="12" y={h * 0.66 - 36} width="54" height="24" rx="12" fill={INK.blue} />
-        <text x="22" y={h * 0.66 - 20} fontSize="10" fill="#fff" fontFamily={FONT}>
-          Enviar
-        </text>
+      <g transform={`translate(${w - 170} 36)`}>
+        <rect width="160" height="118" rx="8" fill="#fff" {...S} strokeWidth={2.5} />
+        {[
+          ['WhatsApp', '#25d366'],
+          ['Dropbox', INK.blue],
+          ['OneDrive de Clip', INK.navy],
+        ].map(([label, color], i) => (
+          <g key={label}>
+            {i === 0 && <rect x="4" y={8} width="152" height="30" rx="5" fill="#e3f6ea" />}
+            <circle cx="22" cy={23 + i * 34} r="9" fill={color} />
+            <text x="40" y={27 + i * 34} fontSize="12" fill={INK.line} fontFamily={FONT}>
+              {label}
+            </text>
+          </g>
+        ))}
       </g>
     </g>
   );
@@ -312,28 +322,29 @@ function Notebook({ x, y, r = -8, title }: { x: number; y: number; r?: number; t
   );
 }
 
-/** A big phone on a stand, showing a message notification. */
-function PhoneMessage({ x, y, from, lines }: { x: number; y: number; from: string; lines: [string, string] }) {
+/** A big phone on a stand with a WhatsApp chat open: one incoming message. */
+function WhatsAppPhone({ x, y, from, message }: { x: number; y: number; from: string; message: string[] }) {
   return (
     <g transform={`translate(${x} ${y})`}>
       <path d="M-50 0L-30 -40H30L50 0Z" fill={INK.gray} {...S} />
       <rect x="-80" y="-300" width="160" height="290" rx="22" fill={INK.line} {...S} />
-      <rect x="-70" y="-288" width="140" height="266" rx="14" fill={INK.navy} />
-      <text x="-30" y="-256" fontSize="18" fontWeight="700" fill={INK.cream} fontFamily={FONT}>
-        22:41
-      </text>
-      <rect x="-62" y="-226" width="124" height="104" rx="10" fill={INK.paper} />
-      <rect x="-62" y="-226" width="124" height="8" rx="4" fill={INK.slack} />
-      <text x="-54" y="-200" fontSize="10.5" fontWeight="700" fill={INK.line} fontFamily={FONT}>
+      <rect x="-70" y="-288" width="140" height="266" rx="14" fill="#efe7dd" />
+      <path d="M-70 -274a14 14 0 0 1 14 -14H56a14 14 0 0 1 14 14V-246H-70Z" fill="#075e54" />
+      <circle cx="-52" cy="-262" r="9" fill={INK.grayLight} />
+      <text x="-38" y="-258" fontSize="9.5" fontWeight="700" fill="#fff" fontFamily={FONT}>
         {from}
       </text>
-      <text x="-54" y="-178" fontSize="11" fill={INK.line} fontFamily={FONT}>
-        {lines[0]}
+      <rect x="-62" y="-230" width="118" height={28 + message.length * 15} rx="8" fill="#fff" {...S} strokeWidth={1.5} />
+      {message.map((line, i) => (
+        <text key={line} x="-54" y={-212 + i * 15} fontSize="10.5" fill={INK.line} fontFamily={FONT}>
+          {line}
+        </text>
+      ))}
+      <text x="30" y={-208 + message.length * 15} fontSize="8" fill={INK.gray} fontFamily={FONT}>
+        22:41
       </text>
-      <text x="-54" y="-158" fontSize="9.5" fontWeight="700" fill={INK.red} fontFamily={FONT}>
-        {lines[1]}
-      </text>
-      <rect x="-54" y="-146" width="90" height="7" rx="3.5" fill={INK.bar} />
+      <rect x="-62" y="-60" width="104" height="26" rx="13" fill="#fff" />
+      <circle cx="56" cy="-47" r="13" fill="#25d366" />
     </g>
   );
 }
@@ -667,16 +678,21 @@ export const ART: Record<AreaId, ReactNode> = {
       <Monitor {...MAIN}>
         <TitleBar w={MAIN_SCREEN.w} label="Buscar en Clip" />
         <g transform="translate(0 30)">
-          <SlackPane w={MAIN_SCREEN.w * 0.48} h={MAIN_SCREEN.h - 30} alert />
+          <SlackPane w={MAIN_SCREEN.w * 0.48} h={MAIN_SCREEN.h - 30} alert channel="seguridad" pinned={['Datos de clientes:', 'solo herramientas de Clip']} />
         </g>
         <g transform={`translate(${MAIN_SCREEN.w * 0.48} 30)`}>
           <rect width="4" height={MAIN_SCREEN.h} fill={INK.bar} />
           <g transform="translate(4 0)">
-            <GmailPane w={MAIN_SCREEN.w * 0.52 - 4} h={MAIN_SCREEN.h - 30} to="desarrollador.senior@gmail.com" attachment="reporte_pagos.xlsx" />
+            <SheetPane w={MAIN_SCREEN.w * 0.52 - 4} h={MAIN_SCREEN.h - 30} file="reporte_pagos.xlsx" />
           </g>
         </g>
       </Monitor>
-      <PhoneMessage x={300} y={700} from="Desarrollador Senior" lines={['📍 Cafetería', 'Wi-Fi público · sin VPN']} />
+      <WhatsAppPhone
+        x={300}
+        y={700}
+        from="Desarrollador Senior"
+        message={['Mándamelo por', 'WhatsApp, ya lo abro', 'yo aquí en mi', 'computadora 🙏']}
+      />
       <DeskCalendar x={1130} y={700} title="Reunión" when="1 h" />
       <Notebook x={1350} y={712} r={-10} title="Protocolo" />
       <Mug x={1470} y={700} />
