@@ -57,6 +57,7 @@ export function Scene({
   overlay = 'bg-ground/72',
   className = '',
   zoomBackdrop = false,
+  ambient,
 }: {
   backdrop?: string;
   children: ReactNode;
@@ -64,6 +65,8 @@ export function Scene({
   className?: string;
   /** Scales the backdrop in, for a "lean closer" beat. */
   zoomBackdrop?: boolean;
+  /** Decorative layers drawn between the backdrop and the content. */
+  ambient?: ReactNode;
 }) {
   return (
     <motion.section
@@ -89,6 +92,7 @@ export function Scene({
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,var(--color-ground)_100%)] opacity-80"
         aria-hidden="true"
       />
+      {ambient}
       <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-6xl flex-col px-4 py-6 sm:px-8">
         {children}
       </div>

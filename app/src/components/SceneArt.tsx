@@ -40,7 +40,7 @@ const FONT = 'ui-sans-serif, system-ui, sans-serif';
 
 /* ── The room ─────────────────────────────────────────────────────────── */
 
-function Room({ night = false, window = true }: { night?: boolean; window?: boolean }) {
+function Room({ night = false, windowX = 1010 }: { night?: boolean; windowX?: number }) {
   return (
     <g>
       <rect width="1600" height="900" fill={night ? '#cfc6ba' : INK.wall} />
@@ -49,7 +49,7 @@ function Room({ night = false, window = true }: { night?: boolean; window?: bool
       <path d="M278 120H420" {...S} strokeWidth={6} />
       <path d="M40 160L210 120V300L40 340Z" fill={INK.cream} {...S} />
       <path d="M40 200l170-40M40 250l170-40M40 300l170-40" {...S} strokeWidth={2} opacity={0.5} />
-      {window && <Window x={1010} y={70} night={night} />}
+      <Window x={windowX} y={70} night={night} />
       <rect x="0" y="760" width="1600" height="140" fill={INK.floor} />
       <path d="M0 760H1600" {...S} />
     </g>
@@ -312,13 +312,46 @@ function Notebook({ x, y, r = -8, title }: { x: number; y: number; r?: number; t
   );
 }
 
-function Phone({ x, y, r = 14, glow = false }: { x: number; y: number; r?: number; glow?: boolean }) {
+/** A big phone on a stand, showing a message notification. */
+function PhoneMessage({ x, y, from, lines }: { x: number; y: number; from: string; lines: [string, string] }) {
   return (
-    <g transform={`translate(${x} ${y}) rotate(${r})`}>
-      <rect x="-34" y="-62" width="68" height="124" rx="12" fill={INK.line} {...S} />
-      <rect x="-27" y="-54" width="54" height="108" rx="7" fill={glow ? INK.blue : INK.navy} />
-      <path d="M-20 -40l36 50" stroke="#6e86b8" strokeWidth={5} opacity={0.6} />
-      {glow && <rect x="-20" y="-30" width="40" height="18" rx="5" fill={INK.paper} />}
+    <g transform={`translate(${x} ${y})`}>
+      <path d="M-50 0L-30 -40H30L50 0Z" fill={INK.gray} {...S} />
+      <rect x="-80" y="-300" width="160" height="290" rx="22" fill={INK.line} {...S} />
+      <rect x="-70" y="-288" width="140" height="266" rx="14" fill={INK.navy} />
+      <text x="-30" y="-256" fontSize="18" fontWeight="700" fill={INK.cream} fontFamily={FONT}>
+        22:41
+      </text>
+      <rect x="-62" y="-226" width="124" height="104" rx="10" fill={INK.paper} />
+      <rect x="-62" y="-226" width="124" height="8" rx="4" fill={INK.slack} />
+      <text x="-54" y="-200" fontSize="10.5" fontWeight="700" fill={INK.line} fontFamily={FONT}>
+        {from}
+      </text>
+      <text x="-54" y="-178" fontSize="11" fill={INK.line} fontFamily={FONT}>
+        {lines[0]}
+      </text>
+      <text x="-54" y="-158" fontSize="9.5" fontWeight="700" fill={INK.red} fontFamily={FONT}>
+        {lines[1]}
+      </text>
+      <rect x="-54" y="-146" width="90" height="7" rx="3.5" fill={INK.bar} />
+    </g>
+  );
+}
+
+/** A flip calendar on the desk with the next meeting on it. */
+function DeskCalendar({ x, y, title, when }: { x: number; y: number; title: string; when: string }) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <path d="M-70 0L-56 -110H56L70 0Z" fill={INK.paper} {...S} />
+      <rect x="-56" y="-110" width="112" height="30" fill={INK.orange} {...S} />
+      <circle cx="-30" cy="-110" r="6" fill={INK.line} />
+      <circle cx="30" cy="-110" r="6" fill={INK.line} />
+      <text x="-40" y="-56" fontSize="15" fontWeight="700" fill={INK.line} fontFamily={FONT}>
+        {title}
+      </text>
+      <text x="-24" y="-24" fontSize="24" fontWeight="700" fill={INK.red} fontFamily={FONT}>
+        {when}
+      </text>
     </g>
   );
 }
@@ -340,19 +373,6 @@ function Laptop({ x, y, sticker = false, children }: { x: number; y: number; sti
             personal
           </text>
         </g>
-      )}
-    </g>
-  );
-}
-
-function Keyboard({ x, y }: { x: number; y: number }) {
-  return (
-    <g transform={`translate(${x} ${y})`}>
-      <path d="M-160 -6H160L172 18H-172Z" fill={INK.bezel} {...S} />
-      {[0, 1, 2].map((row) =>
-        Array.from({ length: 14 }, (_, i) => (
-          <rect key={`${row}-${i}`} x={-150 + row * 4 + i * 21.5} y={-2 + row * 6} width="17" height="4" rx="1" fill={i === 0 && row === 0 ? INK.orange : INK.grayLight} />
-        )),
       )}
     </g>
   );
@@ -516,43 +536,101 @@ function FinanceScreen({ w, h }: { w: number; h: number }) {
   );
 }
 
-/** One of the monitoring wall's screens. */
-function WallScreen({ x, y, kind }: { x: number; y: number; kind: 'graph' | 'alert' | 'logs' | 'bars' | 'term' }) {
-  const w = 300;
-  const h = 180;
+/** Slack at night: the manager's DM waiting in the sidebar and the bots posting in #monitoring. */
+function OpsSlackScreen({ w, h }: { w: number; h: number }) {
+  const side = 220;
+  const mono = 'ui-monospace, monospace';
   return (
-    <g transform={`translate(${x} ${y})`}>
-      <rect x="-12" y="-12" width={w + 24} height={h + 24} rx="12" fill={INK.bezel} {...S} />
-      <rect width={w} height={h} fill={kind === 'term' ? INK.night : '#141b2e'} />
-      {kind === 'graph' && <path d="M14 140l40-40 34 22 44-60 40 30 50-50 50 30" fill="none" stroke="#5fc3d6" strokeWidth={5} strokeLinejoin="round" />}
-      {kind === 'alert' && (
-        <>
-          <rect width={w} height={h} fill={INK.red} opacity={0.22} />
-          <path d={`M${w / 2} 30l50 90H${w / 2 - 50}Z`} fill={INK.red} {...S} />
-          <rect x={w / 2 - 3} y="64" width="6" height="30" rx="3" fill={INK.paper} />
-          <circle cx={w / 2} cy="106" r="4" fill={INK.paper} />
-          <rect x="60" y="140" width="180" height="12" rx="6" fill={INK.red} />
-        </>
-      )}
-      {kind === 'logs' &&
-        [0, 1, 2, 3, 4, 5, 6].map((i) => (
-          <rect key={i} x="16" y={18 + i * 22} width={120 + ((i * 53) % 150)} height="8" rx="4" fill={i === 4 ? '#e9b949' : '#5fc3d6'} opacity={i === 4 ? 0.9 : 0.5} />
+    <g>
+      <TitleBar w={w} label="Buscar en Clip · 22:00" />
+      <g transform="translate(0 30)">
+        <rect width={side} height={h - 30} fill={INK.slack} />
+        <rect x="14" y="16" width="120" height="10" rx="5" fill={INK.cream} />
+        <circle cx="20" cy="40" r="4" fill={INK.green} />
+        <rect x="30" y="36" width="70" height="7" rx="3.5" fill="#9d7fa3" />
+        <text x="14" y="82" fontSize="13" fill="#d9c8dc" fontFamily={FONT}>
+          Canales
+        </text>
+        {['general', 'monitoring', 'infosec'].map((c, i) => (
+          <g key={c}>
+            {i === 1 && <rect x="0" y={94 + i * 26} width={side} height="24" fill="#6b3f70" />}
+            <text x="20" y={111 + i * 26} fontSize="13" fill={i === 1 ? '#fff' : '#d9c8dc'} fontWeight={i === 1 ? 700 : 400} fontFamily={FONT}>
+              # {c}
+            </text>
+          </g>
         ))}
-      {kind === 'bars' &&
-        [0, 1, 2, 3, 4, 5, 6].map((i) => (
-          <rect key={i} x={20 + i * 38} y={h - 20 - (30 + ((i * 41) % 110))} width="24" height={30 + ((i * 41) % 110)} fill={i === 5 ? INK.orange : '#3ddc97'} opacity={0.8} />
+        <text x="14" y="200" fontSize="13" fill="#d9c8dc" fontFamily={FONT}>
+          Mensajes directos
+        </text>
+        <rect x="0" y="212" width={side} height="28" fill={INK.blue} />
+        <circle cx="24" cy="226" r="5" fill={INK.green} />
+        <text x="38" y="231" fontSize="14" fontWeight="700" fill="#fff" fontFamily={FONT}>
+          Manager
+        </text>
+        <rect x={side - 40} y="217" width="26" height="18" rx="9" fill={INK.red} />
+        <text x={side - 31} y="230" fontSize="11" fontWeight="700" fill="#fff" fontFamily={FONT}>
+          1
+        </text>
+        {[0, 1, 2, 3].map((i) => (
+          <g key={i}>
+            <circle cx="24" cy={258 + i * 26} r="5" fill={i === 2 ? INK.orange : INK.green} />
+            <rect x="38" y={254 + i * 26} width={110 - i * 14} height="8" rx="4" fill="#9d7fa3" />
+          </g>
         ))}
-      {kind === 'term' && (
-        <>
-          <text x="14" y="30" fontSize="13" fill="#3ddc97" fontFamily="ui-monospace, monospace">
-            $ ./system-update-v3.sh
-          </text>
-          <text x="14" y="54" fontSize="13" fill="#e9b949" fontFamily="ui-monospace, monospace">
-            running as root…
-          </text>
-          <rect x="14" y="70" width="12" height="16" fill="#3ddc97" />
-        </>
-      )}
+      </g>
+      <g transform={`translate(${side} 30)`}>
+        <rect width={w - side} height={h - 30} fill={INK.paper} />
+        <text x="20" y="28" fontSize="16" fontWeight="700" fill={INK.line} fontFamily={FONT}>
+          # monitoring
+        </text>
+        <path d={`M0 44H${w - side}`} stroke={INK.bar} strokeWidth={2} />
+        <rect x="20" y="62" width="34" height="34" rx="6" fill={INK.red} {...S} strokeWidth={2} />
+        <text x="66" y="74" fontSize="13" fontWeight="700" fill={INK.line} fontFamily={FONT}>
+          AlertBot
+        </text>
+        <rect x="66" y="84" width="420" height="52" rx="6" fill="#fbe1df" />
+        <rect x="66" y="84" width="6" height="52" fill={INK.red} />
+        <text x="84" y="115" fontSize="13" fill={INK.red} fontWeight="700" fontFamily={FONT}>
+          ⚠ Anomalía en consulta de cuentas de administrador
+        </text>
+        <rect x="20" y="160" width="34" height="34" rx="6" fill={INK.grayLight} {...S} strokeWidth={2} />
+        <rect x="66" y="166" width="90" height="9" rx="4.5" fill={INK.line} />
+        <rect x="66" y="184" width="300" height="9" rx="4.5" fill={INK.bar} />
+        <rect x="66" y="206" width="400" height="66" rx="6" fill={INK.night} />
+        <text x="80" y="232" fontSize="13" fill="#3ddc97" fontFamily={mono}>
+          $ ./system-update-v3.sh
+        </text>
+        <text x="80" y="256" fontSize="13" fill="#e9b949" fontFamily={mono}>
+          ejecutando como root…
+        </text>
+        <rect x="20" y="296" width="34" height="34" rx="6" fill={INK.grayLight} {...S} strokeWidth={2} />
+        <rect x="66" y="302" width="70" height="9" rx="4.5" fill={INK.line} />
+        <rect x="66" y="320" width="240" height="9" rx="4.5" fill={INK.bar} />
+        <rect x="16" y={h - 30 - 66} width={w - side - 32} height="52" rx="8" fill="#fff" stroke={INK.gray} strokeWidth={2} />
+        <path d={`M34 ${h - 30 - 36}c10-10 20 8 30 0s20 8 30 0 20 8 30 0`} fill="none" stroke={INK.gray} strokeWidth={2.5} strokeLinecap="round" />
+      </g>
+      <g transform={`translate(${w - 330} ${h - 300})`}>
+        <rect width="300" height="90" rx="12" fill="#fff" {...S} strokeWidth={3} />
+        <text x="62" y="28" fontSize="13" fontWeight="700" fill={INK.line} fontFamily={FONT}>
+          Slack · InfoSec
+        </text>
+        <circle cx="32" cy="52" r="18" fill={INK.grayLight} {...S} strokeWidth={2.5} />
+        <rect x="62" y="42" width="180" height="8" rx="4" fill={INK.bar} />
+        <rect x="62" y="60" width="140" height="8" rx="4" fill={INK.bar} />
+        <text x="256" y="68" fontSize="26" fontWeight="700" fill={INK.orange} fontFamily={FONT}>
+          ?
+        </text>
+      </g>
+      <g transform={`translate(${w - 330} ${h - 170})`}>
+        <rect width="300" height="100" rx="12" fill="#fbe1df" {...S} strokeWidth={3} />
+        <circle cx="50" cy="50" r="32" fill="#fff" stroke={INK.red} strokeWidth={4} />
+        <path d="M50 30l20 34H30Z" fill={INK.red} />
+        <rect x="48" y="40" width="4" height="13" rx="2" fill="#fff" />
+        <circle cx="50" cy="58" r="2.5" fill="#fff" />
+        <text x="100" y="62" fontSize="30" fontWeight="700" fill={INK.red} fontFamily={FONT}>
+          Alerta
+        </text>
+      </g>
     </g>
   );
 }
@@ -594,23 +672,12 @@ export const ART: Record<AreaId, ReactNode> = {
         <g transform={`translate(${MAIN_SCREEN.w * 0.48} 30)`}>
           <rect width="4" height={MAIN_SCREEN.h} fill={INK.bar} />
           <g transform="translate(4 0)">
-            <GmailPane w={MAIN_SCREEN.w * 0.52 - 4} h={MAIN_SCREEN.h - 30} to="dev.senior@gmail.com" attachment="reporte_pagos.xlsx" />
+            <GmailPane w={MAIN_SCREEN.w * 0.52 - 4} h={MAIN_SCREEN.h - 30} to="desarrollador.senior@gmail.com" attachment="reporte_pagos.xlsx" />
           </g>
         </g>
       </Monitor>
-      <Laptop x={250} y={700}>
-        <rect width="212" height="22" fill="#eef1f6" />
-        <g fill="none" stroke={INK.orange} strokeWidth={5} strokeLinecap="round">
-          <path d="M40 62a40 40 0 0 1 56 0" />
-          <path d="M50 74a24 24 0 0 1 36 0" />
-        </g>
-        <circle cx="68" cy="86" r="5" fill={INK.orange} />
-        <path d="M140 52l18 12-18 12-18-12Z M140 78l18 12-18 12-18-12Z" fill={INK.blue} />
-        <text x="18" y="124" fontSize="12" fontWeight="700" fill={INK.red} fontFamily={FONT}>
-          Wi-Fi público · Sin VPN
-        </text>
-      </Laptop>
-      <Phone x={1130} y={680} glow />
+      <PhoneMessage x={300} y={700} from="Desarrollador Senior" lines={['📍 Cafetería', 'Wi-Fi público · sin VPN']} />
+      <DeskCalendar x={1130} y={700} title="Reunión" when="1 h" />
       <Notebook x={1350} y={712} r={-10} title="Protocolo" />
       <Mug x={1470} y={700} />
     </>
@@ -639,26 +706,13 @@ export const ART: Record<AreaId, ReactNode> = {
   ),
   operaciones: (
     <>
-      <Room night window={false} />
-      <WallScreen x={330} y={110} kind="graph" />
-      <WallScreen x={690} y={70} kind="alert" />
-      <WallScreen x={1050} y={110} kind="logs" />
+      <Room night windowX={1240} />
       <Desk />
-      <g transform="translate(-130 0)">
-        <WallScreen x={520} y={430} kind="term" />
-      </g>
-      <WallScreen x={850} y={430} kind="bars" />
-      <path d="M520 622h420M780 622v78M640 700h280" {...S} strokeWidth={8} stroke={INK.bezel} />
-      <Keyboard x={700} y={700} />
-      <g transform="translate(1260 450)">
-        <rect width="170" height="70" rx="12" fill={INK.bezel} {...S} />
-        <text x="22" y="48" fontSize="36" fontWeight="700" fill={INK.orange} fontFamily="ui-monospace, monospace">
-          22:00
-        </text>
-      </g>
-      <Phone x={1060} y={690} r={-10} glow />
-      <Notebook x={1300} y={712} r={-6} />
-      <Mug x={240} y={700} />
+      <Monitor x={170} y={40} w={1040} h={640}>
+        <OpsSlackScreen w={996} h={530} />
+      </Monitor>
+      <Mug x={1320} y={700} />
+      <Notebook x={1440} y={712} r={-8} />
     </>
   ),
 };

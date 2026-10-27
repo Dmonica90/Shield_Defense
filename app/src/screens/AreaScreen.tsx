@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { AreaScene } from '../components/AreaScene';
 import { Fragment } from '../components/Fragment';
 import { Hud } from '../components/Hud';
+import { MatrixRain } from '../components/MatrixRain';
 import { Button, Dialog, Scene } from '../components/ui';
 import { correctOption, cycleContent, fill } from '../content/schema';
 import type { Hotspot } from '../content/schema';
@@ -33,7 +34,15 @@ export function AreaScreen({
   const level = story.levels[LEVEL_BY_CYCLE[state.round]];
 
   return (
-    <Scene className={glitch}>
+    <Scene
+      className={glitch}
+      ambient={
+        <>
+          <MatrixRain round={state.round} />
+          <div className="interference" aria-hidden="true" />
+        </>
+      }
+    >
       <Hud state={state} />
       <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-5 py-6">
         <header className="flex flex-wrap items-center gap-3">

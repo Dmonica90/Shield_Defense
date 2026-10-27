@@ -72,24 +72,21 @@ body {
 }
 
 /*
- * The interface failing under pressure. Cycle 2 flickers now and then; cycle 3
- * breaks properly — shifted colours, flickering text, controls that jump. Long
- * still stretches between bursts keep it playable, and reduced motion (or the
- * test mode) turns the movement off.
+ * The interface failing under pressure. No blinking: the screen picks up
+ * interference instead — static, a band of noise rolling down, colours that
+ * split for an instant, controls that slip — while the falling glyphs behind
+ * (`MatrixRain`) thicken. Faint on the easy round, louder on the medium one,
+ * broken on the hard one. Reduced motion (or the test mode) freezes it.
  */
-@keyframes glitch-hue {
-  0%, 86%, 100% { filter: none; }
-  88% { filter: hue-rotate(70deg) saturate(1.6); }
-  90% { filter: invert(0.85) hue-rotate(180deg); }
-  92% { filter: none; }
-  95% { filter: hue-rotate(-50deg) contrast(1.4); }
+@keyframes interference-roll {
+  from { top: -30%; }
+  to { top: 110%; }
 }
 
-@keyframes glitch-flicker {
-  0%, 90%, 100% { opacity: 1; }
-  91% { opacity: 0.35; }
-  93% { opacity: 1; }
-  96% { opacity: 0.6; }
+@keyframes interference-split {
+  0%, 90%, 100% { text-shadow: none; }
+  92% { text-shadow: 2px 0 rgb(255 84 112 / 0.7), -2px 0 rgb(56 216 240 / 0.7); }
+  95% { text-shadow: -3px 0 rgb(255 84 112 / 0.6), 3px 0 rgb(56 216 240 / 0.6); }
 }
 
 @keyframes glitch-shift {
@@ -105,17 +102,54 @@ body {
   97% { clip-path: inset(60% 0 12% 0); transform: translateX(5px); }
 }
 
-.glitch-light {
-  animation: glitch-hue 7s steps(1) infinite;
+.interference {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    color-mix(in oklab, var(--color-ink) 3%, transparent) 2px 3px
+  );
+}
+.interference::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: -30%;
+  height: 12%;
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in oklab, var(--color-accent) 10%, transparent) 40%,
+    color-mix(in oklab, var(--color-ink) 12%, transparent) 50%,
+    transparent
+  );
 }
 
-.glitch-heavy {
-  animation: glitch-hue 3.1s steps(1) infinite;
+.glitch-light .interference::after {
+  opacity: 1;
+  animation: interference-roll 9s linear infinite;
+}
+
+.glitch-heavy .interference {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    color-mix(in oklab, var(--color-ink) 7%, transparent) 2px 3px
+  );
+}
+.glitch-heavy .interference::after {
+  opacity: 1;
+  height: 24%;
+  animation: interference-roll 4.5s linear infinite;
 }
 .glitch-heavy p,
 .glitch-heavy h2,
 .glitch-heavy li {
-  animation: glitch-flicker 2.3s steps(1) infinite;
+  animation: interference-split 2.3s steps(1) infinite;
 }
 .glitch-heavy .glitch-jump {
   animation: glitch-shift 2.9s steps(1) infinite;
@@ -127,6 +161,10 @@ body {
 .glitch-still,
 .glitch-still * {
   animation: none !important;
+}
+.glitch-still .interference::after {
+  animation: none;
+  top: 40%;
 }
 
 /*

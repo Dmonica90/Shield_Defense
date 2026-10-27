@@ -18,10 +18,10 @@ export const HOTSPOT_SLOTS: Record<AreaId, Point[]> = {
   ],
   desarrollo: [
     { left: '36%', top: '32%' }, // Slack
-    { left: '16%', top: '66%' }, // laptop on café Wi-Fi
+    { left: '19%', top: '70%' }, // the developer's message on the phone
     { left: '62%', top: '38%' }, // Gmail draft with the report
     { left: '85%', top: '74%' }, // protocol notebook
-    { left: '70%', top: '74%' }, // phone
+    { left: '70%', top: '61%' }, // meeting calendar
   ],
   finanzas: [
     { left: '31%', top: '30%' }, // dashboard
@@ -31,10 +31,10 @@ export const HOTSPOT_SLOTS: Record<AreaId, Point[]> = {
     { left: '80%', top: '16%' }, // window
   ],
   operaciones: [
-    { left: '52%', top: '20%' }, // alert screen
-    { left: '66%', top: '76%' }, // phone
-    { left: '75%', top: '24%' }, // logs screen
-    { left: '34%', top: '58%' }, // terminal
-    { left: '30%', top: '24%' }, // graph screen
+    { left: '70.5%', top: '52%' }, // alert notification
+    { left: '19%', top: '42%' }, // Manager DM
+    { left: '70.5%', top: '37%' }, // Slack notification
+    { left: '54%', top: '21%' }, // AlertBot message
+    { left: '52%', top: '37%' }, // code block
   ],
 };
