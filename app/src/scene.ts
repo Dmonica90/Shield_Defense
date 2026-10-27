@@ -17,9 +17,9 @@ export const HOTSPOT_SLOTS: Record<AreaId, Point[]> = {
     { left: '8%', top: '54%' }, // sticky notes
   ],
   desarrollo: [
-    { left: '36%', top: '32%' }, // Slack
-    { left: '19%', top: '70%' }, // the developer's message on the phone
-    { left: '62%', top: '38%' }, // Gmail draft with the report
+    { left: '19%', top: '70%' }, // WhatsApp chat on the phone
+    { left: '58%', top: '46%' }, // the report spreadsheet
+    { left: '34%', top: '34%' }, // Slack, pinned message in #seguridad
     { left: '85%', top: '74%' }, // protocol notebook
     { left: '70%', top: '61%' }, // meeting calendar
   ],
