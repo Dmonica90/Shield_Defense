@@ -1,16 +1,18 @@
+import en from './story.en.json';
 import es from './story.es.json';
 import type { Story } from './schema';
 
 /**
- * One script per language. Spanish is the only one today; adding English is a
- * `story.en.json` with the same shape plus an entry here — the tests hold every
- * file to the same structure.
+ * One script per language. Every file has the same shape, and the tests hold
+ * the translations to the Spanish original: same hotspot ids, same right
+ * answers, same placeholders, so tracking never depends on the language.
  */
-export const LOCALES = ['es'] as const;
+export const LOCALES = ['es', 'en'] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const STORIES: Record<Locale, Story> = {
   es: es as Story,
+  en: en as Story,
 };
 
 export const DEFAULT_LOCALE: Locale = 'es';

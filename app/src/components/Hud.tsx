@@ -5,6 +5,7 @@ import { useLanguage } from '../i18n/LanguageProvider';
 import { useSound } from '../audio/SoundProvider';
 import { fill } from '../content/schema';
 import { Fragment } from './Fragment';
+import { LanguageSwitch } from './LanguageSwitch';
 import type { FragmentLook } from './Fragment';
 
 /**
@@ -22,8 +23,8 @@ export function hudLook(state: GameState, area: AreaId): FragmentLook {
 }
 
 /**
- * The persistent status bar: round and level, fragments in hand, failures, and
- * sound. During a round it counts false fragments as held — the player finds
+ * The persistent status bar: round and level, fragments in hand, failures,
+ * language and sound. During a round it counts false fragments as held — the player finds
  * out at the console, not here.
  */
 export function Hud({ state }: { state: GameState }) {
@@ -68,12 +69,14 @@ export function Hud({ state }: { state: GameState }) {
         ))}
       </div>
 
+      <LanguageSwitch className="ml-auto" />
+
       <button
         type="button"
         onClick={toggleMuted}
         aria-pressed={muted}
         aria-label={muted ? story.hud.unmute : story.hud.mute}
-        className="ml-auto grid h-9 w-9 place-items-center rounded-lg text-ink-dim hover:text-ink"
+        className="grid h-9 w-9 place-items-center rounded-lg text-ink-dim hover:text-ink"
       >
         <span aria-hidden="true">{muted ? '🔇' : '🔊'}</span>
       </button>

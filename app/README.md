@@ -50,7 +50,7 @@ cerrar la pestaña a media partida pide confirmación.
 ```
 src/
   game/machine.ts         Reducer puro: fases, rondas, fragmentos, fallos
-  content/story.es.json   Todo el guion (un archivo por idioma)
+  content/story.es.json   Todo el guion en español (y story.en.json en inglés)
   content/schema.ts       Tipos + validador estructural que corren los tests
   tracking/events.ts      Transiciones del reducer → eventos de tracking
   tracking/reporter.ts    Interfaz hacia el LMS (hoy: consola)
@@ -60,11 +60,19 @@ src/
 ```
 
 **El contenido es data.** Todo lo que el jugador lee está en `story.es.json`:
-situaciones, hotspots, opciones, consecuencias, debriefing, certificado. Los
+situaciones, hotspots, opciones, consecuencias, debriefing, certificado y hasta
+los textos dibujados en las escenas (`art`). Los
 tests fallan si un ciclo no tiene exactamente una opción correcta, si falta un
 texto, o si la cantidad de hotspots no sigue la escalada 3 → 4–5 → 5. En el
 guion la opción correcta puede ir en cualquier letra: el juego las **baraja** por
 partida, así "elegir siempre la A" no funciona.
+
+**Español e inglés.** `story.en.json` es la traducción, con la misma forma. Un
+test exige que coincida con el español en ids de hotspots, opción correcta y
+placeholders, así que traducir nunca rompe el tracking. El selector **ES | EN**
+está en la pantalla de inicio, en el HUD y flotando en las demás pantallas; se
+puede cambiar a mitad de un área sin perder nada, y la elección se recuerda. Lo
+que recibe Workday (descripciones de interacciones) va siempre en español.
 
 **La lógica es pura.** `game/machine.ts` no importa React ni textos: si una
 opción es correcta llega en la acción. Las reglas se prueban con tests unitarios,

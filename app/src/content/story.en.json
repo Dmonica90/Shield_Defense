@@ -1,0 +1,1155 @@
+{
+  "locale": "en",
+  "languageName": "English",
+  "languageLabel": "Language",
+  "meta": {
+    "brand": "Clip",
+    "title": "Shield Defense",
+    "tagline": "False Security — First Line of Defense",
+    "duration": "10–12 minutes"
+  },
+  "loading": {
+    "loadingLabel": "Loading defense system…",
+    "start": "Start",
+    "resumeTitle": "You have a saved game",
+    "resumeBody": "You can continue where you left off or start over from the beginning.",
+    "resume": "Continue where I left off",
+    "restart": "Start over"
+  },
+  "intro": {
+    "label": "Incoming transmission",
+    "lines": [
+      "Clip handles the income of millions of families.",
+      "As an employee, you are the first line of defense.",
+      "Today you will face 4 real situations where someone asks you to break protocol.",
+      "What is the real risk behind each decision?"
+    ],
+    "scenes": {
+      "atencion": "Customer Service: a furious customer",
+      "desarrollo": "Development: the WhatsApp shortcut",
+      "finanzas": "Finance: remote work without MDM",
+      "operaciones": "Operations: an ignored alert"
+    },
+    "continue": "Continue",
+    "skip": "Skip intro",
+    "videoErrorTitle": "Video failed to load",
+    "videoErrorBody": "The video didn't load. Please try again.",
+    "videoRetry": "Retry",
+    "videoSkip": "Skip video",
+    "videoExit": "Back to menu"
+  },
+  "rules": {
+    "label": "Protocol",
+    "title": "5 principles of Data Loss Prevention (DLP)",
+    "subtitle": "Never trust by default. Always verify. This is what you are about to put to the test.",
+    "items": [
+      {
+        "title": "Verify the identity",
+        "question": "Who are you?",
+        "text": "Always confirm identity before escalating or granting access."
+      },
+      {
+        "title": "Verify the device",
+        "question": "Where are you accessing from?",
+        "text": "Make sure the device is secure and managed."
+      },
+      {
+        "title": "Verify the application",
+        "question": "What are you using?",
+        "text": "Check that the application or tool is authorized."
+      },
+      {
+        "title": "Verify the network",
+        "question": "How are you connecting?",
+        "text": "Require a VPN or a secure connection."
+      },
+      {
+        "title": "Report anomalies",
+        "question": "What looks off?",
+        "text": "Escalate to InfoSec without hesitating. Escalating is the right thing to do."
+      }
+    ],
+    "howTitle": "How to play",
+    "how": [
+      "There are 4 areas. In each one you decide what to do in a high-pressure situation.",
+      "Each decision gives you a fragment of the shield. But not every fragment is genuine.",
+      "At the end of the round, the Central Console verifies them. If any is false, you go back to those areas, and each round is harder.",
+      "You have 3 attempts. If there are still false fragments after the third round, the attack gets in."
+    ],
+    "continue": "Got it",
+    "skip": "Skip"
+  },
+  "levels": {
+    "easy": {
+      "name": "Easy",
+      "description": "Clear context, moderate pressure"
+    },
+    "medium": {
+      "name": "Intermediate",
+      "description": "Hidden context, multiple perspectives"
+    },
+    "hard": {
+      "name": "Hard",
+      "description": "The interface fails, extreme pressure"
+    }
+  },
+  "hud": {
+    "fragments": "Fragments",
+    "failures": "Failures",
+    "round": "Round {round}",
+    "mute": "Mute sound",
+    "unmute": "Turn sound on"
+  },
+  "areaSelect": {
+    "label": "Area selector",
+    "title": "Choose an area",
+    "hint": "You can do them in any order. Your progress is saved automatically.",
+    "roundHint": "Round {round}: replay the areas whose fragment turned out to be false.",
+    "time": "~2 min",
+    "pending": "Pending",
+    "held": "Fragment obtained",
+    "secured": "Secured",
+    "fragmentLabel": "Fragment"
+  },
+  "area": {
+    "explore": "Explore",
+    "exploreTitle": "Explore the scene",
+    "exploreHint": "Tap the points to see what is going on. When you are ready, decide.",
+    "exploredCount": "{done} of {total} explored",
+    "decide": "Decide",
+    "question": "What do you do?",
+    "submit": "Submit decision",
+    "backToScene": "Back to the scene",
+    "confirmTitle": "Confirm your decision?",
+    "confirmBody": "Once submitted, it can't be changed.",
+    "confirmOk": "Yes, submit",
+    "confirmCancel": "Review again",
+    "fragmentTitle": "Fragment obtained",
+    "fragmentBody": "You saved the {fragment} fragment. The Central Console will verify it at the end of the round.",
+    "continue": "Continue",
+    "close": "Close",
+    "pressure": "Pressure",
+    "twist": "Twist"
+  },
+  "console": {
+    "system": "OPERATING SYSTEM: CLIP DLP v4.2",
+    "verifying": "> VERIFYING FRAGMENTS…",
+    "genuine": "SECURED",
+    "false": "CORRUPTED",
+    "successTitle": "DLP PROTOCOL ACTIVATED",
+    "successBody": "> SYSTEM PROTECTED",
+    "failTitle": "UNAUTHORIZED ACCESS",
+    "failBody": "> {count} false fragment(s) detected",
+    "continue": "Continue"
+  },
+  "roundEnd": {
+    "label": "Verification failed",
+    "title": "You didn't manage to secure the system",
+    "body": "Some fragments were false. This is how your decisions looked from the outside:",
+    "youChose": "You chose",
+    "consequences": "What happened",
+    "why": "Why",
+    "failures": "Failures: {failures} of {max}",
+    "next": "In round {round} ({level}) you go back to these areas, under more pressure.",
+    "cta": "Go back"
+  },
+  "debrief": {
+    "label": "Debriefing",
+    "next": "Next",
+    "finish": "Continue to the evaluation",
+    "cards": [
+      {
+        "title": "The human factor",
+        "lines": [
+          "68% of security breaches involve the human element.",
+          "You are the first line."
+        ],
+        "source": "Verizon DBIR 2024"
+      },
+      {
+        "title": "Financial cost",
+        "lines": [
+          "On average, a breach costs:",
+          "Global: $4.88 million",
+          "Clip (estimate): $4.92 million",
+          "With Shadow AI: +$670K",
+          "What is the real cost of a mistake?"
+        ]
+      },
+      {
+        "title": "The value of data",
+        "lines": [
+          "Clip processes the income of families.",
+          "Every transaction is critical. Every piece of data must be protected.",
+          "You protect that data. The value of trust is immeasurable."
+        ]
+      },
+      {
+        "title": "The role of DLP",
+        "lines": [
+          "DLP ≠ surveillance.",
+          "DLP (Data Loss Prevention) is a tool that helps you spot risks earlier, make better decisions and protect your customers.",
+          "It is not a watchman spying on you."
+        ]
+      },
+      {
+        "title": "Your role",
+        "lines": [
+          "You are the first line of defense.",
+          "You decide when to escalate a problem, who to contact and how to protect the data.",
+          "That responsibility is your power."
+        ]
+      },
+      {
+        "title": "InfoSec contact",
+        "lines": [
+          "📧 securitygovernance@payclip.com",
+          "If you have doubts, contact InfoSec: no punishment, no shame, with an answer in under 1 hour.",
+          "Escalating is the right thing to do."
+        ]
+      }
+    ]
+  },
+  "evaluation": {
+    "label": "Reflection evaluation",
+    "q1": "Of the 4 situations you went through, which was the hardest to decide? Why?",
+    "q1Note": "This question is for your own reflection. It doesn't affect your score.",
+    "q1Placeholder": "Write your reflection (at least 50 characters)…",
+    "q1Counter": "{count} / {max} characters",
+    "q1TooShort": "{missing} more characters needed.",
+    "submit": "Submit",
+    "skip": "Skip",
+    "q2": "“DLP is a tool that spies on me.”",
+    "q2Note": "An answer is required to continue.",
+    "trueLabel": "True",
+    "falseLabel": "False",
+    "wrong": "Not quite. DLP isn't there to spy on you: it helps you spot risks before they become breaches and protect customers. Try again.",
+    "right": "Correct. DLP is a tool that helps you spot risks, not spy on you."
+  },
+  "certificate": {
+    "label": "Certificate of completion",
+    "namePrompt": "Whose name should go on the certificate?",
+    "namePlaceholder": "Your full name",
+    "nameConfirm": "Generate certificate",
+    "fallbackName": "Participant",
+    "completed": "Has successfully completed:",
+    "date": "Date",
+    "time": "Time",
+    "duration": "Duration",
+    "status": "Status",
+    "statusValue": "✅ COMPLETED",
+    "score": "Score",
+    "scoreValue": "PASS ({score})",
+    "fragments": "Fragments collected: 4/4",
+    "badge": "DLP Defender",
+    "badgeLabel": "Badge",
+    "credit": "Credit: 0.5 CEU",
+    "download": "Download PDF",
+    "close": "Close",
+    "closed": "Course completed. You can close this window now."
+  },
+  "gameOver": {
+    "label": "Attack launched",
+    "title": "❌ Attack launched",
+    "body": "After 3 verifications there were still false fragments. The attacker got in where you placed your trust.",
+    "failures": "Failures recorded: {failures} of {max}",
+    "fragments": "Genuine fragments: {count} of 4",
+    "wrong": "Wrong decisions: {count}",
+    "retry": "Try again",
+    "exit": "Exit",
+    "exited": "Session ended. You can try again whenever you like, with no penalty."
+  },
+  "session": {
+    "idleTitle": "Session paused",
+    "idleBody": "Your session was paused due to inactivity. Your progress was saved.",
+    "resume": "Continue",
+    "exit": "Exit",
+    "exited": "Your progress was saved. You can close this window and continue later."
+  },
+  "art": {
+    "supportApp": "Customer Service",
+    "urgent": "URGENT!",
+    "search": "Search Clip",
+    "securityChannel": "security",
+    "pinnedTitle": "Customer data:",
+    "pinnedBody": "Clip tools only",
+    "reportFile": "payments_report.xlsx",
+    "share": "Share",
+    "columns": [
+      "Date",
+      "Account",
+      "Amount",
+      "Status"
+    ],
+    "corporateDrive": "Clip OneDrive",
+    "seniorDev": "Senior Developer",
+    "whatsapp": [
+      "Send it over",
+      "WhatsApp, I'll open",
+      "it here on my",
+      "computer 🙏"
+    ],
+    "meeting": "Meeting",
+    "protocol": "Protocol",
+    "financeApp": "Finance · Treasury",
+    "pendingTransfer": "Pending transfer",
+    "signature1": "Signature 1",
+    "signature2": "Signature 2",
+    "noMdm": "No MDM · No VPN",
+    "personal": "personal",
+    "signatures": "Signatures",
+    "nightSearch": "Search Clip · 10:00 p.m.",
+    "channels": "Channels",
+    "directMessages": "Direct messages",
+    "anomaly": "⚠ Anomaly in a query on admin accounts",
+    "runningAsRoot": "running as root…",
+    "alert": "Alert"
+  },
+  "areas": {
+    "atencion": {
+      "name": "Customer Service",
+      "title": "The furious VIP customer",
+      "setting": "Customer service center, 2:30 p.m.",
+      "fragment": {
+        "icon": "⚔️",
+        "name": "Authority"
+      },
+      "cycles": {
+        "1": {
+          "intro": "A VIP customer calls, furious. Their money vanished from their account and they need an answer NOW. Their child is sick and they have no time.",
+          "pressure": [
+            "$5,000 gone",
+            "A transfer to an external account",
+            "Your manager is in a meeting and unavailable"
+          ],
+          "hotspots": [
+            {
+              "id": "chat",
+              "label": "Chat monitor",
+              "icon": "💬",
+              "text": "Customer: “WHERE IS MY MONEY?! I need someone to answer me right now.”"
+            },
+            {
+              "id": "notes",
+              "label": "Notebook",
+              "icon": "📒",
+              "text": "VIP customer since 2022, high volume. Head of household. No previous incidents on record."
+            },
+            {
+              "id": "phone",
+              "label": "Phone",
+              "icon": "📞",
+              "text": "The customer insists: “Put me through to IT or give me access so I can see what happened. I'm not going to sit here waiting.”"
+            }
+          ],
+          "question": "What do you do?",
+          "options": {
+            "A": {
+              "text": "I escalate it to InfoSec as a critical incident.",
+              "correct": true,
+              "consequences": [
+                "The customer understands the process",
+                "InfoSec acts within minutes"
+              ],
+              "why": "Escalating activates the right team."
+            },
+            "B": {
+              "text": "I give them IT's direct contact.",
+              "correct": false,
+              "consequences": [
+                "You broke the escalation protocol",
+                "The customer communicates outside the chain"
+              ],
+              "why": "Escalating isn't dodging responsibility: it's activating the right team. Skipping the chain leaves the incident without an owner."
+            },
+            "C": {
+              "text": "I try to check the account myself.",
+              "correct": false,
+              "consequences": [
+                "You went beyond the limits of your role",
+                "You could contaminate the evidence"
+              ],
+              "why": "Investigating possible fraud isn't your role. Every click you make can contaminate the evidence InfoSec needs."
+            }
+          }
+        },
+        "2": {
+          "intro": "The same customer calls back, more distressed. This time the technical data confirms the fraud is real.",
+          "pressure": [
+            "The customer is more distressed",
+            "Other agents say “I've done it that way before”",
+            "Your manager says “sort it out quietly”"
+          ],
+          "hotspots": [
+            {
+              "id": "history",
+              "label": "Chat history",
+              "icon": "💬",
+              "text": "Third anomalous transaction in 2 days. Different IP detected. New device."
+            },
+            {
+              "id": "email",
+              "label": "InfoSec email",
+              "icon": "📧",
+              "text": "Current protocol: escalating an incident takes priority over other tasks."
+            },
+            {
+              "id": "lookup",
+              "label": "Customer lookup",
+              "icon": "🔎",
+              "text": "IP: Argentina (the customer is in Mexico). Phone: +55 (Brazil). Device: Android (the customer uses an iPhone)."
+            },
+            {
+              "id": "manager",
+              "label": "Manager's message",
+              "icon": "👔",
+              "text": "“Let's not make noise about this. Handle it yourself, quietly.”"
+            }
+          ],
+          "question": "What do you do?",
+          "options": {
+            "A": {
+              "text": "I escalate it to InfoSec as a CRITICAL INCIDENT.",
+              "correct": true,
+              "consequences": [
+                "InfoSec acts within minutes",
+                "The money can potentially be recovered"
+              ],
+              "why": "The technical signs point to real fraud: this is an incident for InfoSec."
+            },
+            "B": {
+              "text": "I tell the customer which account the money went to.",
+              "correct": false,
+              "consequences": [
+                "The attacker notices the investigation",
+                "They run off with the money",
+                "The money can't be recovered"
+              ],
+              "why": "Sharing details of an active investigation tips off the attacker. Case information is for InfoSec."
+            },
+            "C": {
+              "text": "I ask my manager for authorization before doing anything.",
+              "correct": false,
+              "consequences": [
+                "The manager has no authority over InfoSec",
+                "The chain of command breaks",
+                "Critical delay"
+              ],
+              "why": "A security incident doesn't need your manager's permission to be escalated. Every minute of waiting helps the attacker."
+            }
+          }
+        },
+        "3": {
+          "intro": "New twist: InfoSec has already investigated. The destination account is INTERNAL and the investigation was escalated to People. There's an escalation meeting in 10 minutes. What do you document?",
+          "twist": "The destination account belongs to someone at Clip.",
+          "pressure": [
+            "Escalation meeting in 10 minutes",
+            "Reputations at stake",
+            "Nobody knows whether it's a mistake or fraud"
+          ],
+          "hotspots": [
+            {
+              "id": "chat",
+              "label": "Customer chat",
+              "icon": "💬",
+              "text": "Now the customer is asking you “not to investigate”. They think their assistant may have made the transaction."
+            },
+            {
+              "id": "slack",
+              "label": "Slack",
+              "icon": "🟪",
+              "text": "A coworker: “I escalated just like you did. Why did the manager tell me to hide it?”"
+            },
+            {
+              "id": "manager",
+              "label": "Manager",
+              "icon": "👔",
+              "text": "Your manager asks for a “quiet review”, without going through InfoSec."
+            },
+            {
+              "id": "hr",
+              "label": "People",
+              "icon": "🗂️",
+              "text": "People is investigating an internal employee."
+            },
+            {
+              "id": "inspector",
+              "label": "Inspector",
+              "icon": "🕵️",
+              "text": "Administrative error or fraud? Nobody knows yet."
+            }
+          ],
+          "question": "The meeting is in 10 minutes. What do you do?",
+          "options": {
+            "A": {
+              "text": "I hand EVERYTHING over to InfoSec, documented and without opinions.",
+              "correct": true,
+              "consequences": [
+                "It was an administrative error, not fraud",
+                "The money is recovered",
+                "Reputations remain intact"
+              ],
+              "why": "Documented facts, without your own judgment, to the team that investigates."
+            },
+            "B": {
+              "text": "I investigate on my own without documenting anything.",
+              "correct": false,
+              "consequences": [
+                "The evidence contaminates the investigation",
+                "Cross-lawsuits (customer and employee)",
+                "Dismissal and a criminal investigation"
+              ],
+              "why": "Investigating without a record destroys the chain of custody. Your job is to deliver facts, not to solve the case."
+            },
+            "C": {
+              "text": "I hide that I skipped the protocol earlier.",
+              "correct": false,
+              "consequences": [
+                "The audit detects the violations",
+                "Dismissal and lawsuits",
+                "Criminal investigation"
+              ],
+              "why": "Hiding a mistake turns it into a cover-up. Reporting it in time always costs less."
+            }
+          }
+        }
+      }
+    },
+    "desarrollo": {
+      "name": "Development",
+      "title": "The “temporary” shortcut",
+      "setting": "WhatsApp, chat with a coworker",
+      "fragment": {
+        "icon": "🛡️",
+        "name": "Integrity"
+      },
+      "cycles": {
+        "1": {
+          "intro": "A Senior Developer, a coworker of yours, messages you on WhatsApp: “Send me the payments report. Send it over WhatsApp, I'll open it here on my computer. My deadline is in 2 hours.”",
+          "pressure": [
+            "A trusted colleague: 2 years at Clip",
+            "Deadline in 2 hours",
+            "“I'll open it myself”"
+          ],
+          "hotspots": [
+            {
+              "id": "whatsapp",
+              "label": "WhatsApp",
+              "icon": "💬",
+              "text": "“Send it over WhatsApp, I'll open it here on my computer. It's just for today.”"
+            },
+            {
+              "id": "report",
+              "label": "Payments report",
+              "icon": "📊",
+              "text": "More than 10,000 transactions with amounts, accounts and dates. This is regulated information."
+            },
+            {
+              "id": "security",
+              "label": "#security channel",
+              "icon": "📌",
+              "text": "Pinned message: “Customer data is only shared through corporate tools.” A personal computer doesn't have Clip's encryption or antivirus."
+            }
+          ],
+          "question": "What do you do?",
+          "options": {
+            "A": {
+              "text": "I don't send it over WhatsApp: I ask them to open it in the corporate portal with the VPN and their Clip laptop.",
+              "correct": true,
+              "consequences": [
+                "The developer opens the report securely over the corporate VPN",
+                "The data never leaves Clip's systems",
+                "The access is audited in the corporate portal"
+              ],
+              "why": "“I can't send it to you on WhatsApp, but I'll help you”: with the VPN and their Clip laptop they have the report in 5 minutes, with no risk."
+            },
+            "B": {
+              "text": "I send it over WhatsApp.",
+              "correct": false,
+              "consequences": [
+                "The report ends up on their phone, on WhatsApp Web and on their personal computer",
+                "Weeks later their computer gets infected with malware",
+                "10,000 customer transactions leak and Clip can't trace them"
+              ],
+              "why": "A file sent over WhatsApp leaves Clip's control: you no longer know how many copies there are or where. Trusting the colleague doesn't protect the data."
+            },
+            "C": {
+              "text": "I just tell them “I can't”.",
+              "correct": false,
+              "consequences": [
+                "The developer asks someone else on the team for the report",
+                "They look for an even less controlled route",
+                "The pressure is still unresolved and you come across as uncooperative"
+              ],
+              "why": "A “no” without an alternative pushes people toward shortcuts. Protecting the data also means offering the safe route."
+            }
+          }
+        },
+        "2": {
+          "intro": "Your coworker messages you on WhatsApp again 30 minutes later: “Ok, the VPN is slow from here. What if I upload it to my personal Dropbox? I use it as a backup all the time. Others on the team do it too.”",
+          "pressure": [
+            "“Others on the team do it”",
+            "“It's just a backup”",
+            "The VPN is slow"
+          ],
+          "hotspots": [
+            {
+              "id": "whatsapp",
+              "label": "WhatsApp",
+              "icon": "💬",
+              "text": "“Trust me, it's fine. I've done it 100 times.” Familiarity creates false confidence."
+            },
+            {
+              "id": "dropbox",
+              "label": "Personal Dropbox",
+              "icon": "☁️",
+              "text": "A personal account without 2-factor authentication. It's a third party with no contract with Clip."
+            },
+            {
+              "id": "email",
+              "label": "Earlier message",
+              "icon": "📧",
+              "text": "“Others on the team do it.” “It's only aggregated information.” This is social pressure that normalizes risk."
+            },
+            {
+              "id": "onedrive",
+              "label": "Corporate cloud",
+              "icon": "🔐",
+              "text": "Clip has a contract for corporate OneDrive for secure cloud storage. The developer doesn't know about it."
+            }
+          ],
+          "question": "What do you do?",
+          "options": {
+            "A": {
+              "text": "I tell them no to Dropbox, and offer corporate OneDrive instead.",
+              "correct": true,
+              "consequences": [
+                "The data stays encrypted and audited",
+                "Clip has a contract and an SLA with Microsoft",
+                "The developer learns the legitimate alternative in 2 minutes"
+              ],
+              "why": "Corporate OneDrive does the same as Dropbox, with encryption, auditing and automatic backups. Helping and protecting can go together."
+            },
+            "B": {
+              "text": "I let them use Dropbox “just this once”.",
+              "correct": false,
+              "consequences": [
+                "At a conference, the developer connects to the hotel Wi-Fi",
+                "Malware captures their Dropbox password, which has no 2FA",
+                "A month later, 10,000 financial records are sold on a dark-web forum",
+                "A regulatory fine and lost customer trust"
+              ],
+              "why": "Other people doing it doesn't make it safe. A personal service with no contract and no 2FA leaves Clip's data in anyone's hands."
+            },
+            "C": {
+              "text": "I tell them to go ahead, but not to tell me.",
+              "correct": false,
+              "consequences": [
+                "3 months later, the audit reveals months of violations on Dropbox",
+                "Your name shows up in the chats",
+                "An investigation for complicity: the responsibility is shared"
+              ],
+              "why": "Looking the other way is also a decision. Knowing and allowing it makes you an accomplice."
+            }
+          }
+        },
+        "3": {
+          "intro": "People knocks on your door: “We found that the Senior Developer has been sharing data on Dropbox without authorization for 3 months. We need you to confirm whether you knew.” At that moment a WhatsApp from the developer comes in: “I know they caught me. Can you not say anything? I have debts, my family depends on this job. I promise I'll never do it again.”",
+          "twist": "It's no longer about the data: People is asking whether you knew, and the developer is asking for your silence.",
+          "pressure": [
+            "You feel empathy: their situation is real",
+            "“If you report me, I lose everything”",
+            "There's an escalation meeting in 1 hour"
+          ],
+          "hotspots": [
+            {
+              "id": "chat",
+              "label": "WhatsApp chat",
+              "icon": "💬",
+              "text": "“Can you not say anything? I promise I'll never do it again. Help me.” This is direct emotional pressure."
+            },
+            {
+              "id": "situation",
+              "label": "The developer's situation",
+              "icon": "💬",
+              "text": "“I have debts. I didn't want to lose my job. My family depends on this paycheck.” It's a real human situation, not malice."
+            },
+            {
+              "id": "investigation",
+              "label": "Investigation",
+              "icon": "🔎",
+              "text": "3 months of unreported violations, with a consistent pattern on Dropbox. It wasn't an accident, it was a habit."
+            },
+            {
+              "id": "protocol",
+              "label": "Protocol",
+              "icon": "📕",
+              "text": "You have a duty to report violations. Hiding them puts your own job at risk. Honesty is a core value at Clip."
+            },
+            {
+              "id": "meeting",
+              "label": "Escalation meeting",
+              "icon": "⏱️",
+              "text": "In 1 hour: an escalation meeting with People and InfoSec. Whatever you say there is documented."
+            }
+          ],
+          "question": "What do you do?",
+          "options": {
+            "A": {
+              "text": "I tell People what I know and report to InfoSec right away.",
+              "correct": true,
+              "consequences": [
+                "The violations are documented",
+                "The developer gets a formal warning and a mandatory course, not an automatic dismissal",
+                "Clip is protected in the regulatory audit"
+              ],
+              "why": "Reporting doesn't mean automatic punishment. Most first incidents end in a warning and an improvement plan. Reporting is an act of care, not a betrayal."
+            },
+            "B": {
+              "text": "I tell People I didn't know anything.",
+              "correct": false,
+              "consequences": [
+                "3 weeks later, an external audit finds the developer's chat asking for your silence",
+                "Your name shows up in the earlier chats",
+                "You are investigated for a cover-up and your job is at risk"
+              ],
+              "why": "Hiding a violation always leaves a trace. What was the developer's mistake becomes your cover-up."
+            },
+            "C": {
+              "text": "I make a private deal with the developer: I won't say anything if they don't do it again.",
+              "correct": false,
+              "consequences": [
+                "The chat stays on Clip's servers",
+                "The external audit reviews the chats and finds the deal",
+                "A formal investigation for both of you"
+              ],
+              "why": "A private deal is still a cover-up, and digital traces always remain. Compassion is shown by reporting, not by hiding."
+            }
+          }
+        }
+      }
+    },
+    "finanzas": {
+      "name": "Finance",
+      "title": "The necessary remote work",
+      "setting": "People's office, 4:00 p.m.",
+      "fragment": {
+        "icon": "🔒",
+        "name": "Confidentiality"
+      },
+      "cycles": {
+        "1": {
+          "intro": "An employee needs to work remotely: their child has a chronic illness. People asks you to authorize access “just for one week”.",
+          "pressure": [
+            "A legitimate emotional situation",
+            "People is pushing",
+            "They have access to financial data"
+          ],
+          "hotspots": [
+            {
+              "id": "email",
+              "label": "Email from People",
+              "icon": "📧",
+              "text": "“Can you give them remote access? It's only for a week.”"
+            },
+            {
+              "id": "device",
+              "label": "Device info",
+              "icon": "💻",
+              "text": "Personal laptop: NOT in MDM · No VPN · Firewall OFF."
+            },
+            {
+              "id": "policy",
+              "label": "Policy",
+              "icon": "📕",
+              "text": "Remote access requires: MDM + VPN + Firewall on."
+            }
+          ],
+          "question": "What do you do?",
+          "options": {
+            "A": {
+              "text": "I deny direct access, but offer secure alternatives.",
+              "correct": true,
+              "consequences": [
+                "The laptop is enrolled in MDM within 24 hours",
+                "VPN enabled and firewall verified",
+                "A happy employee, protected data"
+              ],
+              "why": "Saying “not like this, but yes this way” takes care of both the person and the data."
+            },
+            "B": {
+              "text": "I allow access “just this week”.",
+              "correct": false,
+              "consequences": [
+                "The laptop is stolen at a café on day 3",
+                "3 hours of unrestricted access",
+                "Financial records exposed"
+              ],
+              "why": "A temporary exception is still real access from an unprotected device. The risk doesn't last just a week."
+            },
+            "C": {
+              "text": "I tell them no, with no alternatives.",
+              "correct": false,
+              "consequences": [
+                "The employee is upset",
+                "People steps in",
+                "Political pressure"
+              ],
+              "why": "A “no” with no way out pushes people toward shortcuts. Security also means offering the safe route."
+            }
+          }
+        },
+        "2": {
+          "intro": "A manager needs to authorize a $500K transaction. But there's only 1 signature: the second approver is on vacation.",
+          "pressure": [
+            "Operations is waiting for an answer",
+            "The manager trusts the vendor",
+            "The transaction looks legitimate"
+          ],
+          "hotspots": [
+            {
+              "id": "policy",
+              "label": "Policy",
+              "icon": "📕",
+              "text": "Always 2 signatures. No exceptions."
+            },
+            {
+              "id": "tx",
+              "label": "Transaction",
+              "icon": "💸",
+              "text": "$500K to a recurring vendor."
+            },
+            {
+              "id": "manager",
+              "label": "Manager",
+              "icon": "👔",
+              "text": "“We'll let the approver on vacation know later. We'll sort it out.”"
+            },
+            {
+              "id": "ops",
+              "label": "Operations",
+              "icon": "⏱️",
+              "text": "“If it doesn't go out today, the vendor stops shipments.”"
+            }
+          ],
+          "question": "What do you do?",
+          "options": {
+            "A": {
+              "text": "I don't authorize with one signature, and suggest calling the approver who is on vacation.",
+              "correct": true,
+              "consequences": [
+                "The approver signs from their phone",
+                "Segregation of duties is maintained"
+              ],
+              "why": "The 2-signature rule is respected and the business doesn't stop."
+            },
+            "B": {
+              "text": "I authorize it “just this once”.",
+              "correct": false,
+              "consequences": [
+                "The audit detects the segregation-of-duties violation",
+                "Investigation and sanction",
+                "Regulatory risk"
+              ],
+              "why": "Segregation of duties exists precisely for moments of rush. “Just this once” is how fraud starts."
+            },
+            "C": {
+              "text": "I ask them to wait until the approver is back.",
+              "correct": false,
+              "consequences": [
+                "The transaction is delayed 2 weeks",
+                "The manager and the vendor are upset"
+              ],
+              "why": "It's defensible, but there was a safe route that didn't hold the business back: contacting the approver."
+            }
+          }
+        },
+        "3": {
+          "intro": "An employee under confidential investigation asks for access to their own records. In 1 hour there's a meeting with Legal, People and Audit. What do you recommend?",
+          "twist": "There's no way out without a cost: every option affects rights or evidence.",
+          "pressure": [
+            "Meeting with Legal, People and Audit in 1 hour",
+            "The employee's rights are at stake",
+            "The investigation could collapse"
+          ],
+          "hotspots": [
+            {
+              "id": "legal",
+              "label": "Legal request",
+              "icon": "⚖️",
+              "text": "The employee's right: access to their personal information."
+            },
+            {
+              "id": "investigator",
+              "label": "Investigator",
+              "icon": "🕵️",
+              "text": "“Giving them access destroys evidence. They'll know they're being investigated.”"
+            },
+            {
+              "id": "hr",
+              "label": "People",
+              "icon": "🗂️",
+              "text": "“If we deny it, we violate their rights. If we grant it, we contaminate the evidence.”"
+            },
+            {
+              "id": "audit",
+              "label": "Audit",
+              "icon": "📋",
+              "text": "Internal audit requires transparency throughout the process."
+            },
+            {
+              "id": "records",
+              "label": "Records",
+              "icon": "🗄️",
+              "text": "The requested records include transactions that are part of the investigation."
+            }
+          ],
+          "question": "What do you recommend?",
+          "options": {
+            "A": {
+              "text": "I acknowledge the conflict of interest and escalate it to the investigator and Legal.",
+              "correct": true,
+              "consequences": [
+                "The investigator and Legal resolve it together",
+                "The employee's rights are protected",
+                "The investigation stays intact"
+              ],
+              "why": "A conflict like this is resolved by the people with the authority, not by an individual decision."
+            },
+            "B": {
+              "text": "I grant full access to their records.",
+              "correct": false,
+              "consequences": [
+                "The evidence is contaminated",
+                "The investigation collapses",
+                "The employee sues"
+              ],
+              "why": "Granting access without coordinating with the investigator tips off the person involved and destroys the evidence."
+            },
+            "C": {
+              "text": "I deny access indefinitely.",
+              "correct": false,
+              "consequences": [
+                "The employee's rights are violated",
+                "A successful labor lawsuit",
+                "Clip pays compensation"
+              ],
+              "why": "Denying a right without a legal process is also a risk. The decision belongs to Legal together with the investigator."
+            }
+          }
+        }
+      }
+    },
+    "operaciones": {
+      "name": "Operations",
+      "title": "The alert in the way",
+      "setting": "Monitoring Center, 10:00 p.m. (night shift)",
+      "fragment": {
+        "icon": "👁️",
+        "name": "Vigilance"
+      },
+      "cycles": {
+        "1": {
+          "intro": "Alert: anomaly in a query on administrator accounts. Your manager says: “Ignore it today. The CEO is visiting. We don't want disruptions.”",
+          "pressure": [
+            "The CEO's visit",
+            "The manager asks for discretion",
+            "Other teams have already seen the alert"
+          ],
+          "hotspots": [
+            {
+              "id": "alert",
+              "label": "Alert",
+              "icon": "🚨",
+              "text": "Anomalous query: 5 administrator accounts at once, at 3 AM, outside working hours."
+            },
+            {
+              "id": "manager",
+              "label": "Manager",
+              "icon": "👔",
+              "text": "“During the visit, only report crises. This can wait.”"
+            },
+            {
+              "id": "slack",
+              "label": "InfoSec Slack",
+              "icon": "🟪",
+              "text": "“Did anyone see the 3 AM alert?”"
+            }
+          ],
+          "question": "What do you do?",
+          "options": {
+            "A": {
+              "text": "I report it to InfoSec immediately.",
+              "correct": true,
+              "consequences": [
+                "It was a misconfigured backup script",
+                "It's fixed in 10 minutes",
+                "The CEO never finds out"
+              ],
+              "why": "Reporting fast resolves fast, and quietly."
+            },
+            "B": {
+              "text": "I ignore it, as the manager asks.",
+              "correct": false,
+              "consequences": [
+                "3 weeks of undetected access",
+                "The breach happens DURING the CEO's visit",
+                "The problem plays out live"
+              ],
+              "why": "A visit doesn't change the risk. Silencing an alert to keep up appearances ends in the worst appearance possible."
+            },
+            "C": {
+              "text": "I investigate on my own.",
+              "correct": false,
+              "consequences": [
+                "The evidence is contaminated",
+                "The chain of custody is broken"
+              ],
+              "why": "An anomaly in administrator accounts is for InfoSec. Investigating on your own can erase the trail."
+            }
+          }
+        },
+        "2": {
+          "intro": "A 40% performance degradation. A Senior Developer shipped a reporting feature and asks to leave the problem for the weekend.",
+          "pressure": [
+            "47 complaints in 2 hours",
+            "The developer has a fix “for the weekend”",
+            "Whose job is this?"
+          ],
+          "hotspots": [
+            {
+              "id": "metrics",
+              "label": "Metrics",
+              "icon": "📈",
+              "text": "CPU from 80% to 110% (throttled). The new feature consumes a lot."
+            },
+            {
+              "id": "dev",
+              "label": "Developer",
+              "icon": "🧑‍💻",
+              "text": "“We'll optimize it over the weekend, no pressure.”"
+            },
+            {
+              "id": "monitoring",
+              "label": "Monitoring",
+              "icon": "🖥️",
+              "text": "End users are affected right now."
+            },
+            {
+              "id": "tickets",
+              "label": "Tickets",
+              "icon": "🎫",
+              "text": "47 complaints in 2 hours."
+            }
+          ],
+          "question": "What do you do?",
+          "options": {
+            "A": {
+              "text": "I report it to the Development Lead and the Infrastructure team (not to InfoSec).",
+              "correct": true,
+              "consequences": [
+                "It's an operational problem, not a security one",
+                "The Development Lead coordinates a rollback or fix",
+                "It's resolved in 30 minutes"
+              ],
+              "why": "Escalating well also means escalating to the right team."
+            },
+            "B": {
+              "text": "I leave it for the weekend, as the developer asks.",
+              "correct": false,
+              "consequences": [
+                "Users affected all weekend",
+                "A lost weekend",
+                "Damaged reputation"
+              ],
+              "why": "An active impact on users doesn't wait. You had to escalate it to whoever can fix it today."
+            },
+            "C": {
+              "text": "I escalate it to InfoSec.",
+              "correct": false,
+              "consequences": [
+                "InfoSec wastes time on something that isn't a security issue",
+                "Unnecessary delay"
+              ],
+              "why": "Not every incident is a security incident. This one was operational: it belonged to the Development Lead and the Infrastructure team."
+            }
+          }
+        },
+        "3": {
+          "intro": "The system-update-v3.sh script runs every night as administrator. No owner, no record in git, no code review. Your manager says: “It's the usual routine.”",
+          "twist": "The script creates temporary users, opens an undocumented SSH port, modifies /etc/passwd and deletes logs.",
+          "pressure": [
+            "Countdown: 5 minutes",
+            "“It's been working for 5 years”",
+            "The alerts were ignored 1,000 times"
+          ],
+          "hotspots": [
+            {
+              "id": "script",
+              "label": "Script",
+              "icon": "📜",
+              "text": "Runs every night at 2 AM with root privileges. Modifies more than 50 system files."
+            },
+            {
+              "id": "git",
+              "label": "Git repository",
+              "icon": "🌿",
+              "text": "No commit, no history. There's no record of when it was added."
+            },
+            {
+              "id": "bot",
+              "label": "AlertBot",
+              "icon": "🤖",
+              "text": "It has alerted 1,000 times. Every alert was ignored or suppressed."
+            },
+            {
+              "id": "manager",
+              "label": "Manager",
+              "icon": "👔",
+              "text": "“It's been there 5 years. Trust it. Why investigate something that works?”"
+            },
+            {
+              "id": "logs",
+              "label": "Logs",
+              "icon": "🧾",
+              "text": "The logs for the last 14 nights are missing. There's an open SSH port that doesn't appear in any document."
+            }
+          ],
+          "question": "5 minutes left. What do you do?",
+          "options": {
+            "A": {
+              "text": "I report it to InfoSec IMMEDIATELY.",
+              "correct": true,
+              "consequences": [
+                "A ROOTKIT is detected",
+                "Remediation happens within 2 hours",
+                "Before the attacker acts and before any data is stolen"
+              ],
+              "why": "What has “always been there” gets verified too."
+            },
+            "B": {
+              "text": "I ignore it: I trust my manager.",
+              "correct": false,
+              "consequences": [
+                "14 days of undetected access",
+                "100K customers compromised",
+                "Financial data stolen"
+              ],
+              "why": "Habit is not verification. A script with no owner, running as root and deleting logs, is an anomaly you report."
+            },
+            "C": {
+              "text": "I investigate on my own.",
+              "correct": false,
+              "consequences": [
+                "The rootkit detects the access",
+                "The attacker deletes logs and destroys evidence",
+                "An unrecoverable breach"
+              ],
+              "why": "Facing a possible rootkit, touching it alone tips off the attacker. InfoSec has the tools to contain it."
+            }
+          }
+        }
+      }
+    }
+  }
+}

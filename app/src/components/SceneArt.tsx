@@ -1,12 +1,17 @@
 import type { ReactNode } from 'react';
 import type { AreaId } from '../game/types';
+import { useLanguage } from '../i18n/LanguageProvider';
 
 /**
  * The illustrated room behind each area: flat line art in warm cream, orange and
  * navy, a desk with the monitor showing the app the situation happens in. Drawn
  * on a 1600×900 stage; `scene.ts` places the hotspots over the objects here, so
- * moving an object means moving its slot too.
+ * moving an object means moving its slot too. The few words drawn into the
+ * scenes come from the script (`art` in the story files), so they follow the
+ * language switch like everything else.
  */
+
+const useArt = () => useLanguage().story.art;
 
 const INK = {
   line: '#2a2c3d',
@@ -198,6 +203,7 @@ function SlackPane({ w, h, alert = false, channel, pinned }: { w: number; h: num
 
 /** A spreadsheet open with its "Share" menu out: the personal apps sit right next to the corporate one. */
 function SheetPane({ w, h, file }: { w: number; h: number; file: string }) {
+  const art = useArt();
   const cols = [0, 70, 150, 220];
   return (
     <g>
@@ -210,9 +216,9 @@ function SheetPane({ w, h, file }: { w: number; h: number; file: string }) {
       </text>
       <rect x={w - 82} y="7" width="72" height="20" rx="10" fill="#fff" />
       <text x={w - 70} y="21" fontSize="10.5" fontWeight="700" fill={INK.green} fontFamily={FONT}>
-        Compartir
+        {art.share}
       </text>
-      {['Fecha', 'Cuenta', 'Monto', 'Estado'].map((c, i) => (
+      {art.columns.map((c, i) => (
         <text key={c} x={8 + cols[i]} y="54" fontSize="10" fontWeight="700" fill={INK.gray} fontFamily={FONT}>
           {c}
         </text>
@@ -230,7 +236,7 @@ function SheetPane({ w, h, file }: { w: number; h: number; file: string }) {
         {[
           ['WhatsApp', '#25d366'],
           ['Dropbox', INK.blue],
-          ['OneDrive de Clip', INK.navy],
+          [art.corporateDrive, INK.navy],
         ].map(([label, color], i) => (
           <g key={label}>
             {i === 0 && <rect x="4" y={8} width="152" height="30" rx="5" fill="#e3f6ea" />}
@@ -369,6 +375,7 @@ function DeskCalendar({ x, y, title, when }: { x: number; y: number; title: stri
 
 /** An open laptop seen from the front-left; `sticker` marks it as personal. */
 function Laptop({ x, y, sticker = false, children }: { x: number; y: number; sticker?: boolean; children?: ReactNode }) {
+  const art = useArt();
   return (
     <g transform={`translate(${x} ${y})`}>
       <path d="M-130 0H130L150 16H-150Z" fill={INK.grayLight} {...S} />
@@ -381,7 +388,7 @@ function Laptop({ x, y, sticker = false, children }: { x: number; y: number; sti
         <g transform="translate(78 -10) rotate(-12)">
           <rect x="-40" y="-14" width="80" height="22" rx="11" fill={INK.orange} {...S} strokeWidth={2.5} />
           <text x="-30" y="2" fontSize="12" fontWeight="700" fill={INK.paper} fontFamily={FONT}>
-            personal
+            {art.personal}
           </text>
         </g>
       )}
@@ -459,10 +466,11 @@ function StickyNotes({ x, y }: { x: number; y: number }) {
 
 /** Support console: a customer chat on the left, the customer record on the right. */
 function SupportScreen({ w, h }: { w: number; h: number }) {
+  const art = useArt();
   const split = w * 0.55;
   return (
     <g>
-      <TitleBar w={w} label="Atención a clientes" />
+      <TitleBar w={w} label={art.supportApp} />
       <rect y="30" width={split} height={h - 30} fill={INK.paper} />
       {[
         [20, 60, 0.6, false],
@@ -481,7 +489,7 @@ function SupportScreen({ w, h }: { w: number; h: number }) {
         );
       })}
       <text x="22" y="174" fontSize="11" fontWeight="700" fill={INK.red} fontFamily={FONT}>
-        ¡URGENTE!
+        {art.urgent}
       </text>
       <rect x="14" y={h - 50} width={split - 28} height="38" rx="6" fill="#fff" stroke={INK.gray} strokeWidth={2} />
       <rect x={split} y="30" width={w - split} height={h - 30} fill="#f1ede6" />
@@ -504,10 +512,11 @@ function SupportScreen({ w, h }: { w: number; h: number }) {
 
 /** Finance dashboard: a balance chart and a pending transfer awaiting signatures. */
 function FinanceScreen({ w, h }: { w: number; h: number }) {
+  const art = useArt();
   const split = w * 0.56;
   return (
     <g>
-      <TitleBar w={w} label="Finanzas · Tesorería" />
+      <TitleBar w={w} label={art.financeApp} />
       <rect x="16" y="46" width={split - 26} height={h * 0.48} rx="8" fill="#fff" {...S} strokeWidth={2} />
       <path
         d={`M34 ${46 + h * 0.4}l50-40 46 22 56-70 52 34 60-50`}
@@ -523,14 +532,14 @@ function FinanceScreen({ w, h }: { w: number; h: number }) {
       <path d={`M16 ${h * 0.86}H${split - 10}`} stroke={INK.bar} strokeWidth={2} />
       <rect x={split + 6} y="46" width={w - split - 22} height={h - 62} rx="8" fill="#fff" {...S} strokeWidth={2} />
       <text x={split + 22} y="76" fontSize="11" fill={INK.gray} fontFamily={FONT}>
-        Transferencia pendiente
+        {art.pendingTransfer}
       </text>
       <text x={split + 22} y="112" fontSize="28" fontWeight="700" fill={INK.line} fontFamily={FONT}>
         $500,000
       </text>
       {[
-        ['Firma 1', true],
-        ['Firma 2', false],
+        [art.signature1, true],
+        [art.signature2, false],
       ].map(([t, ok], i) => (
         <g key={t as string}>
           <rect x={split + 22} y={136 + i * 40} width={w - split - 54} height="30" rx="6" fill={ok ? '#e3f1e6' : '#fbe1df'} />
@@ -549,18 +558,19 @@ function FinanceScreen({ w, h }: { w: number; h: number }) {
 
 /** Slack at night: the manager's DM waiting in the sidebar and the bots posting in #monitoring. */
 function OpsSlackScreen({ w, h }: { w: number; h: number }) {
+  const art = useArt();
   const side = 220;
   const mono = 'ui-monospace, monospace';
   return (
     <g>
-      <TitleBar w={w} label="Buscar en Clip · 22:00" />
+      <TitleBar w={w} label={art.nightSearch} />
       <g transform="translate(0 30)">
         <rect width={side} height={h - 30} fill={INK.slack} />
         <rect x="14" y="16" width="120" height="10" rx="5" fill={INK.cream} />
         <circle cx="20" cy="40" r="4" fill={INK.green} />
         <rect x="30" y="36" width="70" height="7" rx="3.5" fill="#9d7fa3" />
         <text x="14" y="82" fontSize="13" fill="#d9c8dc" fontFamily={FONT}>
-          Canales
+          {art.channels}
         </text>
         {['general', 'monitoring', 'infosec'].map((c, i) => (
           <g key={c}>
@@ -571,7 +581,7 @@ function OpsSlackScreen({ w, h }: { w: number; h: number }) {
           </g>
         ))}
         <text x="14" y="200" fontSize="13" fill="#d9c8dc" fontFamily={FONT}>
-          Mensajes directos
+          {art.directMessages}
         </text>
         <rect x="0" y="212" width={side} height="28" fill={INK.blue} />
         <circle cx="24" cy="226" r="5" fill={INK.green} />
@@ -602,7 +612,7 @@ function OpsSlackScreen({ w, h }: { w: number; h: number }) {
         <rect x="66" y="84" width="420" height="52" rx="6" fill="#fbe1df" />
         <rect x="66" y="84" width="6" height="52" fill={INK.red} />
         <text x="84" y="115" fontSize="13" fill={INK.red} fontWeight="700" fontFamily={FONT}>
-          ⚠ Anomalía en consulta de cuentas de administrador
+          {art.anomaly}
         </text>
         <rect x="20" y="160" width="34" height="34" rx="6" fill={INK.grayLight} {...S} strokeWidth={2} />
         <rect x="66" y="166" width="90" height="9" rx="4.5" fill={INK.line} />
@@ -612,7 +622,7 @@ function OpsSlackScreen({ w, h }: { w: number; h: number }) {
           $ ./system-update-v3.sh
         </text>
         <text x="80" y="256" fontSize="13" fill="#e9b949" fontFamily={mono}>
-          ejecutando como root…
+          {art.runningAsRoot}
         </text>
         <rect x="20" y="296" width="34" height="34" rx="6" fill={INK.grayLight} {...S} strokeWidth={2} />
         <rect x="66" y="302" width="70" height="9" rx="4.5" fill={INK.line} />
@@ -639,7 +649,7 @@ function OpsSlackScreen({ w, h }: { w: number; h: number }) {
         <rect x="48" y="40" width="4" height="13" rx="2" fill="#fff" />
         <circle cx="50" cy="58" r="2.5" fill="#fff" />
         <text x="100" y="62" fontSize="30" fontWeight="700" fill={INK.red} fontFamily={FONT}>
-          Alerta
+          {art.alert}
         </text>
       </g>
     </g>
@@ -650,6 +660,61 @@ function OpsSlackScreen({ w, h }: { w: number; h: number }) {
 
 const MAIN = { x: 420, y: 90, w: 760, h: 520 } as const;
 const MAIN_SCREEN = { w: MAIN.w - 44, h: MAIN.h - 110 };
+
+function DesarrolloArt() {
+  const art = useArt();
+  return (
+    <>
+      <Room />
+      <Plant x={150} y={760} s={1.5} />
+      <Shelf x={1240} y={470} />
+      <Plant x={1460} y={470} s={0.9} />
+      <Desk />
+      <Monitor {...MAIN}>
+        <TitleBar w={MAIN_SCREEN.w} label={art.search} />
+        <g transform="translate(0 30)">
+          <SlackPane w={MAIN_SCREEN.w * 0.48} h={MAIN_SCREEN.h - 30} alert channel={art.securityChannel} pinned={[art.pinnedTitle, art.pinnedBody]} />
+        </g>
+        <g transform={`translate(${MAIN_SCREEN.w * 0.48} 30)`}>
+          <rect width="4" height={MAIN_SCREEN.h} fill={INK.bar} />
+          <g transform="translate(4 0)">
+            <SheetPane w={MAIN_SCREEN.w * 0.52 - 4} h={MAIN_SCREEN.h - 30} file={art.reportFile} />
+          </g>
+        </g>
+      </Monitor>
+      <WhatsAppPhone x={300} y={700} from={art.seniorDev} message={art.whatsapp} />
+      <DeskCalendar x={1130} y={700} title={art.meeting} when="1 h" />
+      <Notebook x={1350} y={712} r={-10} title={art.protocol} />
+      <Mug x={1470} y={700} />
+    </>
+  );
+}
+
+function FinanzasArt() {
+  const art = useArt();
+  return (
+    <>
+      <Room />
+      <Plant x={150} y={760} s={1.4} />
+      <Shelf x={1240} y={470} />
+      <Desk />
+      <Monitor {...MAIN}>
+        <FinanceScreen {...MAIN_SCREEN} />
+      </Monitor>
+      <Laptop x={250} y={700} sticker>
+        <rect width="212" height="136" fill="#eef1f6" />
+        <rect x="16" y="16" width="180" height="40" rx="6" fill="#fbe1df" />
+        <text x="26" y="41" fontSize="12" fontWeight="700" fill={INK.red} fontFamily={FONT}>
+          {art.noMdm}
+        </text>
+        <rect x="16" y="68" width="120" height="10" rx="5" fill={INK.bar} />
+        <rect x="16" y="88" width="160" height="10" rx="5" fill={INK.bar} />
+      </Laptop>
+      <Folder x={1330} y={710} label={art.signatures} />
+      <Mug x={1120} y={700} />
+    </>
+  );
+}
 
 export const ART: Record<AreaId, ReactNode> = {
   atencion: (
@@ -668,58 +733,8 @@ export const ART: Record<AreaId, ReactNode> = {
       <Mug x={1400} y={700} />
     </>
   ),
-  desarrollo: (
-    <>
-      <Room />
-      <Plant x={150} y={760} s={1.5} />
-      <Shelf x={1240} y={470} />
-      <Plant x={1460} y={470} s={0.9} />
-      <Desk />
-      <Monitor {...MAIN}>
-        <TitleBar w={MAIN_SCREEN.w} label="Buscar en Clip" />
-        <g transform="translate(0 30)">
-          <SlackPane w={MAIN_SCREEN.w * 0.48} h={MAIN_SCREEN.h - 30} alert channel="seguridad" pinned={['Datos de clientes:', 'solo herramientas de Clip']} />
-        </g>
-        <g transform={`translate(${MAIN_SCREEN.w * 0.48} 30)`}>
-          <rect width="4" height={MAIN_SCREEN.h} fill={INK.bar} />
-          <g transform="translate(4 0)">
-            <SheetPane w={MAIN_SCREEN.w * 0.52 - 4} h={MAIN_SCREEN.h - 30} file="reporte_pagos.xlsx" />
-          </g>
-        </g>
-      </Monitor>
-      <WhatsAppPhone
-        x={300}
-        y={700}
-        from="Desarrollador Senior"
-        message={['Mándamelo por', 'WhatsApp, ya lo abro', 'yo aquí en mi', 'computadora 🙏']}
-      />
-      <DeskCalendar x={1130} y={700} title="Reunión" when="1 h" />
-      <Notebook x={1350} y={712} r={-10} title="Protocolo" />
-      <Mug x={1470} y={700} />
-    </>
-  ),
-  finanzas: (
-    <>
-      <Room />
-      <Plant x={150} y={760} s={1.4} />
-      <Shelf x={1240} y={470} />
-      <Desk />
-      <Monitor {...MAIN}>
-        <FinanceScreen {...MAIN_SCREEN} />
-      </Monitor>
-      <Laptop x={250} y={700} sticker>
-        <rect width="212" height="136" fill="#eef1f6" />
-        <rect x="16" y="16" width="180" height="40" rx="6" fill="#fbe1df" />
-        <text x="26" y="41" fontSize="12" fontWeight="700" fill={INK.red} fontFamily={FONT}>
-          Sin MDM · Sin VPN
-        </text>
-        <rect x="16" y="68" width="120" height="10" rx="5" fill={INK.bar} />
-        <rect x="16" y="88" width="160" height="10" rx="5" fill={INK.bar} />
-      </Laptop>
-      <Folder x={1330} y={710} label="Firmas" />
-      <Mug x={1120} y={700} />
-    </>
-  ),
+  desarrollo: <DesarrolloArt />,
+  finanzas: <FinanzasArt />,
   operaciones: (
     <>
       <Room night windowX={1240} />

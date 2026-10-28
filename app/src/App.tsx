@@ -1,7 +1,10 @@
 import { AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { LanguageSwitch } from './components/LanguageSwitch';
 import { SessionGuard } from './components/SessionGuard';
+import { DEFAULT_LOCALE, STORIES } from './content';
 import { initialState } from './game/machine';
+import type { GameState } from './game/types';
 import { useLanguage } from './i18n/LanguageProvider';
 import { AreaScreen } from './screens/AreaScreen';
 import { AreaSelectScreen } from './screens/AreaSelectScreen';
@@ -23,6 +26,9 @@ import { useTrackedReducer } from './tracking/useTrackedReducer';
 
 const newSeed = () => Math.floor(Math.random() * 2 ** 31);
 
+/** Screens that place the language switch themselves (the first screen and the HUD); the rest float it. */
+const OWN_SWITCH = new Set<GameState['phase']>(['loading', 'areaSelect', 'area', 'roundEnd']);
+
 /**
  * The whole course is one reducer plus a switch over `phase`. Adding a screen
  * means adding a phase and a case, not rewiring navigation. Tracking goes
@@ -35,13 +41,14 @@ export function App() {
   const reporter = useMemo<Reporter>(() => {
     const driver = scormDriver();
     if (driver) {
-      const scorm = createScormReporter(driver, story);
+      // Workday's reports read the same whatever language each learner picked.
+      const scorm = createScormReporter(driver, STORIES[DEFAULT_LOCALE]);
       // Started here, before anything reads the LMS: the resume offer below needs it.
       scorm.start();
       return scorm;
     }
     return import.meta.env.DEV ? createConsoleReporter() : silentReporter;
-  }, []); // The story never changes after launch; the reporter must not be recreated.
+  }, []); // The reporter must not be recreated, or the LMS session would restart.
   // Inside an LMS the saved run is the LMS's; the browser's storage may be blocked in its frame.
   const saved = useMemo(() => (reporter.inLms ? reporter.savedProgress() : loadProgress()), [reporter]);
   const [state, dispatch] = useTrackedReducer(initialState, reporter);
@@ -158,6 +165,7 @@ export function App() {
   return (
     <>
       <AnimatePresence mode="wait">{screen()}</AnimatePresence>
+      {!OWN_SWITCH.has(state.phase) && <LanguageSwitch className="fixed top-3 right-3 z-40" />}
       <SessionGuard phase={state.phase} onExit={() => exit(story.session.exited)} warnOnLeave={!reporter.inLms} />
     </>
   );

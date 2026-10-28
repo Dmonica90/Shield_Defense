@@ -40,11 +40,43 @@ export type AreaContent = {
   cycles: Record<'1' | '2' | '3', CycleContent>;
 };
 
+/** Words drawn inside the scene illustrations (`components/SceneArt.tsx`). */
+export type ArtText = Record<
+  | 'supportApp'
+  | 'urgent'
+  | 'search'
+  | 'securityChannel'
+  | 'pinnedTitle'
+  | 'pinnedBody'
+  | 'reportFile'
+  | 'share'
+  | 'corporateDrive'
+  | 'seniorDev'
+  | 'meeting'
+  | 'protocol'
+  | 'financeApp'
+  | 'pendingTransfer'
+  | 'signature1'
+  | 'signature2'
+  | 'noMdm'
+  | 'personal'
+  | 'signatures'
+  | 'nightSearch'
+  | 'channels'
+  | 'directMessages'
+  | 'anomaly'
+  | 'runningAsRoot'
+  | 'alert',
+  string
+> & { columns: [string, string, string, string]; whatsapp: string[] };
+
 export type DebriefCard = { title: string; lines: string[]; source?: string };
 
 export type Story = {
   locale: string;
   languageName: string;
+  /** Accessible name of the language switch. */
+  languageLabel: string;
   meta: { brand: string; title: string; tagline: string; duration: string };
   loading: Record<'loadingLabel' | 'start' | 'resumeTitle' | 'resumeBody' | 'resume' | 'restart', string>;
   intro: {
@@ -144,6 +176,7 @@ export type Story = {
   >;
   gameOver: Record<'label' | 'title' | 'body' | 'failures' | 'fragments' | 'wrong' | 'retry' | 'exit' | 'exited', string>;
   session: Record<'idleTitle' | 'idleBody' | 'resume' | 'exit' | 'exited', string>;
+  art: ArtText;
   areas: Record<AreaId, AreaContent>;
 };
 

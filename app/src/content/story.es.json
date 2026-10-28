@@ -1,6 +1,7 @@
 {
   "locale": "es",
   "languageName": "Español",
+  "languageLabel": "Idioma",
   "meta": {
     "brand": "Clip",
     "title": "Shield Defense",
@@ -264,6 +265,45 @@
     "resume": "Continuar",
     "exit": "Salir",
     "exited": "Tu progreso se guardó. Puedes cerrar esta ventana y continuar después."
+  },
+  "art": {
+    "supportApp": "Atención a clientes",
+    "urgent": "¡URGENTE!",
+    "search": "Buscar en Clip",
+    "securityChannel": "seguridad",
+    "pinnedTitle": "Datos de clientes:",
+    "pinnedBody": "solo herramientas de Clip",
+    "reportFile": "reporte_pagos.xlsx",
+    "share": "Compartir",
+    "columns": [
+      "Fecha",
+      "Cuenta",
+      "Monto",
+      "Estado"
+    ],
+    "corporateDrive": "OneDrive de Clip",
+    "seniorDev": "Desarrollador Senior",
+    "whatsapp": [
+      "Mándamelo por",
+      "WhatsApp, ya lo abro",
+      "yo aquí en mi",
+      "computadora 🙏"
+    ],
+    "meeting": "Reunión",
+    "protocol": "Protocolo",
+    "financeApp": "Finanzas · Tesorería",
+    "pendingTransfer": "Transferencia pendiente",
+    "signature1": "Firma 1",
+    "signature2": "Firma 2",
+    "noMdm": "Sin MDM · Sin VPN",
+    "personal": "personal",
+    "signatures": "Firmas",
+    "nightSearch": "Buscar en Clip · 22:00",
+    "channels": "Canales",
+    "directMessages": "Mensajes directos",
+    "anomaly": "⚠ Anomalía en consulta de cuentas de administrador",
+    "runningAsRoot": "ejecutando como root…",
+    "alert": "Alerta"
   },
   "areas": {
     "atencion": {

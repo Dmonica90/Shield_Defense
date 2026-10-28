@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { LanguageSwitch } from '../components/LanguageSwitch';
 import { Button, Scene } from '../components/ui';
 import { useLanguage } from '../i18n/LanguageProvider';
 import { TIMING } from '../timing';
@@ -16,8 +17,8 @@ export function ShieldMark({ className = '' }: { className?: string }) {
 }
 
 /**
- * The first screen: logo, a short loading bar, then Start. If there is a saved
- * run it offers to pick it up instead of starting over.
+ * The first screen: logo, the language choice, a short loading bar, then Start.
+ * If there is a saved run it offers to pick it up instead of starting over.
  */
 export function LoadingScreen({
   hasSave,
@@ -52,6 +53,8 @@ export function LoadingScreen({
           <h1 className="mt-2 text-4xl font-bold tracking-tight sm:text-6xl">{story.meta.title}</h1>
           <p className="mt-3 text-lg text-ink-dim">{story.meta.tagline}</p>
         </div>
+
+        <LanguageSwitch size="lg" />
 
         {!ready ? (
           <div className="w-full max-w-sm" role="status">
