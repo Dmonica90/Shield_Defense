@@ -15,8 +15,8 @@ npm run dev
 | `npm test` | Reglas del juego, guion y tracking (Vitest) |
 | `npm run e2e` | Partidas completas en navegador (Playwright) |
 
-Agrega `?fast=1` a la URL para acortar los tiempos fijos (carga, consola,
-debriefing) y congelar la lluvia binaria (sin distorsión); los tests e2e lo usan.
+Agrega `?fast=1` a la URL para acortar los tiempos fijos (carga, consola) y
+congelar la lluvia binaria (sin distorsión); los tests e2e lo usan.
 
 ## Cómo se juega
 
@@ -36,8 +36,9 @@ debriefing) y congelar la lluvia binaria (sin distorsión); los tests e2e lo usa
    intermedio (la señal se distorsiona y entra una lluvia binaria leve),
    ronda 3 = ciclo 3 = difícil (lluvia binaria densa con ráfagas de distorsión
    de señal, más hotspots y un giro).
-6. **3 fallos = Game Over** (reintentar reinicia todo). Se gana con 0, 1 o 2.
-7. **Debriefing** (6 tarjetas) → **evaluación** (reflexión abierta de 50–500
+6. **3 fallos = Game Over**: puntuación 0 y hay que repetir el ejercicio. Se
+   gana con 0, 1 o 2 fallos: 100, 90 u 80 puntos (el mínimo para aprobar es 80).
+7. **Debriefing** (6 tarjetas que avanzan solo con Siguiente, con Atrás) → **evaluación** (reflexión abierta de 50–500
    caracteres o saltar; V/F sobre el DLP, donde "Falso" es requerido) →
    **certificado** (descargable como PDF con el diálogo de impresión).
 
@@ -104,8 +105,8 @@ modificar (`scorm/`); lo propio del curso está en `src/tracking/scorm.ts`.
 | Cada decisión | `cmi.interactions.n` tipo `choice`: respuesta, correcta, resultado, latencia |
 | Consola verifica un área | `cmi.objectives.n` por área (passed/failed) y `cmi.progress_measure` |
 | Evaluación | reflexión como `long-fill-in` (texto completo); V/F del DLP como `true-false` |
-| Certificado | `cmi.score` (100 / 85 / 70 según fallos), luego `completed` + `passed` |
-| Game Over | queda `incomplete` y sin partida guardada: al reabrir empieza de cero |
+| Certificado | `cmi.score` (100 / 90 / 80 según el intento en que asegura el sistema; mínimo para aprobar: 80), luego `completed` + `passed` |
+| Game Over (3 fallos) | puntuación 0 en pantalla; queda `incomplete` y sin partida guardada: repite el ejercicio |
 | Cierra la ventana | `cmi.session_time`, `cmi.exit` (`suspend` o `normal`), `Terminate` |
 
 Al volver a abrirlo con una partida a medias (`cmi.entry = resume`) ofrece

@@ -1,24 +1,17 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, Scene } from '../components/ui';
 import { useLanguage } from '../i18n/LanguageProvider';
-import { TIMING } from '../timing';
 
 /**
- * Six cards, one at a time. Each advances on its own after five seconds, or
- * sooner with Next; there is no way to skip the whole debrief.
+ * Six cards, one at a time. Nothing moves on its own: Next and Back step
+ * through them at the reader's pace, and there is no way to skip the debrief.
  */
 export function DebriefScreen({ onDone }: { onDone: () => void }) {
   const { story } = useLanguage();
   const cards = story.debrief.cards;
   const [index, setIndex] = useState(0);
   const last = index === cards.length - 1;
-
-  useEffect(() => {
-    if (last) return;
-    const id = window.setTimeout(() => setIndex((i) => i + 1), TIMING.debriefCard);
-    return () => window.clearTimeout(id);
-  }, [index, last]);
 
   const card = cards[index];
 
@@ -58,7 +51,10 @@ export function DebriefScreen({ onDone }: { onDone: () => void }) {
           </motion.article>
         </AnimatePresence>
 
-        <div className="flex justify-end">
+        <div className="flex justify-between gap-3">
+          <Button tone="ghost" onClick={() => setIndex((i) => i - 1)} disabled={index === 0}>
+            {story.debrief.back}
+          </Button>
           {last ? (
             <Button onClick={onDone} sfx="confirm">
               {story.debrief.finish}

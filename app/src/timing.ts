@@ -15,8 +15,6 @@ export const TIMING = {
   consoleWin: scale(30_000),
   /** A failed verification: long enough to read which fragments were false. */
   consoleFail: scale(9000),
-  /** Each debrief card stays up for 5 s before the next one fades in. */
-  debriefCard: scale(5000),
   /** Inactivity before the session pauses (15 min). */
   idle: FAST ? 60_000 : 15 * 60_000,
   /** How long the intro video may take to start before the retry dialog. */

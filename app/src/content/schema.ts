@@ -133,7 +133,7 @@ export type Story = {
     string
   >;
   roundEnd: Record<'label' | 'title' | 'body' | 'youChose' | 'consequences' | 'why' | 'failures' | 'next' | 'cta', string>;
-  debrief: { label: string; next: string; finish: string; cards: DebriefCard[] };
+  debrief: { label: string; back: string; next: string; finish: string; cards: DebriefCard[] };
   evaluation: Record<
     | 'label'
     | 'q1'
@@ -174,7 +174,7 @@ export type Story = {
     | 'closed',
     string
   >;
-  gameOver: Record<'label' | 'title' | 'body' | 'failures' | 'fragments' | 'wrong' | 'retry' | 'exit' | 'exited', string>;
+  gameOver: Record<'label' | 'title' | 'body' | 'score' | 'failures' | 'fragments' | 'wrong' | 'retry' | 'exit' | 'exited', string>;
   session: Record<'idleTitle' | 'idleBody' | 'resume' | 'exit' | 'exited', string>;
   art: ArtText;
   areas: Record<AreaId, AreaContent>;

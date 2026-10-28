@@ -89,8 +89,15 @@ export function canCertify(state: GameState): boolean {
   );
 }
 
-/** Points lost per failed verification, so a clean run scores 100, then 85, then 70. */
-const POINTS_PER_FAILURE = 15;
+/**
+ * Points lost per failed verification: securing the system on the first
+ * attempt scores 100, on the second 90, on the third 80. A third failure is
+ * game over (0) and the exercise starts again, so every certificate is a pass.
+ */
+const POINTS_PER_FAILURE = 10;
+
+/** The minimum score that passes the course (and the lowest one a certificate can show). */
+export const PASSING_SCORE = 80;
 
 export function score(state: GameState): number {
   return canCertify(state) ? 100 - state.failures * POINTS_PER_FAILURE : 0;

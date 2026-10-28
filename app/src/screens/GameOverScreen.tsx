@@ -37,7 +37,8 @@ export function GameOverScreen({
         <p className="text-xs tracking-[0.3em] text-alarm uppercase">{g.label}</p>
         <h1 className="mt-3 text-3xl font-bold text-alarm">{g.title}</h1>
         <p className="mt-4 font-display text-ink-dim">{g.body}</p>
-        <ul className="mt-6 flex flex-col gap-1 text-sm">
+        <p className="mt-6 font-bold text-alarm">{g.score}</p>
+        <ul className="mt-4 flex flex-col gap-1 text-sm">
           <li>{fill(g.failures, { failures: state.failures, max: MAX_FAILURES })}</li>
           <li>{fill(g.fragments, { count: securedCount(state) })}</li>
           <li>{fill(g.wrong, { count: state.decisions.filter((d) => !d.correct).length })}</li>

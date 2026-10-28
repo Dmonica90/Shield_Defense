@@ -87,9 +87,10 @@ export async function passConsole(page: Page, keyboard = false) {
   await press(page, next, keyboard);
 }
 
-/** Reads all six debrief cards and moves on. */
+/** Steps through all six debrief cards with Next (they never advance on their own) and moves on. */
 export async function passDebrief(page: Page, keyboard = false) {
-  const finish = page.getByRole('button', { name: 'Continuar a la evaluación' });
-  await expect(finish).toBeVisible({ timeout: 10_000 });
-  await press(page, finish, keyboard);
+  for (let card = 1; card < 6; card += 1) {
+    await press(page, page.getByRole('button', { name: 'Siguiente' }), keyboard);
+  }
+  await press(page, page.getByRole('button', { name: 'Continuar a la evaluación' }), keyboard);
 }

@@ -74,7 +74,8 @@
       "Hay 4 áreas. En cada una decides qué hacer ante una situación de presión.",
       "Cada decisión te entrega un fragmento del escudo. Pero no todos los fragmentos son genuinos.",
       "Al terminar la ronda, la Consola Central los verifica. Si alguno es falso, vuelves a esas áreas, y cada ronda es más difícil.",
-      "Tienes 3 intentos. Si en la tercera ronda sigue habiendo fragmentos falsos, el ataque entra."
+      "Tienes 3 intentos. Si en la tercera ronda sigue habiendo fragmentos falsos, el ataque entra.",
+      "Si lo logras en el primer intento obtienes 100; en el segundo, 90; en el tercero, 80. Necesitas 80 para aprobar."
     ],
     "continue": "Entendido",
     "skip": "Saltar"
@@ -155,6 +156,7 @@
   },
   "debrief": {
     "label": "Debriefing",
+    "back": "Atrás",
     "next": "Siguiente",
     "finish": "Continuar a la evaluación",
     "cards": [
@@ -252,6 +254,7 @@
     "label": "Ataque iniciado",
     "title": "❌ Ataque iniciado",
     "body": "Después de 3 verificaciones seguía habiendo fragmentos falsos. El atacante entró por donde confiaste.",
+    "score": "Puntuación: 0 de 100. El mínimo para aprobar es 80: repite el ejercicio.",
     "failures": "Fallos registrados: {failures} de {max}",
     "fragments": "Fragmentos genuinos: {count} de 4",
     "wrong": "Decisiones incorrectas: {count}",

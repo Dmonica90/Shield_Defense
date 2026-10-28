@@ -74,7 +74,8 @@
       "There are 4 areas. In each one you decide what to do in a high-pressure situation.",
       "Each decision gives you a fragment of the shield. But not every fragment is genuine.",
       "At the end of the round, the Central Console verifies them. If any is false, you go back to those areas, and each round is harder.",
-      "You have 3 attempts. If there are still false fragments after the third round, the attack gets in."
+      "You have 3 attempts. If there are still false fragments after the third round, the attack gets in.",
+      "Succeed on the first attempt and you score 100; on the second, 90; on the third, 80. You need 80 to pass."
     ],
     "continue": "Got it",
     "skip": "Skip"
@@ -155,6 +156,7 @@
   },
   "debrief": {
     "label": "Debriefing",
+    "back": "Back",
     "next": "Next",
     "finish": "Continue to the evaluation",
     "cards": [
@@ -252,6 +254,7 @@
     "label": "Attack launched",
     "title": "❌ Attack launched",
     "body": "After 3 verifications there were still false fragments. The attacker got in where you placed your trust.",
+    "score": "Score: 0 out of 100. The passing score is 80: repeat the exercise.",
     "failures": "Failures recorded: {failures} of {max}",
     "fragments": "Genuine fragments: {count} of 4",
     "wrong": "Wrong decisions: {count}",

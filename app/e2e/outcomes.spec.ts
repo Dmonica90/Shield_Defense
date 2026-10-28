@@ -77,7 +77,25 @@ test('route B: a false fragment is only revealed at the console, then that area 
   await playRound(page, 2, ['desarrollo']);
   await expect(page.getByText('PROTOCOLO DLP ACTIVADO')).toBeVisible({ timeout: 10_000 });
   await passConsole(page);
-  await expect(page.getByRole('heading', { name: 'Factor humano' })).toBeVisible();
+
+  // The debrief waits for the reader: no card moves on by itself, and Back goes back.
+  const first = page.getByRole('heading', { name: 'Factor humano' });
+  await expect(first).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Atrás' })).toBeDisabled();
+  await page.waitForTimeout(6000);
+  await expect(first).toBeVisible();
+  await page.getByRole('button', { name: 'Siguiente' }).click();
+  await expect(page.getByRole('heading', { name: 'Costo financiero' })).toBeVisible();
+  await page.getByRole('button', { name: 'Atrás' }).click();
+  await expect(first).toBeVisible();
+  await passDebrief(page);
+
+  // Secured on the second attempt: 90, above the 80 needed to pass.
+  await page.getByRole('button', { name: 'Saltar' }).click();
+  await page.getByRole('button', { name: 'Falso' }).click();
+  await page.getByLabel(/A nombre de quién/).fill('Ana Pérez');
+  await page.getByRole('button', { name: 'Generar certificado' }).click();
+  await expect(page.getByText('PASS (90)')).toBeVisible();
 });
 
 test('route C: three failed verifications end the run, and retry starts over', async ({ page }) => {
@@ -97,6 +115,7 @@ test('route C: three failed verifications end the run, and retry starts over', a
 
   await expect(page.getByRole('heading', { name: '❌ Ataque iniciado' })).toBeVisible();
   await expect(page.getByText('Fragmentos genuinos: 3 de 4')).toBeVisible();
+  await expect(page.getByText(/Puntuación: 0 de 100\. El mínimo para aprobar es 80/)).toBeVisible();
   await page.getByRole('button', { name: 'Reintentar' }).click();
 
   await expect(page.getByRole('heading', { name: 'Elige un área' })).toBeVisible();
