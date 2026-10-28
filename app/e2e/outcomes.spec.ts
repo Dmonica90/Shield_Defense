@@ -18,7 +18,7 @@ test('route A: every decision right, all the way to the certificate, by keyboard
   await begin(page, kb);
   await playRound(page, 1, ALL, [], kb);
 
-  await expect(page.getByText('PROTOCOLO ZERO-TRUST ACTIVADO')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('PROTOCOLO DLP ACTIVADO')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText('[CORRUPTO]')).toHaveCount(0);
   await passConsole(page, kb);
   await passDebrief(page, kb);
@@ -40,7 +40,7 @@ test('route A: every decision right, all the way to the certificate, by keyboard
   await press(page, page.getByRole('button', { name: 'Generar certificado' }), kb);
   await expect(page.getByRole('heading', { name: 'Ana Pérez' })).toBeVisible();
   await expect(page.getByText('PASS (100)')).toBeVisible();
-  await expect(page.getByText('«Zero Trust Defender»')).toBeVisible();
+  await expect(page.getByText('«DLP Defender»')).toBeVisible();
 
   await press(page, page.getByRole('button', { name: /Cerrar/ }), kb);
   await expect(page.getByText('Curso completado')).toBeVisible();
@@ -75,7 +75,7 @@ test('route B: a false fragment is only revealed at the console, then that area 
   }
 
   await playRound(page, 2, ['desarrollo']);
-  await expect(page.getByText('PROTOCOLO ZERO-TRUST ACTIVADO')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('PROTOCOLO DLP ACTIVADO')).toBeVisible({ timeout: 10_000 });
   await passConsole(page);
   await expect(page.getByRole('heading', { name: 'Factor humano' })).toBeVisible();
 });

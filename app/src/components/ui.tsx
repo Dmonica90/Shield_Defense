@@ -3,6 +3,9 @@ import type { ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSound } from '../audio/SoundProvider';
 import type { SfxName } from '../assets';
+import { IS_FAST } from '../timing';
+import { BinaryRain } from './BinaryRain';
+import { SignalDistortion } from './SignalDistortion';
 
 type ButtonTone = 'primary' | 'ghost' | 'danger' | 'quiet';
 
@@ -57,6 +60,7 @@ export function Scene({
   overlay = 'bg-ground/72',
   className = '',
   zoomBackdrop = false,
+  fx,
 }: {
   backdrop?: string;
   children: ReactNode;
@@ -64,7 +68,10 @@ export function Scene({
   className?: string;
   /** Scales the backdrop in, for a "lean closer" beat. */
   zoomBackdrop?: boolean;
+  /** The system leaking: see `SceneEffects`. */
+  fx?: SceneFx;
 }) {
+  const [burst, setBurst] = useState(false);
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -89,10 +96,39 @@ export function Scene({
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,var(--color-ground)_100%)] opacity-80"
         aria-hidden="true"
       />
-      <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-6xl flex-col px-4 py-6 sm:px-8">
+      {fx && <SceneEffects key={fx} fx={fx} onBurst={setBurst} />}
+      <div
+        className={`relative z-10 mx-auto flex min-h-dvh w-full max-w-6xl flex-col px-4 py-6 sm:px-8 ${burst ? 'signal-burst' : ''}`}
+      >
         {children}
       </div>
     </motion.section>
+  );
+}
+
+export type SceneFx = 'leak' | 'breach';
+
+/**
+ * `leak`: the signal breaks up once, then a light binary rain sets in.
+ * `breach`: a dense rain with the signal breaking up every few seconds.
+ * Reduced motion and the test mode skip the distortion and show the rain still.
+ */
+function SceneEffects({ fx, onBurst }: { fx: SceneFx; onBurst: (active: boolean) => void }) {
+  const still = useReducedMotion() || IS_FAST;
+  const [rain, setRain] = useState(fx === 'breach' || still);
+
+  if (still) return <BinaryRain intensity={fx === 'leak' ? 'light' : 'heavy'} />;
+  return (
+    <>
+      {rain && <BinaryRain intensity={fx === 'leak' ? 'light' : 'heavy'} />}
+      <SignalDistortion
+        mode={fx === 'leak' ? 'intro' : 'bursts'}
+        onBurst={(active) => {
+          onBurst(active);
+          if (!active) setRain(true);
+        }}
+      />
+    </>
   );
 }
 

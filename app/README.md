@@ -16,7 +16,7 @@ npm run dev
 | `npm run e2e` | Partidas completas en navegador (Playwright) |
 
 Agrega `?fast=1` a la URL para acortar los tiempos fijos (carga, consola,
-debriefing) y congelar el glitch; los tests e2e lo usan.
+debriefing) y congelar la lluvia binaria (sin distorsión); los tests e2e lo usan.
 
 ## Cómo se juega
 
@@ -33,8 +33,9 @@ debriefing) y congelar el glitch; los tests e2e lo usan.
      que muestra —solo aquí— lo que elegiste, sus consecuencias y por qué.
      Regresas a jugar **solo las áreas con fragmento falso**.
 5. **La ronda es la dificultad:** ronda 1 = ciclo 1 = fácil, ronda 2 = ciclo 2 =
-   intermedio (glitch leve), ronda 3 = ciclo 3 = difícil (glitch fuerte, más
-   hotspots y un giro).
+   intermedio (la señal se distorsiona y entra una lluvia binaria leve),
+   ronda 3 = ciclo 3 = difícil (lluvia binaria densa con ráfagas de distorsión
+   de señal, más hotspots y un giro).
 6. **3 fallos = Game Over** (reintentar reinicia todo). Se gana con 0, 1 o 2.
 7. **Debriefing** (6 tarjetas) → **evaluación** (reflexión abierta de 50–500
    caracteres o saltar; V/F sobre el DLP, donde "Falso" es requerido) →
@@ -91,11 +92,26 @@ Faltaría además generar `imsmanifest.xml` y el `.zip` para subir a Workday. El
 build ya usa rutas relativas (`base: './'`), así que funciona dentro del iframe
 del LMS.
 
+## Storyline (revisión)
+
+Para revisar el curso dentro de Articulate Storyline como Web Object (no
+reporta nada a Storyline ni al LMS):
+
+```sh
+npm run build:storyline
+```
+
+Genera `storyline/ClipShieldDefense/`: un `index.html` con todo el JS y CSS
+incrustado (abre también desde `file://`) más `assets/audio/`. En Storyline:
+*Insert → Web Object*, elegir esa carpeta, *Display in slide*, y estirarlo a
+toda la diapositiva (16:9, 1280×720). Dentro del iframe no aparece el aviso de
+"¿salir de la página?".
+
 ## Accesibilidad
 
 - Toda interacción es un botón real: clic, toque y Enter funcionan. Hay una
   partida completa solo con teclado en los tests e2e.
 - Las opciones son un `radiogroup`; los hotspots explorados se anuncian como tales.
 - Los diálogos atrapan el foco y cierran con Escape.
-- `prefers-reduced-motion` desactiva las animaciones y el glitch.
+- `prefers-reduced-motion` desactiva las animaciones y la distorsión, y deja la lluvia binaria quieta.
 - En pantallas angostas la escena se reemplaza por una lista de hotspots.

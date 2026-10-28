@@ -72,61 +72,25 @@ body {
 }
 
 /*
- * The interface failing under pressure. Cycle 2 flickers now and then; cycle 3
- * breaks properly — shifted colours, flickering text, controls that jump. Long
- * still stretches between bursts keep it playable, and reduced motion (or the
- * test mode) turns the movement off.
+ * A burst of bad signal: while it lasts the content jumps sideways and splits
+ * into red and cyan, like a TV losing the picture. Applied to the elements, not
+ * their container, so fixed-position dialogs stay where they are.
  */
-@keyframes glitch-hue {
-  0%, 86%, 100% { filter: none; }
-  88% { filter: hue-rotate(70deg) saturate(1.6); }
-  90% { filter: invert(0.85) hue-rotate(180deg); }
-  92% { filter: none; }
-  95% { filter: hue-rotate(-50deg) contrast(1.4); }
+@keyframes signal-tear {
+  0%, 100% { translate: 0; transform: none; }
+  20% { translate: -5px 0; transform: skewX(-3deg); }
+  40% { translate: 4px 0; }
+  60% { translate: -2px 0; transform: skewX(2deg); }
+  80% { translate: 6px 0; }
 }
 
-@keyframes glitch-flicker {
-  0%, 90%, 100% { opacity: 1; }
-  91% { opacity: 0.35; }
-  93% { opacity: 1; }
-  96% { opacity: 0.6; }
-}
-
-@keyframes glitch-shift {
-  0%, 92%, 100% { transform: none; }
-  93% { transform: translate(3px, -2px) skewX(-4deg); }
-  95% { transform: translate(-4px, 1px); }
-  97% { transform: translate(2px, 2px) skewX(3deg); }
-}
-
-@keyframes glitch-slice {
-  0%, 94%, 100% { clip-path: none; }
-  95% { clip-path: inset(20% 0 55% 0); transform: translateX(-6px); }
-  97% { clip-path: inset(60% 0 12% 0); transform: translateX(5px); }
-}
-
-.glitch-light {
-  animation: glitch-hue 7s steps(1) infinite;
-}
-
-.glitch-heavy {
-  animation: glitch-hue 3.1s steps(1) infinite;
-}
-.glitch-heavy p,
-.glitch-heavy h2,
-.glitch-heavy li {
-  animation: glitch-flicker 2.3s steps(1) infinite;
-}
-.glitch-heavy .glitch-jump {
-  animation: glitch-shift 2.9s steps(1) infinite;
-}
-.glitch-heavy .glitch-slice {
-  animation: glitch-slice 3.7s steps(1) infinite;
-}
-
-.glitch-still,
-.glitch-still * {
-  animation: none !important;
+@media (prefers-reduced-motion: no-preference) {
+  .signal-burst :is(h1, h2, h3, p, li, button, img, svg) {
+    animation: signal-tear 0.32s steps(1) infinite;
+    text-shadow:
+      -2px 0 rgba(255, 0, 60, 0.7),
+      2px 0 rgba(0, 240, 255, 0.7);
+  }
 }
 
 /*

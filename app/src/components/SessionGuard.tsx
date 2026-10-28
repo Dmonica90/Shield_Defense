@@ -33,7 +33,8 @@ export function SessionGuard({ phase, onExit }: { phase: Phase; onExit: () => vo
   }, [inPlay]);
 
   useEffect(() => {
-    if (!inPlay) return;
+    // Inside an iframe (a Storyline web object) the host owns leaving the page.
+    if (!inPlay || window.self !== window.top) return;
     const warn = (event: BeforeUnloadEvent) => {
       // Browsers show their own wording; setting returnValue is what triggers it.
       event.preventDefault();

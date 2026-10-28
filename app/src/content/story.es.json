@@ -39,7 +39,7 @@
   },
   "rules": {
     "label": "Protocolo",
-    "title": "5 principios Zero Trust",
+    "title": "5 principios de Data Loss Prevention (DLP)",
     "subtitle": "Nunca confíes por defecto. Verifica siempre. Esto es lo que vas a poner a prueba.",
     "items": [
       {
@@ -131,11 +131,11 @@
     "twist": "Giro"
   },
   "console": {
-    "system": "SISTEMA OPERACIONAL: CLIP ZERO-TRUST v4.2",
+    "system": "SISTEMA OPERACIONAL: CLIP DLP v4.2",
     "verifying": "> VERIFICANDO FRAGMENTOS…",
     "genuine": "SECURED",
     "false": "CORRUPTO",
-    "successTitle": "PROTOCOLO ZERO-TRUST ACTIVADO",
+    "successTitle": "PROTOCOLO DLP ACTIVADO",
     "successBody": "> SISTEMA PROTEGIDO",
     "failTitle": "ACCESO NO AUTORIZADO",
     "failBody": "> {count} fragmento(s) falso(s) detectado(s)",
@@ -240,7 +240,7 @@
     "score": "Puntuación",
     "scoreValue": "PASS ({score})",
     "fragments": "Fragmentos recolectados: 4/4",
-    "badge": "Zero Trust Defender",
+    "badge": "DLP Defender",
     "badgeLabel": "Badge",
     "credit": "Crédito: 0.5 CEU",
     "download": "Descargar PDF",

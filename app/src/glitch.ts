@@ -1,15 +1,12 @@
-import { useReducedMotion } from 'framer-motion';
+import type { SceneFx } from './components/ui';
 import type { Cycle } from './game/types';
-import { IS_FAST } from './timing';
 
 /**
- * The interface degrades as the rounds get harder: clean on the easy round, a
- * flicker on the medium one, properly broken on the hard one. Reduced motion
- * and the test mode keep the colours but stop anything from moving.
+ * The system leaks harder as the rounds get harder: clean on the easy round;
+ * on the medium one the signal breaks up and then a light binary rain sets in;
+ * on the hard one a dense rain with the signal breaking up every few seconds.
+ * The effects themselves hold still under reduced motion and the test mode.
  */
-export function useGlitch(round: Cycle): string {
-  const reduce = useReducedMotion();
-  const level = { 1: '', 2: 'glitch-light', 3: 'glitch-heavy' }[round];
-  if (!level) return '';
-  return reduce || IS_FAST ? `${level} glitch-still` : level;
+export function useGlitch(round: Cycle): SceneFx | undefined {
+  return ({ 1: undefined, 2: 'leak', 3: 'breach' } as const)[round];
 }

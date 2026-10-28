@@ -1,7 +1,7 @@
 import { Button, Scene, Stagger, StaggerItem } from '../components/ui';
 import { useLanguage } from '../i18n/LanguageProvider';
 
-/** The five Zero Trust principles and how the rounds work. */
+/** The five Data Loss Prevention (DLP) principles and how the rounds work. */
 export function RulesScreen({ onDone }: { onDone: (skipped: boolean) => void }) {
   const { story } = useLanguage();
   const { rules } = story;

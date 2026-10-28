@@ -31,7 +31,7 @@ export async function press(page: Page, target: Locator, keyboard = false) {
 
 /**
  * Loads the course in test mode (`?fast=1` shortens the fixed-length beats and
- * holds the glitch still) and gets to the area selector. Leaving mid-run raises
+ * holds the binary rain still) and gets to the area selector. Leaving mid-run raises
  * the beforeunload prompt, so reloads in the tests accept it.
  */
 const accepting = new WeakSet<Page>();

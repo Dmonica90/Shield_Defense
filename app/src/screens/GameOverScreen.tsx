@@ -27,7 +27,7 @@ export function GameOverScreen({
   }, [play]);
 
   return (
-    <Scene className="glitch-heavy glitch-still">
+    <Scene fx="breach">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}

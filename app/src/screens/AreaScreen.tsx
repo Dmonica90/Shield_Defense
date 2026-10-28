@@ -33,7 +33,7 @@ export function AreaScreen({
   const level = story.levels[LEVEL_BY_CYCLE[state.round]];
 
   return (
-    <Scene className={glitch}>
+    <Scene fx={glitch}>
       <Hud state={state} />
       <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-5 py-6">
         <header className="flex flex-wrap items-center gap-3">
@@ -57,7 +57,7 @@ export function AreaScreen({
               <>
                 <h1 className="text-3xl font-bold sm:text-4xl">{content.title}</h1>
                 {cycle.twist && (
-                  <p className="glitch-jump rounded-xl border border-alarm/60 bg-alarm/10 px-4 py-3 font-semibold text-alarm">
+                  <p className="rounded-xl border border-alarm/60 bg-alarm/10 px-4 py-3 font-semibold text-alarm">
                     ⚡ {story.area.twist}: {cycle.twist}
                   </p>
                 )}
@@ -73,7 +73,7 @@ export function AreaScreen({
                   </ul>
                 </div>
                 <div className="flex justify-end">
-                  <Button onClick={() => dispatch({ type: 'beginExplore' })} className="glitch-jump">
+                  <Button onClick={() => dispatch({ type: 'beginExplore' })}>
                     {story.area.explore}
                   </Button>
                 </div>
@@ -146,7 +146,7 @@ function Explore({
       />
 
       <div className="flex justify-end">
-        <Button onClick={() => dispatch({ type: 'goToDecision' })} className="glitch-jump">
+        <Button onClick={() => dispatch({ type: 'goToDecision' })}>
           {story.area.decide}
         </Button>
       </div>
@@ -198,7 +198,7 @@ function Decide({
               role="radio"
               aria-checked={selected}
               onClick={() => dispatch({ type: 'selectOption', option: id })}
-              className={`glitch-jump panel flex items-start gap-4 rounded-2xl p-5 text-left text-lg transition-colors ${
+              className={`panel flex items-start gap-4 rounded-2xl p-5 text-left text-lg transition-colors ${
                 selected ? 'border-accent! bg-accent/10' : 'hover:border-accent/60'
               }`}
             >
@@ -220,7 +220,7 @@ function Decide({
         <Button tone="quiet" onClick={() => dispatch({ type: 'backToExplore' })}>
           {story.area.backToScene}
         </Button>
-        <Button onClick={() => setConfirming(true)} disabled={!state.selected} className="glitch-jump">
+        <Button onClick={() => setConfirming(true)} disabled={!state.selected}>
           {story.area.submit}
         </Button>
       </div>

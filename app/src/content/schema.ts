@@ -189,7 +189,7 @@ export function validateStory(story: Story, label: string): string[] {
   };
   walk(story, '');
 
-  if (story.rules?.items?.length !== 5) fail('rules.items must have the 5 Zero Trust principles');
+  if (story.rules?.items?.length !== 5) fail('rules.items must have the 5 DLP principles');
   if (story.debrief?.cards?.length !== 6) fail('debrief.cards must have 6 cards');
 
   for (const area of AREA_IDS) {

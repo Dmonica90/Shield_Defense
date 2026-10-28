@@ -96,7 +96,7 @@ export function AreaScene({
         // Capped by height too, so the scene and the Decide button both fit a 720px screen.
         style={{ aspectRatio: '16 / 9', maxWidth: 'min(100%, calc((100dvh - 330px) * 16 / 9))' }}
       >
-        <svg viewBox="0 0 1600 900" className="glitch-slice absolute inset-0 h-full w-full" aria-hidden="true">
+        <svg viewBox="0 0 1600 900" className="absolute inset-0 h-full w-full" aria-hidden="true">
           <defs>
             <radialGradient id={`glow-${area}`} cx="50%" cy="40%" r="75%">
               <stop offset="0%" stopColor="#1b2a48" />
@@ -113,7 +113,7 @@ export function AreaScene({
           return (
             <motion.div
               key={hotspot.id}
-              className="glitch-jump absolute -translate-x-1/2 -translate-y-1/2"
+              className="absolute -translate-x-1/2 -translate-y-1/2"
               style={slots[i]}
               initial={{ opacity: 0, scale: 0.6 }}
               animate={{ opacity: 1, scale: 1 }}
