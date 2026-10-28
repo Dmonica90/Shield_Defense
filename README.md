@@ -1,8 +1,8 @@
 # Clip Shield Defense
 
 **False Security — First Line of Defense.** Un micro-learning interactivo de
-10–12 minutos que entrena a los empleados de Clip en decisiones de seguridad
-Zero Trust: cuándo escalar un problema, no cómo resolverlo.
+10–12 minutos que entrena a los empleados de Clip en decisiones de seguridad de
+Data Loss Prevention (DLP): cuándo escalar un problema, no cómo resolverlo.
 
 ```
 app/   El curso. React + Vite + TypeScript, compilado como sitio estático.
@@ -26,7 +26,7 @@ en cada push a `main` además publica el sitio en GitHub Pages. Para que el depl
 funcione, **Settings → Pages → Source** debe estar en **GitHub Actions**. GitHub
 Pages en repositorios privados requiere un plan de pago de GitHub.
 
-El destino final es Workday vía SCORM; ver "Siguiente paso: SCORM" en
+El destino final es Workday vía SCORM 2004 (`npm run package:scorm`); ver "SCORM (Workday)" en
 [`app/README.md`](app/README.md).
 
 ## Origen

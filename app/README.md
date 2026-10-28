@@ -74,23 +74,37 @@ no haciendo clic.
 (`components/AreaScene.tsx`) hasta tener ilustraciones de Clip; las posiciones
 de los hotspots están en `src/scene.ts`.
 
-## Siguiente paso: SCORM
+## SCORM (Workday)
 
-El curso ya emite todos los eventos que Workday necesita, pero hoy van a la
-consola (en desarrollo) o a ningún lado (en producción). Conectarlo es escribir
-un segundo `Reporter` (`src/tracking/reporter.ts`), sin tocar el juego:
+```sh
+npm run package:scorm
+```
+
+Genera `scorm/clip-shield-defense-scorm2004-4th.zip`, el paquete SCORM 2004
+4th Edition para subir a Workday (y `scorm/package/`, la misma carpeta sin
+comprimir). El script baja el driver de
+[jeffbatt01/scorm-drivers](https://github.com/jeffbatt01/scorm-drivers) en cada
+corrida y lo copia sin cambios; del `imsmanifest.xml` solo cambia el título, que
+en Workday se ve como "Clip Shield Defense: False Security — Data Loss
+Prevention (DLP)".
+
+El juego no sabe nada de SCORM: `src/tracking/scormReporter.ts` es un segundo
+`Reporter` que se usa cuando la página carga el driver.
 
 | `Reporter` | SCORM 2004 |
 | --- | --- |
-| `start()` / `learnerName()` | `Initialize`, `cmi.learner_name`, `cmi.suspend_data` |
-| `event(e)` | `cmi.interactions.n.*` (decisiones, hotspots, evaluación), `cmi.objectives.n.*` (fragmentos) |
-| `saveProgress(state)` | `cmi.suspend_data`, `cmi.location`, `Commit` |
-| `complete({ score, passed })` | `cmi.score.*`, `cmi.completion_status`, `cmi.success_status` |
-| `finish()` | `cmi.session_time`, `cmi.exit`, `Terminate` |
+| `start()` / `learnerName()` | `Initialize`, `cmi.learner_name` ("Apellido, Nombre" → "Nombre Apellido") |
+| `savedProgress()` | `cmi.suspend_data`, solo si `cmi.entry` es `resume` |
+| `event(e)` | `cmi.interactions.n.*`: decisiones (choice) y las dos preguntas de evaluación |
+| `saveProgress(state)` | `cmi.location` (la fase), `cmi.suspend_data` (el estado), `Commit` |
+| `complete({ score, passed })` | `cmi.score.*` (100/0) y luego `completed` + `passed`/`failed` |
+| `finish()` | `cmi.session_time` y luego `Terminate`; también al cerrar la ventana |
 
-Faltaría además generar `imsmanifest.xml` y el `.zip` para subir a Workday. El
-build ya usa rutas relativas (`base: './'`), así que funciona dentro del iframe
-del LMS.
+Para probarlo sin LMS: en `scorm/package/scormcontent/index.html` descomenta
+la línea de `mock-api.js`, copia ese archivo del repo de drivers a
+`scorm/package/core/`, sirve `scorm/package/` y abre `launcher.html`. Las
+llamadas aparecen en la consola. Antes de Workday conviene subir el ZIP a
+[SCORM Cloud](https://cloud.scorm.com).
 
 ## Storyline (revisión)
 

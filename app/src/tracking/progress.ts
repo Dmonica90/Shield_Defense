@@ -19,9 +19,14 @@ const RESUMABLE = new Set<GameState['phase']>([
   'evaluation',
 ]);
 
+/** Whether this state is worth checkpointing; anything else clears the save. */
+export function isResumable(state: GameState): boolean {
+  return RESUMABLE.has(state.phase);
+}
+
 export function saveProgress(state: GameState): void {
   try {
-    if (RESUMABLE.has(state.phase)) localStorage.setItem(KEY, JSON.stringify(state));
+    if (isResumable(state)) localStorage.setItem(KEY, JSON.stringify(state));
     else if (state.phase !== 'loading') localStorage.removeItem(KEY);
   } catch {
     // Storage can be blocked (private mode, site data off). The game still works.
@@ -31,12 +36,15 @@ export function saveProgress(state: GameState): void {
 export function loadProgress(): GameState | null {
   try {
     const raw = localStorage.getItem(KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as GameState;
-    return isGameState(parsed) ? parsed : null;
+    return raw ? parseProgress(JSON.parse(raw)) : null;
   } catch {
     return null;
   }
+}
+
+/** A saved checkpoint from any source (localStorage, `cmi.suspend_data`), if it is usable. */
+export function parseProgress(value: unknown): GameState | null {
+  return isGameState(value) ? value : null;
 }
 
 export function clearProgress(): void {

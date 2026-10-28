@@ -15,8 +15,9 @@ import { IntroScreen } from './screens/IntroScreen';
 import { LoadingScreen } from './screens/LoadingScreen';
 import { RoundEndScreen } from './screens/RoundEndScreen';
 import { RulesScreen } from './screens/RulesScreen';
-import { clearProgress, loadProgress } from './tracking/progress';
+import { clearProgress } from './tracking/progress';
 import { createConsoleReporter, silentReporter } from './tracking/reporter';
+import { createScormReporter, scormDriver } from './tracking/scormReporter';
 import { useTrackedReducer } from './tracking/useTrackedReducer';
 
 const newSeed = () => Math.floor(Math.random() * 2 ** 31);
@@ -24,12 +25,16 @@ const newSeed = () => Math.floor(Math.random() * 2 ** 31);
 /**
  * The whole course is one reducer plus a switch over `phase`. Adding a screen
  * means adding a phase and a case, not rewiring navigation. Tracking goes
- * through the reporter, which is a console logger until SCORM is connected.
+ * through the reporter: SCORM inside an LMS, a console logger in development.
  */
 export function App() {
   const { story } = useLanguage();
-  const reporter = useMemo(() => (import.meta.env.DEV ? createConsoleReporter() : silentReporter), []);
-  const saved = useMemo(loadProgress, []);
+  const reporter = useMemo(() => {
+    const scorm = scormDriver();
+    if (scorm) return createScormReporter(scorm);
+    return import.meta.env.DEV ? createConsoleReporter() : silentReporter;
+  }, []);
+  const saved = useMemo(() => reporter.savedProgress(), [reporter]);
   const [state, dispatch] = useTrackedReducer(initialState, reporter);
   const [ended, setEnded] = useState<string | null>(null);
 

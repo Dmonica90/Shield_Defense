@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:storyline": "tsc -b && vite build --mode storyline --outDir storyline/ClipShieldDefense --emptyOutDir",
+    "build:scorm": "tsc -b && vite build --mode scorm --outDir scorm/scormcontent --emptyOutDir",
+    "package:scorm": "npm run build:scorm && sh scripts/package-scorm.sh",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",

@@ -1,5 +1,6 @@
 import type { GameState } from '../game/types';
 import type { TrackingEvent } from './events';
+import { loadProgress } from './progress';
 
 /**
  * Where grades and progress go. The game talks only to this interface; today
@@ -7,6 +8,7 @@ import type { TrackingEvent } from './events';
  * will be a second implementation with no change to the screens or the rules:
  *
  * - `start`        → `Initialize("")`, read `cmi.learner_name` / `cmi.suspend_data`
+ * - `savedProgress`→ the checkpoint to offer on the loading screen
  * - `event`        → `cmi.interactions.n.*` / `cmi.objectives.n.*`
  * - `saveProgress` → `cmi.suspend_data`, `cmi.location`, `Commit("")`
  * - `complete`     → `cmi.score.*`, `cmi.completion_status`, `cmi.success_status`
@@ -16,6 +18,8 @@ export type Reporter = {
   start(): void;
   /** The learner's name, when the host (an LMS) knows it. */
   learnerName(): string | null;
+  /** The checkpoint to resume from: the LMS's inside one, the browser's outside. */
+  savedProgress(): GameState | null;
   event(event: TrackingEvent): void;
   saveProgress(state: GameState): void;
   complete(result: { score: number; passed: boolean; seconds: number }): void;
@@ -27,6 +31,7 @@ export function createConsoleReporter(log: (...args: unknown[]) => void = consol
   return {
     start: () => log('[tracking] start'),
     learnerName: () => null,
+    savedProgress: loadProgress,
     event: (event) => log('[tracking]', event.name, event),
     saveProgress: (state) => log('[tracking] progress', state.phase, `round ${state.round}`),
     complete: (result) => log('[tracking] complete', result),
@@ -38,6 +43,7 @@ export function createConsoleReporter(log: (...args: unknown[]) => void = consol
 export const silentReporter: Reporter = {
   start: () => undefined,
   learnerName: () => null,
+  savedProgress: loadProgress,
   event: () => undefined,
   saveProgress: () => undefined,
   complete: () => undefined,
