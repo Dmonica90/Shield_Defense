@@ -1,38 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  imsmanifest.xml — SCORM 2004 3rd Edition Package Manifest
+  imsmanifest.xml — SCORM 2004 4th Edition Package Manifest
   Based on: SCORM 2004 Custom Driver & Package Reference (Learning Dojo, April 2026)
 
-  SCORM 2004 3rd Edition vs 4th Edition — Key Manifest Differences:
-  ──────────────────────────────────────────────────────────────────
-  1. schemaversion must be exactly "2004 3rd Edition" (not "2004 4th Edition")
-  2. <adlcp:completionThreshold> uses child-text syntax (not attributes)
-     3rd: <adlcp:completionThreshold>0.8</adlcp:completionThreshold>
-     4th: <adlcp:completionThreshold minProgressMeasure="0.8" completedByMeasure="true"/>
-  3. The adlnav namespace is NOT used (jump navigation not supported in 3rd Edition)
-  4. No progressWeight attribute on rollupCondition elements
-
-  Namespace URIs are IDENTICAL between 3rd and 4th Edition — do NOT change them.
-
-  WHY USE 3rd EDITION?
-  ──────────────────────────────────────────────────────────────────
-  Cornerstone OnDemand: Full 3rd Edition / Undocumented 4th Edition behavior
-  Docebo:               Full 3rd Edition / Unstable 4th Edition behavior
-  SCORM Cloud:          Full support for both editions
-  Moodle:               Partial support for both (sequencing not supported natively)
-
-  Use 3rd Edition for broadest corporate LMS compatibility.
-  Use 4th Edition when you need jump navigation or adl.data.* shared buckets.
+  CRITICAL NOTES:
+  - This file MUST be at the root of your ZIP archive (not inside any subfolder)
+  - schemaversion must be exactly "2004 4th Edition"
+  - All namespace URIs below are required exactly as written
 
   HOW COMPLETION WORKS IN SCORM 2004 (two-layer system):
-  ──────────────────────────────────────────────────────────────────
+  ─────────────────────────────────────────────────────────
   Layer 1 — Runtime: your JS sets cmi.completion_status = "completed" via the API.
   Layer 2 — Rollup:  the LMS reads that value and "rolls it up" to the course/
              registration level using the rollupRules defined here in the manifest.
 
-  Without rollupRules + rollupProgressCompletion="true", SCORM Cloud (and other LMS)
-  never reads the SCO's cmi.completion_status up to the registration level, so it
-  displays "unknown" even though the SCO correctly set "completed".
+  Without rollupRules + rollupProgressCompletion="true", SCORM Cloud never reads
+  the SCO's cmi.completion_status up to the registration level, so it displays
+  "unknown" even though the SCO correctly set "completed".
 
   The fix: org-level rollupRules + tracked="true" on deliveryControls.
 -->
@@ -41,18 +25,20 @@
   xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
   xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
   xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3"
+  xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3"
   xmlns:imsss="http://www.imsglobal.org/xsd/imsss"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="
     http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
     http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
     http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd
+    http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd
     http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd">
 
   <metadata>
     <schema>ADL SCORM</schema>
-    <!-- Must be exactly this string for 3rd Edition -->
-    <schemaversion>2004 3rd Edition</schemaversion>
+    <!-- Must be exactly this string -->
+    <schemaversion>2004 4th Edition</schemaversion>
   </metadata>
 
   <organizations default="my-org">
@@ -129,16 +115,6 @@
 
         <adlcp:dataFromLMS></adlcp:dataFromLMS>
         <adlcp:timeLimitAction>continue,no message</adlcp:timeLimitAction>
-
-        <!--
-          3rd Edition completionThreshold syntax — child TEXT node (not attributes).
-          Value is a decimal 0.0-1.0 representing minimum progress measure (0.8 = 80%).
-          Remove or comment out if you are not using progress measure tracking.
-
-          3rd Edition syntax:  <adlcp:completionThreshold>0.8</adlcp:completionThreshold>
-          4th Edition syntax:  <adlcp:completionThreshold minProgressMeasure="0.8" completedByMeasure="true"/>
-        -->
-        <!-- <adlcp:completionThreshold>0.8</adlcp:completionThreshold> -->
 
         <!--
           ITEM-LEVEL SEQUENCING

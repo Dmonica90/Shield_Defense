@@ -8,7 +8,7 @@ import { isResumable, parseProgress } from './progress';
 import type { Reporter } from './reporter';
 
 /**
- * The part of the SCORM 2004 driver (`scorm/2004-3rd/core/scorm-driver.js`,
+ * The part of the SCORM 2004 driver (`scorm/2004-4th/core/scorm-driver.js`,
  * loaded by the packaged `index.html` as the global `SCORM`) that the course uses.
  * The driver is vendored unchanged; everything course-specific lives here.
  */

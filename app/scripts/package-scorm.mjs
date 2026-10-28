@@ -1,16 +1,18 @@
-// Builds the SCORM 2004 3rd Edition package for Workday from `dist-scorm/`:
+// Builds the SCORM 2004 4th Edition package for Workday from `dist-scorm/`:
 // copies the vendored driver and launcher unchanged, writes the manifest with
 // the course title and every file of the SCO, and zips it with the manifest at
-// the archive root. Run through `npm run package:scorm`, which builds first.
+// the archive root. The ZIP goes to the repository root, next to `app/`. Run
+// through `npm run package:scorm`, which builds first.
 import { execFileSync } from 'node:child_process';
 import { copyFileSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const root = new URL('..', import.meta.url).pathname;
-const drivers = join(root, 'scorm/2004-3rd');
+const drivers = join(root, 'scorm/2004-4th');
 const out = join(root, 'dist-scorm');
 const zipName = 'clip-shield-defense-scorm2004.zip';
-const title = 'Clip Shield Defense';
+const title = 'Clip Shield Defense: False Security — Data Loss Prevention (DLP)';
+const zipPath = join(root, '..', zipName);
 
 mkdirSync(join(out, 'core'), { recursive: true });
 copyFileSync(join(drivers, 'core/scorm-driver.js'), join(out, 'core/scorm-driver.js'));
@@ -37,8 +39,8 @@ for (const check of ['clip-shield-defense', `<title>${title}</title>`, 'href="sc
 }
 writeFileSync(join(out, 'imsmanifest.xml'), manifest);
 
-rmSync(join(root, zipName), { force: true });
-execFileSync('zip', ['-r', '-X', '-D', '-q', join(root, zipName), 'imsmanifest.xml', 'launcher.html', 'core', 'scormcontent'], {
+rmSync(zipPath, { force: true });
+execFileSync('zip', ['-r', '-X', '-D', '-q', zipPath, 'imsmanifest.xml', 'launcher.html', 'core', 'scormcontent'], {
   cwd: out,
 });
-console.log(`${zipName}: ${content.length + 3} files`);
+console.log(`${zipPath}: ${content.length + 3} files`);

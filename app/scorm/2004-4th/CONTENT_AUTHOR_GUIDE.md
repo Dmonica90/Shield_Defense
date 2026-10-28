@@ -1,42 +1,7 @@
-# SCORM 2004 3rd Edition — Content Author Guide
+# SCORM 2004 Content Author Guide
 
 **For custom HTML pages placed in the `scormcontent/` folder**
-*Based on the SCORM 2004 Custom Driver & Package Reference (Learning Dojo, April 2026)*
-
----
-
-## SCORM 2004 3rd Edition vs 4th Edition
-
-The JavaScript API (`window.API_1484_11`), all 8 API methods, and the complete CMI data model (`cmi.*`) are **identical** between 3rd and 4th Edition. The `scorm-driver.js` file is shared between editions without any changes.
-
-**The only differences are in `imsmanifest.xml`:**
-
-| Feature | 3rd Edition | 4th Edition |
-|---|---|---|
-| `schemaversion` value | `"2004 3rd Edition"` | `"2004 4th Edition"` |
-| `completionThreshold` syntax | Child text node: `<adlcp:completionThreshold>0.8</adlcp:completionThreshold>` | Attributes: `<adlcp:completionThreshold minProgressMeasure="0.8" completedByMeasure="true"/>` |
-| Jump navigation (`{target=<ID>}jump`) | Not supported | Supported |
-| Shared data buckets (`adl.data.*`) | Not supported | Supported |
-| Extended global objectives (`<adlseq:objectives>`) | Not supported | Supported |
-| `progressWeight` on rollupCondition | Not supported | Supported |
-| Namespace URIs | **Identical** — do not change | Same as 3rd Edition |
-
-> **Which edition should I use?** Use **3rd Edition** for broadest corporate LMS compatibility. Use **4th Edition** only when you specifically need jump navigation or `adl.data.*` shared data buckets.
-
----
-
-## LMS Compatibility
-
-| LMS | 3rd Edition | 4th Edition |
-|---|---|---|
-| SCORM Cloud | Full support | Full support |
-| Cornerstone OnDemand | Full support | Undocumented / varies |
-| Docebo | Full support | Unstable / not recommended |
-| Moodle | Partial (sequencing not native) | Partial (sequencing not native) |
-| SAP SuccessFactors | Full support | Partial |
-| Saba | Full support | Partial |
-
-**Recommendation:** When deploying to a corporate LMS and the edition is not specified by the LMS vendor, use 3rd Edition.
+*Based on the SCORM 2004 4th Edition Custom Driver & Package Reference (Learning Dojo, April 2026)*
 
 ---
 
@@ -426,7 +391,7 @@ if (SCORM.isInitialized) {
 
 ## CMI Data Model Quick Reference
 
-These are the key data elements you interact with via the driver. All values are strings. The CMI data model is **identical** between 3rd and 4th Edition.
+These are the key data elements you interact with via the driver. All values are strings.
 
 | CMI Element | R/W | Values / Notes |
 |---|---|---|
@@ -483,8 +448,8 @@ function onPageChange(pageId) {
 // does NOT overwrite it with "suspend" (which causes completion_status
 // to show as "unknown" in SCORM Cloud even if success_status = "passed").
 function onCourseComplete(score) {
-  SCORM.setScore({ raw: score, min: 0, max: 100 }); // always first
-  SCORM.setComplete(score >= 80 ? "passed" : "failed"); // always second
+  SCORM.setScore({ raw: score, min: 0, max: 100 }); // ← always first
+  SCORM.setComplete(score >= 80 ? "passed" : "failed"); // ← always second
 }
 
 // 4. TERMINATE on exit — always last
@@ -499,11 +464,11 @@ window.addEventListener("beforeunload", () => {
 
 ## Testing Locally (Without an LMS)
 
-1. Open `scormcontent/index.html` directly in a browser (not `launcher.html` — the redirect won't work from `file://`).
-2. Uncomment the `<script src="../core/mock-api.js"></script>` tag at the top of your HTML.
+1. Open `scormcontent/index.html` in a browser.
+2. Uncomment the `mock-api.js` script tag at the top of your HTML.
 3. Open the browser console (F12). All SCORM calls are logged in blue.
 4. Inspect `window.API_1484_11._store` in the console to see stored values.
-5. Before packaging for production, **comment out or remove** the `mock-api.js` script tag.
+5. Before packaging for production, **comment out or remove** the `mock-api.js` line.
 
 ---
 
@@ -603,14 +568,14 @@ Compress-Archive -Path imsmanifest.xml, launcher.html, core, scormcontent -Desti
 | Symptom | Cause | Fix |
 |---|---|---|
 | Completion never registers in LMS | LMS controls completion instead of SCO | Ensure `completionSetByContent="true"` is in `imsmanifest.xml` |
-| `completion_status` = "unknown" but `success_status` = "passed" | Missing rollup rules in `imsmanifest.xml` | The manifest includes 4 `rollupRules` with `rollupProgressCompletion="true"` + `tracked="true"` on `deliveryControls` |
-| `completion_status` = "unknown" even with rollup rules | `terminate()` overwrites `cmi.exit` back to `"suspend"` after `setComplete()` set it to `"normal"` | Fixed in driver: `exitMode` is locked to `"normal"` by `setComplete()` so `terminate()` preserves it |
+| `completion_status` = "unknown" but `success_status` = "passed" (in SCORM Cloud) | Missing rollup rules in `imsmanifest.xml` — the SCO sets completion at runtime but the LMS has no instruction to roll it up to the course/registration level | The manifest now includes 4 `rollupRules` with `rollupProgressCompletion="true"` + `tracked="true"` on `deliveryControls` |
+| `completion_status` = "unknown" even with rollup rules | `terminate()` overwrites `cmi.exit` back to `"suspend"` after `setComplete()` set it to `"normal"` — some LMS use the final exit value to decide whether to honor completion | Fixed in driver: `exitMode` is locked to `"normal"` by `setComplete()` so `terminate()` preserves it |
 | `API_1484_11` not found | `initialize()` called before DOM ready, or wrong frame depth | Wrap in `window.addEventListener('load', ...)` |
 | Score not saving | Some LMS require raw AND scaled | Always set `raw`, `min`, `max` together in `setScore()` |
 | Learner always starts from beginning | `setInProgress()` not being called on page changes | Call `setInProgress(pageId)` on every navigation event |
-| LMS rejects package | Wrong schemaversion | Must be exactly `2004 3rd Edition` |
+| `cmi.entry` is always `"ab-initio"` | LMS not persisting data between sessions | Ensure `commit()` succeeds; check LMS storage settings |
 | Pass/fail not recording | `objectiveSetByContent` not set | Ensure `objectiveSetByContent="true"` is in `imsmanifest.xml` |
-| Session time malformed | ISO 8601 format error | Use `SCORM.setSessionTime(seconds)` — never write duration strings manually |
+| Session time malformed | ISO 8601 format error | Use `SCORM.secondsToISO(seconds)` or `SCORM.setSessionTime(seconds)` — never write duration strings manually |
 | Interaction rejected | Non-unique ID or invalid `type` value | Use distinct IDs per session; validate `type` against the enum list above |
 
 ---
@@ -623,7 +588,7 @@ Before packaging and uploading:
 - [ ] `launcher.html` is at the ZIP root alongside `imsmanifest.xml`
 - [ ] `core/` folder is included in the ZIP (contains `scorm-driver.js`)
 - [ ] `core/mock-api.js` is **NOT** included in the production ZIP
-- [ ] `schemaversion` is exactly `2004 3rd Edition`
+- [ ] `schemaversion` is exactly `2004 4th Edition`
 - [ ] Resource `href` in `imsmanifest.xml` is `launcher.html`
 - [ ] `<file href="launcher.html"/>` and `<file href="core/scorm-driver.js"/>` are in the resource
 - [ ] `completionSetByContent="true"` and `objectiveSetByContent="true"` are set
@@ -631,7 +596,6 @@ Before packaging and uploading:
 - [ ] Organization-level `<imsss:sequencing>` with 4 `rollupRules` is present
 - [ ] `rollupProgressCompletion="true"` and `rollupObjectiveSatisfied="true"` are on `<imsss:rollupRules>`
 - [ ] `adlcp:scormType="sco"` is on the resource element
-- [ ] `adlnav` namespace is NOT declared (not supported in 3rd Edition)
 - [ ] `scormcontent/index.html` script tags reference `../core/scorm-driver.js`
 - [ ] `mock-api.js` script tag is commented out or removed from `scormcontent/index.html`
 - [ ] `SCORM.initialize()` is called inside `window.addEventListener('load', ...)`
