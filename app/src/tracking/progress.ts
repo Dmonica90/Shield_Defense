@@ -32,8 +32,7 @@ export function loadProgress(): GameState | null {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as GameState;
-    return isGameState(parsed) ? parsed : null;
+    return parseProgress(JSON.parse(raw));
   } catch {
     return null;
   }
@@ -45,6 +44,16 @@ export function clearProgress(): void {
   } catch {
     // Nothing to clear if storage is unavailable.
   }
+}
+
+/** A saved run read back from anywhere (the browser or an LMS), or null if it is not one. */
+export function parseProgress(value: unknown): GameState | null {
+  return isGameState(value) ? value : null;
+}
+
+/** Whether a phase is worth saving: before the first area there is nothing to lose. */
+export function isResumable(phase: GameState['phase']): boolean {
+  return RESUMABLE.has(phase);
 }
 
 /** A loose shape check, so a stale or hand-edited save cannot crash the game. */

@@ -4,12 +4,13 @@ import type { Cycle } from '../game/types';
 import { IS_FAST } from '../timing';
 
 /**
- * Falling glyphs behind the area screens, the system leaking through. It grows
- * with the round: a few slow columns on the easy one, a dense, fast curtain on
- * the hard one. Reduced motion and the test mode get one still frame.
+ * Falling glyphs behind the area screens, the system leaking through. They only
+ * show up once the player has failed a round: absent on the first attempt,
+ * steady on the second, a dense, fast curtain on the third. Reduced motion and
+ * the test mode get one still frame.
  */
-const LEVELS: Record<Cycle, { density: number; every: number; opacity: number }> = {
-  1: { density: 0.25, every: 5, opacity: 0.1 },
+const LEVELS: Record<Cycle, { density: number; every: number; opacity: number } | null> = {
+  1: null,
   2: { density: 0.55, every: 3, opacity: 0.18 },
   3: { density: 1, every: 2, opacity: 0.28 },
 };
@@ -18,9 +19,13 @@ const GLYPHS = 'アイウエオカキクケコサシスセソタチツテトナ�
 const SIZE = 18;
 
 export function MatrixRain({ round }: { round: Cycle }) {
+  const level = LEVELS[round];
+  return level ? <Rain {...level} /> : null;
+}
+
+function Rain({ density, every, opacity }: { density: number; every: number; opacity: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const { density, every, opacity } = LEVELS[round];
 
   useEffect(() => {
     const canvas = ref.current;

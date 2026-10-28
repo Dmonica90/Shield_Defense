@@ -161,6 +161,7 @@ describe('route B: a false fragment, then recovery', () => {
 
     s = finishEvaluation(s);
     expect(canCertify(s)).toBe(true);
+    expect(score(s)).toBe(85);
   });
 
   it('wins in round 3 with 2 failures', () => {
@@ -176,6 +177,7 @@ describe('route B: a false fragment, then recovery', () => {
     s = playRound(s);
     s = run(s, { type: 'consoleDone' });
     expect(s).toMatchObject({ phase: 'debrief', failures: 2 });
+    expect(score(finishEvaluation(s))).toBe(70);
   });
 });
 

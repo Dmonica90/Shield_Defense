@@ -4,3 +4,5 @@ test-results/
 playwright-report/
 *.tsbuildinfo
 .DS_Store
+dist-scorm/
+*-scorm2004.zip
