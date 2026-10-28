@@ -5,4 +5,5 @@ playwright-report/
 *.tsbuildinfo
 .DS_Store
 storyline/
-scorm/
+dist-scorm/
+*-scorm2004.zip

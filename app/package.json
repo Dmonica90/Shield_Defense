@@ -12,7 +12,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "build:scorm": "tsc -b && vite build --mode scorm --outDir dist-scorm/scormcontent --emptyOutDir",
+    "package:scorm": "npm run build:scorm && node scripts/package-scorm.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.15.0",

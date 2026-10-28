@@ -33,10 +33,20 @@ export default defineConfig({
       },
     },
   ],
-  webServer: {
-    command: 'npm run build && npx vite preview --port 4173 --strictPort',
-    url: 'http://localhost:4173',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-  },
+  webServer: [
+    {
+      command: 'npm run build && npx vite preview --port 4173 --strictPort',
+      url: 'http://localhost:4173',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+    },
+    {
+      // The SCORM package, unzipped, for `e2e/scorm.spec.ts`.
+      command:
+        'npx vite build --mode scorm --outDir dist-scorm/scormcontent --emptyOutDir && node scripts/package-scorm.mjs && npx vite preview --outDir dist-scorm --port 4174 --strictPort',
+      url: 'http://localhost:4174/launcher.html',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+    },
+  ],
 });

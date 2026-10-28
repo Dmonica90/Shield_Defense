@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  imsmanifest.xml — SCORM 2004 3rd Edition Package Manifest
+  Based on: SCORM 2004 Custom Driver & Package Reference (Learning Dojo, April 2026)
+
+  SCORM 2004 3rd Edition vs 4th Edition — Key Manifest Differences:
+  ──────────────────────────────────────────────────────────────────
+  1. schemaversion must be exactly "2004 3rd Edition" (not "2004 4th Edition")
+  2. <adlcp:completionThreshold> uses child-text syntax (not attributes)
+     3rd: <adlcp:completionThreshold>0.8</adlcp:completionThreshold>
+     4th: <adlcp:completionThreshold minProgressMeasure="0.8" completedByMeasure="true"/>
+  3. The adlnav namespace is NOT used (jump navigation not supported in 3rd Edition)
+  4. No progressWeight attribute on rollupCondition elements
+
+  Namespace URIs are IDENTICAL between 3rd and 4th Edition — do NOT change them.
+
+  WHY USE 3rd EDITION?
+  ──────────────────────────────────────────────────────────────────
+  Cornerstone OnDemand: Full 3rd Edition / Undocumented 4th Edition behavior
+  Docebo:               Full 3rd Edition / Unstable 4th Edition behavior
+  SCORM Cloud:          Full support for both editions
+  Moodle:               Partial support for both (sequencing not supported natively)
+
+  Use 3rd Edition for broadest corporate LMS compatibility.
+  Use 4th Edition when you need jump navigation or adl.data.* shared buckets.
+
+  HOW COMPLETION WORKS IN SCORM 2004 (two-layer system):
+  ──────────────────────────────────────────────────────────────────
+  Layer 1 — Runtime: your JS sets cmi.completion_status = "completed" via the API.
+  Layer 2 — Rollup:  the LMS reads that value and "rolls it up" to the course/
+             registration level using the rollupRules defined here in the manifest.
+
+  Without rollupRules + rollupProgressCompletion="true", SCORM Cloud (and other LMS)
+  never reads the SCO's cmi.completion_status up to the registration level, so it
+  displays "unknown" even though the SCO correctly set "completed".
+
+  The fix: org-level rollupRules + tracked="true" on deliveryControls.
+-->
+<manifest identifier="my-course-manifest"
+  version="1"
+  xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
+  xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3"
+  xmlns:imsss="http://www.imsglobal.org/xsd/imsss"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+    http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
+    http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
+    http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd
+    http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd">
+
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <!-- Must be exactly this string for 3rd Edition -->
+    <schemaversion>2004 3rd Edition</schemaversion>
+  </metadata>
+
+  <organizations default="my-org">
+    <organization identifier="my-org"
+      adlseq:objectivesGlobalToSystem="false">
+
+      <!-- Change this title to your course name -->
+      <title>My Course Title</title>
+
+      <!--
+        ══════════════════════════════════════════════════════════════════
+        ORGANIZATION-LEVEL SEQUENCING — required for rollup to work
+        ══════════════════════════════════════════════════════════════════
+        rollupObjectiveSatisfied="true"  → roll up pass/fail from SCO
+        rollupProgressCompletion="true"  → roll up completion from SCO
+        objectiveMeasureWeight="0"       → don't use objective measure for rollup
+
+        The four rollupRules below tell the LMS how to derive the course-level
+        completion and success from the SCO-level values:
+          1. All children completed   → course = completed
+          2. Any child not completed  → course = incomplete
+          3. All children satisfied   → course = satisfied (passed)
+          4. Any child not satisfied  → course = notSatisfied (failed)
+        ══════════════════════════════════════════════════════════════════
+      -->
+      <imsss:sequencing>
+        <imsss:rollupRules
+          rollupObjectiveSatisfied="true"
+          rollupProgressCompletion="true"
+          objectiveMeasureWeight="0">
+
+          <!-- Rule 1: all SCOs completed → course completed -->
+          <imsss:rollupRule childActivitySet="all">
+            <imsss:rollupConditions conditionCombination="all">
+              <imsss:rollupCondition condition="completed"/>
+            </imsss:rollupConditions>
+            <imsss:rollupAction action="completed"/>
+          </imsss:rollupRule>
+
+          <!-- Rule 2: any SCO not completed → course incomplete -->
+          <imsss:rollupRule childActivitySet="any">
+            <imsss:rollupConditions conditionCombination="all">
+              <imsss:rollupCondition condition="completed" operator="not"/>
+            </imsss:rollupConditions>
+            <imsss:rollupAction action="incomplete"/>
+          </imsss:rollupRule>
+
+          <!-- Rule 3: all SCOs satisfied (passed) → course satisfied -->
+          <imsss:rollupRule childActivitySet="all">
+            <imsss:rollupConditions conditionCombination="all">
+              <imsss:rollupCondition condition="satisfied"/>
+            </imsss:rollupConditions>
+            <imsss:rollupAction action="satisfied"/>
+          </imsss:rollupRule>
+
+          <!-- Rule 4: any SCO not satisfied → course not satisfied -->
+          <imsss:rollupRule childActivitySet="any">
+            <imsss:rollupConditions conditionCombination="all">
+              <imsss:rollupCondition condition="satisfied" operator="not"/>
+            </imsss:rollupConditions>
+            <imsss:rollupAction action="notSatisfied"/>
+          </imsss:rollupRule>
+
+        </imsss:rollupRules>
+
+        <!-- Allow forward/back navigation -->
+        <imsss:controlMode flow="true" choice="true"/>
+
+      </imsss:sequencing>
+
+      <item identifier="item-1" identifierref="resource-1">
+        <!-- Change this to your SCO (module) title -->
+        <title>My SCO Title</title>
+
+        <adlcp:dataFromLMS></adlcp:dataFromLMS>
+        <adlcp:timeLimitAction>continue,no message</adlcp:timeLimitAction>
+
+        <!--
+          3rd Edition completionThreshold syntax — child TEXT node (not attributes).
+          Value is a decimal 0.0-1.0 representing minimum progress measure (0.8 = 80%).
+          Remove or comment out if you are not using progress measure tracking.
+
+          3rd Edition syntax:  <adlcp:completionThreshold>0.8</adlcp:completionThreshold>
+          4th Edition syntax:  <adlcp:completionThreshold minProgressMeasure="0.8" completedByMeasure="true"/>
+        -->
+        <!-- <adlcp:completionThreshold>0.8</adlcp:completionThreshold> -->
+
+        <!--
+          ITEM-LEVEL SEQUENCING
+          tracked="true"              → this SCO's data IS tracked and used in rollup
+          completionSetByContent="true" → SCO sets completion_status (not the LMS)
+          objectiveSetByContent="true"  → SCO sets success_status (not the LMS)
+
+          Without tracked="true", some LMS platforms ignore this item's runtime
+          data entirely when computing the course-level rollup.
+        -->
+        <imsss:sequencing>
+          <imsss:deliveryControls
+            tracked="true"
+            completionSetByContent="true"
+            objectiveSetByContent="true"/>
+        </imsss:sequencing>
+
+      </item>
+
+    </organization>
+  </organizations>
+
+  <resources>
+    <!--
+      adlcp:scormType="sco" is REQUIRED — marks this as a SCO (not an asset).
+      href points to launcher.html — the LMS opens this, which then forwards
+      the learner to scormcontent/index.html.
+      Add a <file href="..."/> line for every file your SCO loads.
+    -->
+    <resource identifier="resource-1"
+      type="webcontent"
+      adlcp:scormType="sco"
+      href="launcher.html">
+
+      <file href="launcher.html"/>
+      <file href="core/scorm-driver.js"/>
+      <file href="scormcontent/index.html"/>
+      <!-- Add additional files your content uses, e.g.: -->
+      <!-- <file href="scormcontent/styles.css"/> -->
+      <!-- <file href="scormcontent/assets/logo.png"/> -->
+      <!-- <file href="scormcontent/page2.html"/> -->
+
+    </resource>
+  </resources>
+
+</manifest>

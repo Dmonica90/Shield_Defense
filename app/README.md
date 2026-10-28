@@ -70,41 +70,44 @@ partida, así "elegir siempre la A" no funciona.
 opción es correcta llega en la acción. Las reglas se prueban con tests unitarios,
 no haciendo clic.
 
-**El arte es provisional.** Las escenas de cada área están dibujadas en SVG
-(`components/AreaScene.tsx`) hasta tener ilustraciones de Clip; las posiciones
-de los hotspots están en `src/scene.ts`.
+**Las escenas son ilustraciones SVG.** Cada área tiene su cuarto dibujado en
+`components/SceneArt.tsx` (línea plana, crema, naranja y azul marino); las
+posiciones de los hotspots están en `src/scene.ts` y caen sobre objetos del
+dibujo, así que si mueves un objeto mueve también su slot.
 
-## SCORM (Workday)
+## SCORM 2004 para Workday
 
-```sh
-npm run package:scorm
+```bash
+npm run package:scorm   # → ../clip-shield-defense-scorm2004.zip (SCORM 2004 4th Edition)
 ```
 
-Genera `scorm/clip-shield-defense-scorm2004-4th.zip`, el paquete SCORM 2004
-4th Edition para subir a Workday (y `scorm/package/`, la misma carpeta sin
-comprimir). El script baja el driver de
-[jeffbatt01/scorm-drivers](https://github.com/jeffbatt01/scorm-drivers) en cada
-corrida y lo copia sin cambios; del `imsmanifest.xml` solo cambia el título, que
-en Workday se ve como "Clip Shield Defense: False Security — Data Loss
-Prevention (DLP)".
+El ZIP queda en la raíz del repo y en Workday se ve como "Clip Shield Defense:
+False Security — Data Loss Prevention (DLP)".
 
-El juego no sabe nada de SCORM: `src/tracking/scormReporter.ts` es un segundo
-`Reporter` que se usa cuando la página carga el driver.
+El ZIP también se genera en cada ejecución de GitHub Actions (artefacto
+`clip-shield-defense-scorm2004`). Usa el driver de
+[jeffbatt01/scorm-drivers](https://github.com/jeffbatt01/scorm-drivers) sin
+modificar (`scorm/`); lo propio del curso está en `src/tracking/scorm.ts`.
 
-| `Reporter` | SCORM 2004 |
+| Qué pasa en el juego | Qué recibe Workday |
 | --- | --- |
-| `start()` / `learnerName()` | `Initialize`, `cmi.learner_name` ("Apellido, Nombre" → "Nombre Apellido") |
-| `savedProgress()` | `cmi.suspend_data`, solo si `cmi.entry` es `resume` |
-| `event(e)` | `cmi.interactions.n.*`: decisiones (choice) y las dos preguntas de evaluación |
-| `saveProgress(state)` | `cmi.location` (la fase), `cmi.suspend_data` (el estado), `Commit` |
-| `complete({ score, passed })` | `cmi.score.*` (100/0) y luego `completed` + `passed`/`failed` |
-| `finish()` | `cmi.session_time` y luego `Terminate`; también al cerrar la ventana |
+| Se abre | `Initialize`; el nombre del certificado sale de `cmi.learner_name` |
+| Cada paso | `cmi.location`, `cmi.suspend_data` (la partida), `completion_status = incomplete` |
+| Cada decisión | `cmi.interactions.n` tipo `choice`: respuesta, correcta, resultado, latencia |
+| Consola verifica un área | `cmi.objectives.n` por área (passed/failed) y `cmi.progress_measure` |
+| Evaluación | reflexión como `long-fill-in` (texto completo); V/F del DLP como `true-false` |
+| Certificado | `cmi.score` (100 / 85 / 70 según fallos), luego `completed` + `passed` |
+| Game Over | queda `incomplete` y sin partida guardada: al reabrir empieza de cero |
+| Cierra la ventana | `cmi.session_time`, `cmi.exit` (`suspend` o `normal`), `Terminate` |
 
-Para probarlo sin LMS: en `scorm/package/scormcontent/index.html` descomenta
-la línea de `mock-api.js`, copia ese archivo del repo de drivers a
-`scorm/package/core/`, sirve `scorm/package/` y abre `launcher.html`. Las
-llamadas aparecen en la consola. Antes de Workday conviene subir el ZIP a
-[SCORM Cloud](https://cloud.scorm.com).
+Al volver a abrirlo con una partida a medias (`cmi.entry = resume`) ofrece
+«Continuar donde me quedé» con lo que guardó el LMS. Dentro del LMS no aparece el
+aviso «¿salir del sitio?», y la sesión se cierra también con `pagehide`, que es el
+evento que sí llega en iOS (app móvil de Workday).
+
+`e2e/scorm.spec.ts` abre el paquete como lo hace Workday en escritorio (ventana
+nueva desde la página del LMS) y comprueba todo lo anterior. Antes de subirlo a
+Workday conviene probarlo gratis en [SCORM Cloud](https://cloud.scorm.com).
 
 ## Storyline (revisión)
 
@@ -128,4 +131,4 @@ toda la diapositiva (16:9, 1280×720). Dentro del iframe no aparece el aviso de
 - Las opciones son un `radiogroup`; los hotspots explorados se anuncian como tales.
 - Los diálogos atrapan el foco y cierran con Escape.
 - `prefers-reduced-motion` desactiva las animaciones y la distorsión, y deja la lluvia binaria quieta.
-- En pantallas angostas la escena se reemplaza por una lista de hotspots.
+- En pantallas angostas la escena lleva marcadores numerados y debajo una lista de hotspots con los mismos números.

@@ -51,6 +51,16 @@ jobs:
       - name: Build
         run: npm run build
 
+      # The package to upload to Workday, downloadable from the run's summary.
+      - name: SCORM package
+        run: npm run package:scorm
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: clip-shield-defense-scorm2004
+          path: app/clip-shield-defense-scorm2004.zip
+          if-no-files-found: error
+
       - uses: actions/configure-pages@v5
         if: github.event_name != 'pull_request'
 

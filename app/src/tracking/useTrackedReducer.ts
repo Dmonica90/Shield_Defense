@@ -23,7 +23,7 @@ export function useTrackedReducer(initial: GameState, reporter: Reporter) {
       setState(next);
 
       for (const event of eventsFor(prev, action, next)) {
-        reporter.event(event);
+        reporter.event(event, next);
         if (event.name === 'course_completed') {
           reporter.complete({ score: event.score, passed: event.passed, seconds: event.seconds });
         }
