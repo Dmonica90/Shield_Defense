@@ -89,8 +89,11 @@ export function canCertify(state: GameState): boolean {
   );
 }
 
+/** Points lost per failed verification, so a clean run scores 100, then 85, then 70. */
+const POINTS_PER_FAILURE = 15;
+
 export function score(state: GameState): number {
-  return canCertify(state) ? 100 : 0;
+  return canCertify(state) ? 100 - state.failures * POINTS_PER_FAILURE : 0;
 }
 
 /** The decision the player made for an area in a given cycle, if any. */

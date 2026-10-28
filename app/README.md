@@ -74,23 +74,36 @@ no haciendo clic.
 posiciones de los hotspots están en `src/scene.ts` y caen sobre objetos del
 dibujo, así que si mueves un objeto mueve también su slot.
 
-## Siguiente paso: SCORM
+## SCORM 2004 para Workday
 
-El curso ya emite todos los eventos que Workday necesita, pero hoy van a la
-consola (en desarrollo) o a ningún lado (en producción). Conectarlo es escribir
-un segundo `Reporter` (`src/tracking/reporter.ts`), sin tocar el juego:
+```bash
+npm run package:scorm   # → clip-shield-defense-scorm2004.zip (SCORM 2004 3rd Edition)
+```
 
-| `Reporter` | SCORM 2004 |
+El ZIP también se genera en cada ejecución de GitHub Actions (artefacto
+`clip-shield-defense-scorm2004`). Usa el driver de
+[jeffbatt01/scorm-drivers](https://github.com/jeffbatt01/scorm-drivers) sin
+modificar (`scorm/`); lo propio del curso está en `src/tracking/scorm.ts`.
+
+| Qué pasa en el juego | Qué recibe Workday |
 | --- | --- |
-| `start()` / `learnerName()` | `Initialize`, `cmi.learner_name`, `cmi.suspend_data` |
-| `event(e)` | `cmi.interactions.n.*` (decisiones, hotspots, evaluación), `cmi.objectives.n.*` (fragmentos) |
-| `saveProgress(state)` | `cmi.suspend_data`, `cmi.location`, `Commit` |
-| `complete({ score, passed })` | `cmi.score.*`, `cmi.completion_status`, `cmi.success_status` |
-| `finish()` | `cmi.session_time`, `cmi.exit`, `Terminate` |
+| Se abre | `Initialize`; el nombre del certificado sale de `cmi.learner_name` |
+| Cada paso | `cmi.location`, `cmi.suspend_data` (la partida), `completion_status = incomplete` |
+| Cada decisión | `cmi.interactions.n` tipo `choice`: respuesta, correcta, resultado, latencia |
+| Consola verifica un área | `cmi.objectives.n` por área (passed/failed) y `cmi.progress_measure` |
+| Evaluación | reflexión como `long-fill-in` (texto completo); V/F del DLP como `true-false` |
+| Certificado | `cmi.score` (100 / 85 / 70 según fallos), luego `completed` + `passed` |
+| Game Over | queda `incomplete` y sin partida guardada: al reabrir empieza de cero |
+| Cierra la ventana | `cmi.session_time`, `cmi.exit` (`suspend` o `normal`), `Terminate` |
 
-Faltaría además generar `imsmanifest.xml` y el `.zip` para subir a Workday. El
-build ya usa rutas relativas (`base: './'`), así que funciona dentro del iframe
-del LMS.
+Al volver a abrirlo con una partida a medias (`cmi.entry = resume`) ofrece
+«Continuar donde me quedé» con lo que guardó el LMS. Dentro del LMS no aparece el
+aviso «¿salir del sitio?», y la sesión se cierra también con `pagehide`, que es el
+evento que sí llega en iOS (app móvil de Workday).
+
+`e2e/scorm.spec.ts` abre el paquete como lo hace Workday en escritorio (ventana
+nueva desde la página del LMS) y comprueba todo lo anterior. Antes de subirlo a
+Workday conviene probarlo gratis en [SCORM Cloud](https://cloud.scorm.com).
 
 ## Accesibilidad
 
@@ -99,4 +112,4 @@ del LMS.
 - Las opciones son un `radiogroup`; los hotspots explorados se anuncian como tales.
 - Los diálogos atrapan el foco y cierran con Escape.
 - `prefers-reduced-motion` desactiva las animaciones y el glitch.
-- En pantallas angostas la escena se reemplaza por una lista de hotspots.
+- En pantallas angostas la escena lleva marcadores numerados y debajo una lista de hotspots con los mismos números.

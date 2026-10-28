@@ -17,6 +17,8 @@ import { RoundEndScreen } from './screens/RoundEndScreen';
 import { RulesScreen } from './screens/RulesScreen';
 import { clearProgress, loadProgress } from './tracking/progress';
 import { createConsoleReporter, silentReporter } from './tracking/reporter';
+import type { Reporter } from './tracking/reporter';
+import { createScormReporter, scormDriver } from './tracking/scorm';
 import { useTrackedReducer } from './tracking/useTrackedReducer';
 
 const newSeed = () => Math.floor(Math.random() * 2 ** 31);
@@ -24,17 +26,39 @@ const newSeed = () => Math.floor(Math.random() * 2 ** 31);
 /**
  * The whole course is one reducer plus a switch over `phase`. Adding a screen
  * means adding a phase and a case, not rewiring navigation. Tracking goes
- * through the reporter, which is a console logger until SCORM is connected.
+ * through the reporter: SCORM 2004 when the course runs inside an LMS that
+ * loaded the driver (the packaged build), the console in development, and
+ * nothing on the public site.
  */
 export function App() {
   const { story } = useLanguage();
-  const reporter = useMemo(() => (import.meta.env.DEV ? createConsoleReporter() : silentReporter), []);
-  const saved = useMemo(loadProgress, []);
+  const reporter = useMemo<Reporter>(() => {
+    const driver = scormDriver();
+    if (driver) {
+      const scorm = createScormReporter(driver, story);
+      // Started here, before anything reads the LMS: the resume offer below needs it.
+      scorm.start();
+      return scorm;
+    }
+    return import.meta.env.DEV ? createConsoleReporter() : silentReporter;
+  }, []); // The story never changes after launch; the reporter must not be recreated.
+  // Inside an LMS the saved run is the LMS's; the browser's storage may be blocked in its frame.
+  const saved = useMemo(() => (reporter.inLms ? reporter.savedProgress() : loadProgress()), [reporter]);
   const [state, dispatch] = useTrackedReducer(initialState, reporter);
   const [ended, setEnded] = useState<string | null>(null);
 
   useEffect(() => {
     reporter.start();
+    if (!reporter.inLms) return;
+    // Closing the LMS window or the mobile app's viewer. iOS does not fire
+    // `beforeunload` reliably, so `pagehide` is the one that counts there.
+    const leave = () => reporter.finish();
+    window.addEventListener('pagehide', leave);
+    window.addEventListener('beforeunload', leave);
+    return () => {
+      window.removeEventListener('pagehide', leave);
+      window.removeEventListener('beforeunload', leave);
+    };
   }, [reporter]);
 
   const exit = useCallback(
@@ -134,7 +158,7 @@ export function App() {
   return (
     <>
       <AnimatePresence mode="wait">{screen()}</AnimatePresence>
-      <SessionGuard phase={state.phase} onExit={() => exit(story.session.exited)} />
+      <SessionGuard phase={state.phase} onExit={() => exit(story.session.exited)} warnOnLeave={!reporter.inLms} />
     </>
   );
 }

@@ -10,9 +10,19 @@ const IN_PLAY = new Set<Phase>(['area', 'areaSelect', 'console', 'roundEnd', 'de
 /**
  * Two safety nets from the design. After 15 minutes without input the session
  * pauses (progress is already saved on every step); and closing or reloading
- * the tab mid-run asks for confirmation first.
+ * the tab mid-run asks for confirmation first — except inside an LMS, which
+ * keeps the run itself and has its own close button the prompt would get in
+ * the way of.
  */
-export function SessionGuard({ phase, onExit }: { phase: Phase; onExit: () => void }) {
+export function SessionGuard({
+  phase,
+  onExit,
+  warnOnLeave = true,
+}: {
+  phase: Phase;
+  onExit: () => void;
+  warnOnLeave?: boolean;
+}) {
   const { story } = useLanguage();
   const [idle, setIdle] = useState(false);
   const inPlay = IN_PLAY.has(phase);
@@ -33,7 +43,7 @@ export function SessionGuard({ phase, onExit }: { phase: Phase; onExit: () => vo
   }, [inPlay]);
 
   useEffect(() => {
-    if (!inPlay) return;
+    if (!inPlay || !warnOnLeave) return;
     const warn = (event: BeforeUnloadEvent) => {
       // Browsers show their own wording; setting returnValue is what triggers it.
       event.preventDefault();
@@ -41,7 +51,7 @@ export function SessionGuard({ phase, onExit }: { phase: Phase; onExit: () => vo
     };
     window.addEventListener('beforeunload', warn);
     return () => window.removeEventListener('beforeunload', warn);
-  }, [inPlay]);
+  }, [inPlay, warnOnLeave]);
 
   return (
     <Dialog open={idle && inPlay} onClose={() => setIdle(false)} labelledBy="idle-title">

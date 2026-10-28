@@ -6,8 +6,8 @@ import { canCertify, score } from '../game/machine';
 /**
  * The tracking events from the design document, as data. They are derived from
  * reducer transitions (previous state, action, next state), so the game logic
- * never has to know that anything is listening — and the SCORM adapter that
- * comes later only has to map these onto `cmi.*`.
+ * never has to know that anything is listening — and the SCORM reporter
+ * (`scorm.ts`) only has to map these onto `cmi.*`.
  */
 export type TrackingEvent =
   | { name: 'course_launched'; at: number }
